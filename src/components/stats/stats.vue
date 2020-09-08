@@ -1,8 +1,13 @@
+<!--
+ * @Description: 
+ * @Author: Steven
+ * @Date: 2020-09-08 09:22:09
+ * @LastEditors: Steven
+ * @LastEditTime: 2020-09-08 14:25:57
+-->
 <template>
 	<view>
-		<view class="title">
-			2020伊婉你最美比赛100强人气投票
-		</view>
+		<title></title>
 		<view class="table">
 			<view class="data">
 				<view class="content">
@@ -25,6 +30,7 @@
 
 <script lang="ts">
 	import Vue from 'vue';
+	import title from "@/components/title/title.vue";
 	export default Vue.extend({
 		data() {
 			return {
@@ -37,6 +43,9 @@
 		methods: {
 	
 		},
+		components:{
+			title
+		}
 		
 	});
 </script>

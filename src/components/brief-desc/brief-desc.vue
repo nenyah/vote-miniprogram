@@ -1,17 +1,13 @@
+<!--
+ * @Description: 
+ * @Author: Steven
+ * @Date: 2020-09-08 09:22:51
+ * @LastEditors: Steven
+ * @LastEditTime: 2020-09-08 14:32:04
+-->
 <template>
 	<view>
-		<view>
-			<view class="attr">活动开始：</view>
-			<view class="value">2020-10-15 00：00</view>
-		</view>
-		<view>
-			<view class="attr">活动结束：</view>
-			<view class="value">2020-12-01 00：00</view>
-		</view>
-		<view>
-			<view class="attr">活动规则：</view>
-			<view class="value">每个微信号每天可以投3票（每天可为同一选手投1票）。</view>
-		</view>
+		<vote-rule></vote-rule>
 		<view>
 			<view class="attr">活动详情：</view>
 			<view class="value">展开></view>
@@ -22,6 +18,7 @@
 
 <script lang="ts">
 	import Vue from 'vue';
+	import voteRule from "@/components/vote-rule/vote-rule.vue";
 	export default Vue.extend({
 		data() {
 			return {
@@ -34,7 +31,9 @@
 		methods: {
 	
 		},
-		
+		components:{
+			voteRule
+		}
 	});
 </script>
 

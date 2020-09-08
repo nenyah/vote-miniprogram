@@ -1,4 +1,11 @@
-const items=[
+/*
+ * @Description: 
+ * @Author: Steven
+ * @Date: 2020-09-07 17:00:45
+ * @LastEditors: Steven
+ * @LastEditTime: 2020-09-08 14:06:41
+ */
+export const items=[
 		{
 			id:1,
 			name:'漂亮1号',
@@ -48,6 +55,3 @@ const items=[
 			vote:250*6
 		},
 	]
-	module.exports={
-		items
-	}

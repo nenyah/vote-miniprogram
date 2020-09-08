@@ -1,7 +1,14 @@
+<!--
+ * @Description: 
+ * @Author: Steven
+ * @Date: 2020-09-08 09:24:24
+ * @LastEditors: Steven
+ * @LastEditTime: 2020-09-08 14:16:43
+-->
 <template>
 	<view>
 		<view class="code">{{item.id}}</view>
-		<navigator url="../../pages/detail/detail?id={{item.id}}">
+		<navigator url="#">
 			<image :src="item.img" mode=""></image>
 			<view class="name">{{item.name}}</view>
 			<view class="group">{{item.group}}</view>
