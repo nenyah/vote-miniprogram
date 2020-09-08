@@ -6,7 +6,7 @@
  * @LastEditTime: 2020-09-08 15:56:55
 -->
 <template>
-  <view class="flex bg-gray-200">
+  <view class="flex bg-purple-900">
     <banner></banner>
     <stats></stats>
     <brief-desc></brief-desc>
@@ -42,4 +42,8 @@ export default Vue.extend({
 })
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.bg-purple-900 {
+  background: #0d134d;
+}
+</style>
