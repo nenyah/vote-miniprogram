@@ -3,9 +3,17 @@
  * @Author: Steven
  * @Date: 2020-09-07 17:00:45
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-08 14:06:41
+ * @LastEditTime: 2020-09-08 15:19:01
  */
-export const items=[
+export interface Iitem {
+	id:Number,
+	name:String,
+	img:String,
+	company:String,
+	group:String,
+	vote:Number
+}
+export const items:Array<Iitem>=[
 		{
 			id:1,
 			name:'漂亮1号',

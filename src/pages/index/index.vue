@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-08-26 16:08:15
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-08 14:23:55
+ * @LastEditTime: 2020-09-08 15:56:55
 -->
 <template>
   <view class="content">
@@ -11,7 +11,7 @@
     <stats></stats>
     <brief-desc></brief-desc>
     <search-bar></search-bar>
-    <vote-list></vote-list>
+    <vote-list :items="items" :pageType="pageType"></vote-list>
   </view>
 </template>
 
@@ -22,10 +22,13 @@ import stats from "@/components/stats/stats.vue"
 import briefDesc from "@/components/brief-desc/brief-desc.vue"
 import searchBar from "@/components/search-bar/search-bar.vue"
 import voteList from "@/components/vote-list/vote-list.vue"
-
+import { items } from "@/mock/store"
 export default Vue.extend({
   data() {
-    return {}
+    return {
+      items,
+      pageType: "index",
+    }
   },
   onLoad() {},
   methods: {},
