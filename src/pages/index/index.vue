@@ -6,7 +6,7 @@
  * @LastEditTime: 2020-09-08 15:56:55
 -->
 <template>
-  <view class="content">
+  <view class="flex bg-gray-200">
     <banner></banner>
     <stats></stats>
     <brief-desc></brief-desc>
@@ -42,11 +42,4 @@ export default Vue.extend({
 })
 </script>
 
-<style lang="scss">
-.content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-</style>
+<style lang="scss"></style>
