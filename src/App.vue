@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-08-26 16:08:15
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-08 16:41:28
+ * @LastEditTime: 2020-09-09 09:54:18
 -->
 <script lang="ts">
 import Vue from "vue"
@@ -22,8 +22,6 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
-// @import "tailwindcss/base";
-// @import "tailwindcss/components";
-// @import "tailwindcss/utilities";
+@import "assets/css/tailwind.css";
 /*每个页面公共css */
 </style>

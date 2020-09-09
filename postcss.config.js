@@ -3,13 +3,13 @@
  * @Author: Steven
  * @Date: 2020-08-26 16:08:15
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-08 16:42:27
+ * @LastEditTime: 2020-09-09 09:20:43
  */
 const path = require("path")
 module.exports = {
   parser: require("postcss-comment"),
   plugins: [
-    require("tailwindcss"),
+    require("tailwindcss")("./tailwind.config.js"),
     require("postcss-import")({
       resolve(id, basedir, importOptions) {
         if (id.startsWith("~@/")) {
