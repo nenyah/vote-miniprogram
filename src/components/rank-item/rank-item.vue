@@ -7,11 +7,13 @@
 -->
 <template>
   <view>
-    <view class="row">
-      <view class="col">{{index+1}}</view>
-      <view class="col">{{item.id}}</view>
-      <view class="col">{{item.name}}</view>
-      <view class="col">{{item.vote}}</view>
+    <view class="flex my-2 py-2 {{index%2===0?'bg-purple-light':''}}">
+      <view class="flex-1">
+        <view class="{{top3}}">{{ index + 1 }}</view>
+      </view>
+      <view class="flex-1">{{ item.id }}</view>
+      <view class="flex-1">{{ item.name }}</view>
+      <view class="flex-1">{{ item.vote }}</view>
     </view>
   </view>
 </template>
@@ -28,7 +30,33 @@ export default Vue.extend({
   },
   onLoad() {},
   methods: {},
+  computed: {
+    top3(): String {
+      let cls: string = "rounded-full h-6 w-6 flex items-center justify-center"
+      if (this.index === 0) {
+        cls = `${cls} bg-gold`
+      } else if (this.index === 1) {
+        cls = `${cls} bg-silver`
+      } else if (this.index === 2) {
+        cls = `${cls} bg-brone`
+      }
+      return cls
+    },
+  },
 })
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.bg-gold {
+  background: #f5d850;
+}
+.bg-silver {
+  background: #e2e5ea;
+}
+.bg-brone {
+  background: #fea569;
+}
+.bg-purple-light {
+  background: #181c66;
+}
+</style>
