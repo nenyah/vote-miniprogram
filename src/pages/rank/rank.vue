@@ -3,10 +3,10 @@
  * @Author: Steven
  * @Date: 2020-09-07 16:59:44
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-08 15:56:25
+ * @LastEditTime: 2020-09-09 16:46:30
 -->
 <template>
-  <view>
+  <view class="bg-purple h-full">
     <title></title>
     <vote-list :items="sortItems" :pageType="pageType"></vote-list>
   </view>

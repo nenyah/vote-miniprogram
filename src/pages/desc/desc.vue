@@ -3,10 +3,10 @@
  * @Author: Steven
  * @Date: 2020-09-08 08:45:00
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-08 14:48:57
+ * @LastEditTime: 2020-09-09 16:46:12
 -->
 <template>
-  <view>
+  <view class="bg-purple h-full">
     <title></title>
     <vote-rule></vote-rule>
     <vote-detail></vote-detail>
