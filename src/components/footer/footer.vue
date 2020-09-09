@@ -6,7 +6,7 @@
  * @LastEditTime: 2020-09-08 14:44:52
 -->
 <template>
-  <view>@2020伊人如梦*婉美如你</view>
+  <view class="text-center text-gray-500">@2020伊人如梦*婉美如你</view>
 </template>
 
 <script lang="ts">
