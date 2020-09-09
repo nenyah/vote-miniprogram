@@ -8,7 +8,7 @@
 <template>
   <view>
     <vote-rule></vote-rule>
-    <view class="text-white flex px-2">
+    <view class="text-white flex px-4">
       <view class="attr"
         ><view class="fa fa-clock-o text-orange-500 mr-2"></view
         >活动详情：</view
