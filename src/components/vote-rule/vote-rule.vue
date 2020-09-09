@@ -17,7 +17,7 @@
     </view>
     <view class="flex">
       <view class="flex-1">活动规则：</view>
-      <view class="flex-none text-gray-500"
+      <view class="flex-1 text-gray-500"
         >每个微信号每天可以投3票（每天可为同一选手投1票）。</view
       >
     </view>
