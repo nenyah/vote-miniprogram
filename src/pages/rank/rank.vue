@@ -6,7 +6,7 @@
  * @LastEditTime: 2020-09-09 16:46:30
 -->
 <template>
-  <view class="bg-purple h-full">
+  <view class="bg-purple h-full pt-2 px-2">
     <title></title>
     <vote-list :items="sortItems" :pageType="pageType"></vote-list>
   </view>
