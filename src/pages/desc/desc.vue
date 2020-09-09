@@ -6,7 +6,7 @@
  * @LastEditTime: 2020-09-09 16:46:12
 -->
 <template>
-  <view class="bg-purple h-full">
+  <view class="bg-purple">
     <title></title>
     <vote-rule></vote-rule>
     <vote-detail></vote-detail>
