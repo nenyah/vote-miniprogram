@@ -6,21 +6,23 @@
  * @LastEditTime: 2020-09-08 16:26:59
 -->
 <template>
-  <view>
-    <view v-for="(item, index) in items" :key="item.id">
+  <view class="text-gray-100">
+    <view v-if="!isIndex">
+      <view class="flex w-4-5 px-2 m-auto text-orange-500">
+        <view class="flex-1">排名</view>
+        <view class="flex-1">编号</view>
+        <view class="flex-1">参与选手</view>
+        <view class="flex-1">票数</view>
+      </view>
+    </view>
+    <block v-for="(item, index) in items" :key="item.id">
       <view v-if="isIndex">
         <vote-item :item="item"></vote-item>
       </view>
       <view v-else>
-        <view class="header">
-          <view class="row">排名</view>
-          <view class="row">编号</view>
-          <view class="row">参与选手</view>
-          <view class="row">票数</view>
-        </view>
         <rank-item :item="item" :index="index"></rank-item>
       </view>
-    </view>
+    </block>
   </view>
 </template>
 
