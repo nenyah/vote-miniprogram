@@ -3,10 +3,10 @@
  * @Author: Steven
  * @Date: 2020-08-26 16:08:15
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-08 15:56:55
+ * @LastEditTime: 2020-09-09 16:12:21
 -->
 <template>
-  <view class="flex bg-purple-900">
+  <view class="bg-purple">
     <banner></banner>
     <stats></stats>
     <brief-desc></brief-desc>
@@ -42,8 +42,4 @@ export default Vue.extend({
 })
 </script>
 
-<style lang="scss">
-.bg-purple-900 {
-  background: #0d134d;
-}
-</style>
+<style lang="scss"></style>

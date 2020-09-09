@@ -1,5 +1,5 @@
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
-
+@import "./font-awesome.css";
 /* Document
    ========================================================================== */
 
@@ -912,7 +912,9 @@ video {
 .bg-blue-900 {
     background-color: #2a4365;
 }
-
+.bg-purple {
+    background: #0d134d;
+}
 .bg-bottom {
     background-position: bottom;
 }
