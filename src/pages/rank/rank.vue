@@ -9,6 +9,7 @@
   <view class="bg-purple h-full pt-2 px-2">
     <title></title>
     <vote-list :items="sortItems" :pageType="pageType"></vote-list>
+    <vote-footer></vote-footer>
   </view>
 </template>
 
@@ -17,6 +18,7 @@ import Vue from "vue"
 import { Iitem, items } from "@/mock/store"
 import title from "@/components/title/title.vue"
 import voteList from "@/components/vote-list/vote-list.vue"
+import voteFooter from "@/components/footer/footer.vue"
 
 export default Vue.extend({
   data() {
@@ -37,6 +39,7 @@ export default Vue.extend({
   components: {
     title,
     voteList,
+    voteFooter,
   },
 })
 </script>
