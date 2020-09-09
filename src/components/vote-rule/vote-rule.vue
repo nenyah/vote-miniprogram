@@ -7,6 +7,11 @@
 -->
 <template>
   <view class="px-4 text-gray-200">
+    <view class="text-lg mb-2"
+      >活动规则 <view class="fa fa-ellipsis-v px-1 text-orange-400"></view
+      ><view class="fa fa-ellipsis-v pr-1 text-orange-300"></view
+      ><view class="fa fa-ellipsis-v text-orange-100"></view
+    ></view>
     <view class="flex">
       <view class="flex-1">活动开始：</view>
       <view class="flex-none text-gray-500">2020-10-15 00：00</view>
