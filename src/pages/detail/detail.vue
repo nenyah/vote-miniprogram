@@ -24,7 +24,25 @@
     <detail-video></detail-video>
     <!-- 选手简介 -->
     <sub-title :content="title3"></sub-title>
-    <view class="text-gray-100 p-4">{{item.desc}}</view>
+    <view class="text-gray-100 p-4">{{ item.desc }}</view>
+    <!-- 帮我拉票 -->
+    <view class="text-center">
+      <view
+        class="inline-block text-gray-100 text-xl my-2 p-2 border-r-0 border-l-0 border-t-0 border-b-2 border-solid border-orange-500"
+        @click="share"
+      >
+        帮我拉票
+      </view>
+    </view>
+
+    <!-- 返回 -->
+    <view class="text-center">
+      <view
+        class="inline-block text-gray-100 text-xl my-2 p-2 border-r-0 border-l-0 border-t-0 border-b-2 border-solid border-orange-500"
+      >
+        返回
+      </view>
+    </view>
     <!-- 脚注 -->
     <vote-footer></vote-footer>
   </view>
@@ -44,7 +62,7 @@ export default Vue.extend({
     return {
       items,
       id: 0,
-      item: {},
+      item: <Iitem>{},
       title1: "选手详情",
       title2: "选手风采",
       title3: "选手简介",
@@ -53,9 +71,12 @@ export default Vue.extend({
   onLoad(query) {
     console.log(query)
 
-    this.id = +query?.id
+    this.id = +query?.id || 1
     let [item] = this.items.filter((el) => el.id === this.id)
-    this.item = item
+    this.item = <Iitem>item
+    uni.setNavigationBarTitle({
+      title: `我是${this.id}号，${this.item?.name}, 正在参加伊婉你最美`,
+    })
   },
   components: {
     title,
@@ -85,6 +106,9 @@ export default Vue.extend({
         },
       ]
     },
+  },
+  methods: {
+    share() {},
   },
 })
 </script>

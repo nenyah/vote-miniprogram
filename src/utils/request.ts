@@ -1,4 +1,4 @@
-export default (params) => {
+export default (params: any) => {
   // 加载中
   uni.showLoading({
     title: "加载中",
