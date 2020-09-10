@@ -3,14 +3,14 @@
  * @Author: Steven
  * @Date: 2020-09-08 09:24:24
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-10 10:23:02
+ * @LastEditTime: 2020-09-10 10:39:20
 -->
 <template>
   <view
     class="flex flex-col w-1-2 text-center justify-center border border-solid border-gray-600 bg-purple-100 my-2 p-2"
   >
     <view class="text-gray-500 my-1">{{ item.id }} 号</view>
-    <navigator url="#">
+    <navigator :url="toUrl">
       <image :src="item.img" mode="widthFix" style="width: 100%; background-color: #eeeeee;"></image>
       <view class="text-gray-100 text-lg font-bold mt-1">{{ item.name }}</view>
       <view class="text-gray-500 my-1">{{ item.group }}</view>
@@ -40,6 +40,11 @@ export default Vue.extend({
   },
   onLoad() {},
   methods: {},
+  computed:{
+	  toUrl():string {
+		  return `/pages/detail/detail?id=${this.item.id}`
+	  }
+  }
 })
 </script>
 
