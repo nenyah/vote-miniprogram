@@ -3,13 +3,13 @@
  * @Author: Steven
  * @Date: 2020-09-08 15:49:57
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-08 16:28:07
+ * @LastEditTime: 2020-09-10 09:29:01
 -->
 <template>
   <view>
-    <view class="flex my-2 py-2 {{index%2===0?'bg-purple-light':''}}">
+    <view class="flex my-2 py-2" :class="{ 'bg-purple-light': isActive }">
       <view class="flex-1">
-        <view class="{{top3}}">{{ index + 1 }}</view>
+        <view :class="top3">{{ index + 1 }}</view>
       </view>
       <view class="flex-1">{{ item.id }}</view>
       <view class="flex-1">{{ item.name }}</view>
@@ -41,6 +41,9 @@ export default Vue.extend({
         cls = `${cls} bg-brone`
       }
       return cls
+    },
+    isActive(): boolean {
+      return this.index % 2 === 0
     },
   },
 })
