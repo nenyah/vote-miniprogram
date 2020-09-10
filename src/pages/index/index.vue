@@ -32,6 +32,7 @@ import briefDesc from "@/components/brief-desc/brief-desc.vue"
 import searchBar from "@/components/search-bar/search-bar.vue"
 import voteList from "@/components/vote-list/vote-list.vue"
 import voteFooter from "@/components/footer/footer.vue"
+import request from "@/utils/request"
 import { items, indexstats } from "@/mock/store"
 export default Vue.extend({
   data() {
@@ -42,7 +43,9 @@ export default Vue.extend({
       pageType: "index",
     }
   },
-  onLoad() {},
+  async onLoad() {
+    console.log("Vue", Vue)
+  },
   methods: {},
   components: {
     banner,
