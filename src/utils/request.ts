@@ -4,7 +4,7 @@ export default (params) => {
     title: "加载中",
   })
   return new Promise((resolve, reject) => {
-    wx.request({
+    uni.request({
       ...params,
       success(res) {
         resolve(res)
