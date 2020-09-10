@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-07 17:00:45
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-10 13:04:26
+ * @LastEditTime: 2020-09-10 16:47:27
  */
 export interface Iitem {
   id: Number
@@ -14,6 +14,7 @@ export interface Iitem {
   vote: Number
   rank: Number
   diffLast: Number
+  desc: String
 }
 export interface Iinfo {
   name: String
@@ -30,6 +31,8 @@ export const items: Array<Iitem> = [
     vote: 250,
     rank: 6,
     diffLast: 100,
+    desc:
+      "这个98年音乐剧专业的好姑娘，虽首轮遗憾选定，在复活赛中却用她的桀骜与热烈，给总决赛现场观众留下动人心魄的一抹红。",
   },
   {
     id: 2,
@@ -41,6 +44,8 @@ export const items: Array<Iitem> = [
     vote: 250 * 2,
     rank: 5,
     diffLast: 200,
+    desc:
+      "这个98年音乐剧专业的好姑娘，虽首轮遗憾选定，在复活赛中却用她的桀骜与热烈，给总决赛现场观众留下动人心魄的一抹红。",
   },
   {
     id: 3,
@@ -52,6 +57,8 @@ export const items: Array<Iitem> = [
     vote: 250 * 3,
     rank: 4,
     diffLast: 1000,
+    desc:
+      "这个98年音乐剧专业的好姑娘，虽首轮遗憾选定，在复活赛中却用她的桀骜与热烈，给总决赛现场观众留下动人心魄的一抹红。",
   },
   {
     id: 4,
@@ -63,6 +70,8 @@ export const items: Array<Iitem> = [
     vote: 250 * 4,
     rank: 3,
     diffLast: 10000,
+    desc:
+      "这个98年音乐剧专业的好姑娘，虽首轮遗憾选定，在复活赛中却用她的桀骜与热烈，给总决赛现场观众留下动人心魄的一抹红。",
   },
   {
     id: 5,
@@ -74,6 +83,8 @@ export const items: Array<Iitem> = [
     vote: 250 * 5,
     rank: 2,
     diffLast: 100,
+    desc:
+      "这个98年音乐剧专业的好姑娘，虽首轮遗憾选定，在复活赛中却用她的桀骜与热烈，给总决赛现场观众留下动人心魄的一抹红。",
   },
   {
     id: 6,
@@ -85,6 +96,8 @@ export const items: Array<Iitem> = [
     vote: 250 * 6,
     rank: 1,
     diffLast: 0,
+    desc:
+      "这个98年音乐剧专业的好姑娘，虽首轮遗憾选定，在复活赛中却用她的桀骜与热烈，给总决赛现场观众留下动人心魄的一抹红。",
   },
 ]
 export const indexstats: Array<Iinfo> = [
