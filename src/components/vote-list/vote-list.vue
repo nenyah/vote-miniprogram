@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-08 09:24:10
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-10 16:42:04
+ * @LastEditTime: 2020-09-10 16:57:14
 -->
 <template>
   <view class="text-gray-100">
@@ -17,7 +17,7 @@
     </view>
     <block v-for="(item, index) in items" :key="item.id">
       <view class="" v-if="isIndex">
-        <vote-item :item="item"></vote-item>
+        <vote-item :item="item" :index="true"></vote-item>
       </view>
       <view v-else>
         <rank-item :item="item" :index="index"></rank-item>

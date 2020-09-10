@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-08 08:48:06
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-10 16:46:33
+ * @LastEditTime: 2020-09-10 16:53:16
 -->
 <template>
   <view class="bg-purple">
@@ -24,7 +24,7 @@
     <detail-video></detail-video>
     <!-- 选手简介 -->
     <sub-title :content="title3"></sub-title>
-    <view>{{item.desc}}</view>
+    <view class="text-gray-100 p-4">{{item.desc}}</view>
     <!-- 脚注 -->
     <vote-footer></vote-footer>
   </view>
