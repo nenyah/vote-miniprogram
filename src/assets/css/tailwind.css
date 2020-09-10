@@ -912,9 +912,23 @@ video {
 .bg-blue-900 {
     background-color: #2a4365;
 }
+
 .bg-purple {
     background: #0d134d;
 }
+
+.bg-purple-100 {
+    background: #3944ad;
+}
+
+.bg-purple-200 {
+    background: #3944ad;
+}
+
+.bg-purple-300 {
+    background: #515dc3;
+}
+
 .bg-bottom {
     background-position: bottom;
 }

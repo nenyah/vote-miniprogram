@@ -3,24 +3,26 @@
  * @Author: Steven
  * @Date: 2020-09-08 09:24:24
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-10 09:20:08
+ * @LastEditTime: 2020-09-10 10:23:02
 -->
 <template>
-  <view class="flex flex-col w-1-2 text-center justify-center">
-    <view class="code">{{ item.id }}</view>
+  <view
+    class="flex flex-col w-1-2 text-center justify-center border border-solid border-gray-600 bg-purple-100 my-2 p-2"
+  >
+    <view class="text-gray-500 my-1">{{ item.id }} 号</view>
     <navigator url="#">
-      <image :src="item.img" mode=""></image>
-      <view class="name">{{ item.name }}</view>
-      <view class="group">{{ item.group }}</view>
+      <image :src="item.img" mode="widthFix" style="width: 100%; background-color: #eeeeee;"></image>
+      <view class="text-gray-100 text-lg font-bold mt-1">{{ item.name }}</view>
+      <view class="text-gray-500 my-1">{{ item.group }}</view>
     </navigator>
 
-    <view class="flex w-4-5">
+    <view class="flex w-full">
       <view
-        class="border border-solid border-gray-500 bg-gray-500 text-white p-2"
+        class="flex-1 border border-solid border-gray-500 bg-purple-300 text-white p-2"
         >{{ item.vote }}</view
       >
       <view
-        class="border border-solid border-orange-500 bg-orange-500 text-white p-2"
+        class="flex-1 border border-solid border-orange-500 bg-orange-500 text-white p-2"
         >投票</view
       >
     </view>
