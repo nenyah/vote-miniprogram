@@ -12,7 +12,9 @@
         <view :class="top3">{{ index + 1 }}</view>
       </view>
       <view class="flex-1">{{ item.id }}</view>
-      <view class="flex-1">{{ item.name }}</view>
+      <navigator :url="toUrl">
+        <view class="flex-1">{{ item.name }}</view>
+      </navigator>
       <view class="flex-1">{{ item.vote }}</view>
     </view>
   </view>
@@ -44,6 +46,9 @@ export default Vue.extend({
     },
     isActive(): boolean {
       return this.index % 2 === 0
+    },
+    toUrl(): string {
+      return `/pages/detail/detail?id=${this.item.id}`
     },
   },
 })
