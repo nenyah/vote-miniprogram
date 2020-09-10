@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-08 09:22:09
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-10 11:29:31
+ * @LastEditTime: 2020-09-10 13:08:22
 -->
 <template>
   <view class="px-4 pt-2">
@@ -13,7 +13,7 @@
       <view class="flex">
         <view class="flex-1" v-for="(item, index) in content" :key="index">
           <view class="text-gray-100 text-center text-xl">
-            {{ item.value }}
+            {{ item.value }} {{isDetail?' 票':''}}
           </view>
           <view class="text-yellow-900 text-center">
             {{ item.name }}
@@ -34,6 +34,7 @@ export default Vue.extend({
   },
   props: {
     content: Array,
+    isDetail: Boolean,
   },
   onLoad() {},
   methods: {},

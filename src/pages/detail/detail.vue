@@ -3,12 +3,29 @@
  * @Author: Steven
  * @Date: 2020-09-08 08:48:06
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-10 10:46:49
+ * @LastEditTime: 2020-09-10 15:58:28
 -->
 <template>
   <view class="bg-purple">
+    <!-- 标题 -->
     <title></title>
-	<stats></stats>
+    <!-- 统计票数 -->
+    <stats :content="getStats" :isDetail="true">
+      <view class="text-2xl text-gray-100 font-bold w-full text-center mt-4"
+        >投票</view
+      >
+    </stats>
+    <!-- 选手详情 -->
+    <sub-title :content="title1"></sub-title>
+    <!-- 选手图片 -->
+    <vote-item :item="item"></vote-item>
+    <!-- 风采展示 -->
+    <sub-title :content="title2"></sub-title>
+    <detail-video></detail-video>
+    <!-- 选手简介 -->
+    <sub-title :content="title3"></sub-title>
+    <!-- 脚注 -->
+    <vote-footer></vote-footer>
   </view>
 </template>
 
@@ -16,13 +33,57 @@
 import Vue from "vue"
 import title from "@/components/title/title.vue"
 import stats from "@/components/stats/stats.vue"
+import voteItem from "@/components/vote-item/vote-item.vue"
+import voteFooter from "@/components/footer/footer.vue"
+import subTitle from "@/components/sub-title/sub-title.vue"
+import detailVideo from "@/components/detail-video/detail-video.vue"
+import { items, Iinfo, Iitem } from "@/mock/store"
 export default Vue.extend({
   data() {
-    return {}
+    return {
+      items,
+      id: 0,
+      item: {},
+      title1: "选手详情",
+      title2: "选手风采",
+      title3: "选手简介",
+    }
+  },
+  onLoad(query) {
+    console.log(query)
+
+    this.id = +query?.id
+    let [item] = this.items.filter((el) => el.id === this.id)
+    this.item = item
   },
   components: {
-	title,
-	stats,
+    title,
+    stats,
+    voteItem,
+    voteFooter,
+    subTitle,
+    detailVideo,
+  },
+  computed: {
+    getStats(): Array<Iinfo> {
+      let [item] = this.items.filter((el) => el.id === this.id)
+      console.log("item: ", item)
+
+      return [
+        {
+          name: "当前票数",
+          value: item?.vote,
+        },
+        {
+          name: "排名",
+          value: item?.rank,
+        },
+        {
+          name: "距上一名",
+          value: item?.diffLast,
+        },
+      ]
+    },
   },
 })
 </script>

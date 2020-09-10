@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-07 17:00:45
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-10 11:00:59
+ * @LastEditTime: 2020-09-10 13:04:26
  */
 export interface Iitem {
   id: Number
@@ -16,8 +16,8 @@ export interface Iitem {
   diffLast: Number
 }
 export interface Iinfo {
-  name: string
-  value: number
+  name: String
+  value: Number
 }
 export const items: Array<Iitem> = [
   {
