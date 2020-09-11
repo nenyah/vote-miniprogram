@@ -39,14 +39,18 @@
     </view>
 
     <!-- 返回 -->
-    <navigator url='/pages/index/index' open-type="switchTab" hover-class="other-navigator-hover">
-    <view class="text-center">
-      <view
-        class="inline-block text-gray-100 text-xl my-2 p-2 border-r-0 border-l-0 border-t-0 border-b-2 border-solid border-orange-500"
-      >
-        返回
+    <navigator
+      url="/pages/index/index"
+      open-type="switchTab"
+      hover-class="other-navigator-hover"
+    >
+      <view class="text-center">
+        <view
+          class="inline-block text-gray-100 text-xl my-2 p-2 border-r-0 border-l-0 border-t-0 border-b-2 border-solid border-orange-500"
+        >
+          返回
+        </view>
       </view>
-    </view>
     </navigator>
     <!-- 脚注 -->
     <vote-footer></vote-footer>
@@ -61,7 +65,8 @@ import voteItem from "@/components/vote-item/vote-item.vue"
 import voteFooter from "@/components/footer/footer.vue"
 import subTitle from "@/components/sub-title/sub-title.vue"
 import detailVideo from "@/components/detail-video/detail-video.vue"
-import { items, Iinfo, Iitem } from "@/mock/store"
+import { items } from "@/mock/store"
+import { Iitem, Iinfo } from "@/common/interface"
 export default Vue.extend({
   data() {
     return {

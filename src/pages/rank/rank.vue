@@ -15,7 +15,8 @@
 
 <script lang="ts">
 import Vue from "vue"
-import { Iitem, items } from "@/mock/store"
+import { Iitem } from "@/common/interface"
+import { items } from "@/mock/store"
 import title from "@/components/title/title.vue"
 import voteList from "@/components/vote-list/vote-list.vue"
 import voteFooter from "@/components/footer/footer.vue"

@@ -9,11 +9,7 @@
   <view>
     <view class="uni-padding-wrap uni-common-mt">
       <view>
-        <video
-          id="myVideo"
-          src="#"
-          controls
-        ></video>
+        <video id="myVideo" src="#" controls></video>
       </view>
     </view>
   </view>

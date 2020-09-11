@@ -62,6 +62,6 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 .-t-10 {
-  top:-20px;
+  top: -20px;
 }
 </style>

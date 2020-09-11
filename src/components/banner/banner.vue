@@ -9,11 +9,8 @@
 </template>
 
 <script lang="ts">
-export default {
-  data() {
-    return {}
-  },
-}
+import Vue from "vue"
+export default Vue.extend({})
 </script>
 
 <style></style>

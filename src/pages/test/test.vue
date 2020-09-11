@@ -5,16 +5,11 @@
  * @LastEditors: Steven
  * @LastEditTime: 2020-09-08 14:16:02
 -->
-<template>
-  
-</template>
+<template> </template>
 
-<script>
-export default {
-
-}
+<script lang="ts">
+import Vue from "vue"
+export default Vue.extend({})
 </script>
 
-<style>
-
-</style>
+<style lang="scss" scoped></style>
