@@ -3,12 +3,12 @@
  * @Author: Steven
  * @Date: 2020-09-08 09:24:10
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-11 09:39:00
+ * @LastEditTime: 2020-09-11 10:18:36
 -->
 <template>
   <view class="text-gray-100">
     <view v-if="!isIndex">
-      <view class="flex w-4-5 px-2 m-auto text-orange-500">
+      <view class="flex w-4-5 px-2 m-auto text-orange-500 text-center">
         <view class="flex-1">排名</view>
         <view class="flex-1">编号</view>
         <view class="flex-1">参与选手</view>

@@ -3,22 +3,22 @@
  * @Author: Steven
  * @Date: 2020-09-08 14:38:03
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-08 14:41:57
+ * @LastEditTime: 2020-09-11 12:37:52
 -->
 <template>
   <view class="px-4 text-gray-200">
-    <view class="text-lg"
-      >活动详情 <view class="fa fa-ellipsis-v px-1 text-orange-400"></view
-      ><view class="fa fa-ellipsis-v pr-1 text-orange-300"></view
-      ><view class="fa fa-ellipsis-v text-orange-100"></view
-    ></view>
+    <main-title :title="title"></main-title>
     <view class="mt-2">{{ activate.desc }}</view>
   </view>
 </template>
 
 <script lang="ts">
 import Vue from "vue"
+import mainTitle from "@/components/main-title/main-title.vue"
 export default Vue.extend({
+  components: {
+    mainTitle,
+  },
   data() {
     return {
       activate: {
@@ -27,6 +27,7 @@ export default Vue.extend({
       活动方有权对票数异常的选手做出相应处罚，作弊违规行为包括但不限于：使用辅助软件的作弊行为、网上买僵尸号的投票行为、找投票公司付费投票行为。第一次电话口头警告并减去相关的票数，第二次再出现类似情况，不再另行通知，票数系统将自动清零，严重者取消参评资格和获奖资格。
       活动重在参与，意在宣传推广，打赏属自愿行为，我们不提倡给选手打赏，请酌情购买，主办方对本活动保留最终解释权！.`,
       },
+      title: "活动详情",
     }
   },
   onLoad() {},

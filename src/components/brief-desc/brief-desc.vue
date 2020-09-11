@@ -3,10 +3,10 @@
  * @Author: Steven
  * @Date: 2020-09-08 09:22:51
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-08 14:32:04
+ * @LastEditTime: 2020-09-11 14:19:35
 -->
 <template>
-  <view>
+  <view class="bg-color pt-4">
     <vote-rule></vote-rule>
     <view class="text-white flex px-4">
       <view class="attr"
@@ -33,4 +33,9 @@ export default Vue.extend({
 })
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.bg-color {
+  background-image: $rule-bg-base64-code;
+  background-size: 100%;
+}
+</style>

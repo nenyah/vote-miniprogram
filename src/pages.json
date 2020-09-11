@@ -28,7 +28,7 @@
 	"globalStyle": {
 		"navigationBarTextStyle": "#cfcfcf",
 		"navigationBarTitleText": "投票小程序",
-		"navigationBarBackgroundColor": "#000",
+		"navigationBarBackgroundColor": "#0d134d",
 		"backgroundColor": "#F8F8F8"
 	},
 	"tabBar": {

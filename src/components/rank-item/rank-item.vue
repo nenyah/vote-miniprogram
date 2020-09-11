@@ -3,19 +3,19 @@
  * @Author: Steven
  * @Date: 2020-09-08 15:49:57
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-10 16:38:55
+ * @LastEditTime: 2020-09-11 10:20:55
 -->
 <template>
-  <view>
+  <view class="text-center">
     <view class="flex my-2 py-2" :class="{ 'bg-purple-light': isActive }">
-      <view class="flex-1">
+      <view class="text-center">
         <view :class="top3">{{ index + 1 }}</view>
       </view>
-      <view class="flex-1">{{ item.id }}</view>
+      <view class="text-center">{{ item.id }}</view>
       <navigator :url="toUrl">
-        <view class="flex-1">{{ item.name }}</view>
+        <view class="text-center">{{ item.name }}</view>
       </navigator>
-      <view class="flex-1">{{ item.vote }}</view>
+      <view class="text-center">{{ item.vote }}</view>
     </view>
   </view>
 </template>

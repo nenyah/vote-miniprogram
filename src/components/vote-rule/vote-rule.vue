@@ -3,16 +3,11 @@
  * @Author: Steven
  * @Date: 2020-09-08 14:28:34
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-11 10:16:19
+ * @LastEditTime: 2020-09-11 14:05:54
 -->
 <template>
-  <view class="my-2 px-4 text-gray-200">
-    <view class="text-lg mb-2">
-      活动规则
-      <view class="fa fa-ellipsis-v px-1 text-orange-400"></view>
-      <view class="fa fa-ellipsis-v pr-1 text-orange-300"></view>
-      <view class="fa fa-ellipsis-v text-orange-100"></view>
-    </view>
+  <view class="mt-5 pt-8 z-20 mb-2 px-4 text-gray-200 -t-10">
+    <main-title :title="title"></main-title>
     <view class="flex">
       <view class="w-18">
         <view class="fa fa-clock-o text-orange-500 mr-2"></view>
@@ -47,12 +42,17 @@
 
 <script lang="ts">
 import Vue from "vue"
+import mainTitle from "@/components/main-title/main-title.vue"
 export default Vue.extend({
+  components: {
+    mainTitle,
+  },
   data() {
     return {
       startTime: "2020-10-15 00：00",
       endTime: "2020-12-01 00：00",
       rule: { day: 3, item: 1 },
+      title: "活动规则",
     }
   },
   onLoad() {},
@@ -60,4 +60,8 @@ export default Vue.extend({
 })
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.-t-10 {
+  top:-20px;
+}
+</style>
