@@ -3,10 +3,10 @@
  * @Author: Steven
  * @Date: 2020-09-08 14:28:34
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-11 10:07:39
+ * @LastEditTime: 2020-09-11 10:16:19
 -->
 <template>
-  <view class="px-4 text-gray-200">
+  <view class="my-2 px-4 text-gray-200">
     <view class="text-lg mb-2">
       活动规则
       <view class="fa fa-ellipsis-v px-1 text-orange-400"></view>
