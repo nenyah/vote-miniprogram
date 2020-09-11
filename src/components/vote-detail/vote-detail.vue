@@ -3,10 +3,10 @@
  * @Author: Steven
  * @Date: 2020-09-08 14:38:03
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-11 12:37:52
+ * @LastEditTime: 2020-09-11 14:26:49
 -->
 <template>
-  <view class="px-4 text-gray-200">
+  <view class="pt-16 px-4 bg-color text-gray-200">
     <main-title :title="title"></main-title>
     <view class="mt-2">{{ activate.desc }}</view>
   </view>
@@ -35,4 +35,10 @@ export default Vue.extend({
 })
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.bg-color {
+  background-image: $rule-bg-base64-code;
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+</style>
