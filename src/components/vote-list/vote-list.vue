@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-08 09:24:10
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-11 10:18:36
+ * @LastEditTime: 2020-09-11 14:45:10
 -->
 <template>
   <view class="text-gray-100">

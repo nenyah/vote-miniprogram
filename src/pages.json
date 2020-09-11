@@ -1,12 +1,12 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-
 		{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "活动名称"
 			}
-		}, {
+		},
+		{
 			"path": "pages/desc/desc",
 			"style": {
 				"navigationBarTitleText": "详情-活动名称"
@@ -17,8 +17,8 @@
 			"style": {
 				"navigationBarTitleText": "排名"
 			}
-
-		}, {
+		},
+		{
 			"path": "pages/detail/detail",
 			"style": {
 				"navigationBarTitleText": "我是1号，正在参加活动名称"
@@ -28,8 +28,8 @@
 	"globalStyle": {
 		"navigationBarTextStyle": "#cfcfcf",
 		"navigationBarTitleText": "投票小程序",
-		"navigationBarBackgroundColor": "#0d134d",
-		"backgroundColor": "#F8F8F8"
+		"navigationBarBackgroundColor": "#000",
+		"backgroundColor": "#0d134d"
 	},
 	"tabBar": {
 		"color": "#8a8a8a",
@@ -40,7 +40,8 @@
 		"fontSize": "10px",
 		"iconWidth": "24px",
 		"spacing": "3px",
-		"list": [{
+		"list": [
+			{
 				"pagePath": "pages/index/index",
 				"iconPath": "static/home.png",
 				"selectedIconPath": "static/home_HL.png",

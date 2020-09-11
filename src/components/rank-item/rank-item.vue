@@ -3,20 +3,21 @@
  * @Author: Steven
  * @Date: 2020-09-08 15:49:57
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-11 10:20:55
+ * @LastEditTime: 2020-09-11 14:39:16
 -->
 <template>
-  <view class="text-center">
-    <view class="flex my-2 py-2" :class="{ 'bg-purple-light': isActive }">
-      <view class="text-center">
-        <view :class="top3">{{ index + 1 }}</view>
-      </view>
-      <view class="text-center">{{ item.id }}</view>
-      <navigator :url="toUrl">
-        <view class="text-center">{{ item.name }}</view>
-      </navigator>
-      <view class="text-center">{{ item.vote }}</view>
+  <view
+    class="flex w-4-5 my-2 py-2 text-center"
+    :class="{ 'bg-purple-light': isActive }"
+  >
+    <view class="flex justify-center flex-1 text-center">
+      <view :class="top3">{{ index + 1 }}</view>
     </view>
+    <view class="flex-1 text-center">{{ item.id }}</view>
+    <navigator :url="toUrl">
+      <view class="flex-1 text-center">{{ item.name }}</view>
+    </navigator>
+    <view class="flex-1 text-center">{{ item.vote }}</view>
   </view>
 </template>
 
