@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-08 09:24:10
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-10 16:57:14
+ * @LastEditTime: 2020-09-11 09:39:00
 -->
 <template>
   <view class="text-gray-100">
@@ -15,14 +15,17 @@
         <view class="flex-1">票数</view>
       </view>
     </view>
-    <block v-for="(item, index) in items" :key="item.id">
-      <view class="" v-if="isIndex">
-        <vote-item :item="item" :index="true"></vote-item>
-      </view>
-      <view v-else>
+
+    <view class="flex flex-row flex-wrap w-full justify-center" v-if="isIndex">
+      <block v-for="item in items" :key="item.id">
+        <vote-item :item="item" :index="true" :col="2"></vote-item>
+      </block>
+    </view>
+    <view v-else>
+      <block v-for="(item, index) in items" :key="item.id">
         <rank-item :item="item" :index="index"></rank-item>
-      </view>
-    </block>
+      </block>
+    </view>
   </view>
 </template>
 

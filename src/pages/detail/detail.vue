@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-08 08:48:06
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-10 16:53:16
+ * @LastEditTime: 2020-09-11 09:44:21
 -->
 <template>
   <view class="bg-purple">
@@ -18,7 +18,10 @@
     <!-- 选手详情 -->
     <sub-title :content="title1"></sub-title>
     <!-- 选手图片 -->
-    <vote-item :item="item"></vote-item>
+    <view class="flex justify-center">
+      <vote-item :item="item"></vote-item>
+    </view>
+
     <!-- 风采展示 -->
     <sub-title :content="title2"></sub-title>
     <detail-video></detail-video>

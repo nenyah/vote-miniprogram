@@ -3,11 +3,12 @@
  * @Author: Steven
  * @Date: 2020-09-08 09:24:24
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-10 16:56:49
+ * @LastEditTime: 2020-09-11 09:43:20
 -->
 <template>
   <view
-    class="flex flex-col w-1-2 text-center justify-center border border-solid border-gray-600 bg-purple-100 my-2 p-2"
+    class="flex flex-col flex-1 text-center justify-center border border-solid border-gray-600 bg-purple-100 m-2 p-2"
+    :class="customWidth"
   >
     <view class="text-gray-500 my-1">{{ item.id }} 号</view>
     <navigator v-if="index" :url="toUrl">
@@ -52,12 +53,19 @@ export default Vue.extend({
   props: {
     item: Object,
     index: Boolean,
+    col: {
+      type: Number,
+      default: 1,
+    },
   },
   onLoad() {},
   methods: {},
   computed: {
     toUrl(): string {
       return `/pages/detail/detail?id=${this.item.id}`
+    },
+    customWidth(): string {
+      return `w-${64 / this.col}`
     },
   },
 })
