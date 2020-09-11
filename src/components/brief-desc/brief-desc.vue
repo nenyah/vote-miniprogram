@@ -3,22 +3,27 @@
  * @Author: Steven
  * @Date: 2020-09-08 09:22:51
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-11 14:59:42
+ * @LastEditTime: 2020-09-11 16:40:15
 -->
 <template>
   <view class="bg-color pt-4">
+    <!-- 活动规则 -->
     <vote-rule></vote-rule>
+    <!-- 活动详情 -->
     <view class="text-white flex px-4">
-      <view class="attr"
-        ><view class="fa fa-clock-o text-orange-500 mr-2"></view
-        >活动详情：</view
-      >
+      <view class="attr">
+        <view class="fa fa-clock-o text-orange-500 mr-2"></view>
+        活动详情：
+      </view>
       <view class="flex" @click="display = !display">
         {{ display ? "收起" : "展开" }}
         <view class="text-orange-500 ml-2">></view>
       </view>
     </view>
-    <view v-if="display" class="my-3 text-gray-100 px-4">{{ activate.desc }}</view>
+    <!-- 详情描述 -->
+    <view v-if="display" class="my-3 text-gray-100 px-4">
+      {{ activate.desc }}
+    </view>
   </view>
 </template>
 
