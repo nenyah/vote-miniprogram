@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-08 08:48:06
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-11 09:44:21
+ * @LastEditTime: 2020-09-11 09:47:59
 -->
 <template>
   <view class="bg-purple">
@@ -39,6 +39,7 @@
     </view>
 
     <!-- 返回 -->
+    <navigator open-type="navigateBack" hover-class="other-navigator-hover">
     <view class="text-center">
       <view
         class="inline-block text-gray-100 text-xl my-2 p-2 border-r-0 border-l-0 border-t-0 border-b-2 border-solid border-orange-500"
@@ -46,6 +47,7 @@
         返回
       </view>
     </view>
+    </navigator>
     <!-- 脚注 -->
     <vote-footer></vote-footer>
   </view>
