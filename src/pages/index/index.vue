@@ -56,8 +56,8 @@ export default Vue.extend({
      */
     this.getActivate()
     this.$_request({ url: "/api/user" })
-      .then((res: object) => console.log(res))
-      .catch((err: object) => console.error(err))
+      .then((res) => console.log(res))
+      .catch((err) => console.error(err))
   },
   methods: {
     getActivate() {},

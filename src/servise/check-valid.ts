@@ -1,1 +1,1 @@
-export function isValid(params: type) {}
+export function isValid(params: any) {}
