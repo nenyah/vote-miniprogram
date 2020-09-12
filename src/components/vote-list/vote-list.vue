@@ -18,7 +18,12 @@
 
     <view class="flex flex-row flex-wrap w-full justify-center" v-if="isIndex">
       <block v-for="item in items" :key="item.id">
-        <vote-item :item="item" :index="true" :col="2"></vote-item>
+        <vote-item
+          :item="item"
+          :index="true"
+          :col="2"
+          @plusVote="handlePlusVote"
+        ></vote-item>
       </block>
     </view>
     <view v-else>
@@ -43,7 +48,11 @@ export default Vue.extend({
     pageType: String,
   },
   onLoad() {},
-  methods: {},
+  methods: {
+    handlePlusVote(e: number) {
+      console.log("接收vote-item的数据", e)
+    },
+  },
   components: {
     voteItem,
   },

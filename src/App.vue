@@ -18,6 +18,9 @@ export default Vue.extend({
   onHide() {
     console.log("App Hide")
   },
+  globalData: {
+    baseurl: "huadongio.com",
+  },
 })
 </script>
 

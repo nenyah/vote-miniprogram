@@ -26,6 +26,7 @@
         mode="widthFix"
         style="width: 100%; background-color: #eeeeee;"
       ></image>
+
       <view class="text-gray-100 text-lg font-bold mt-1">{{ item.name }}</view>
       <view class="text-gray-500 my-1">{{ item.group }}</view>
     </view>
@@ -37,8 +38,10 @@
         >
         <view
           class="flex-1 border border-solid border-orange-500 bg-orange-500 text-white p-2"
-          >投票</view
+          @click="vote"
         >
+          投票
+        </view>
       </view>
     </view>
   </view>
@@ -59,7 +62,18 @@ export default Vue.extend({
     },
   },
   onLoad() {},
-  methods: {},
+  methods: {
+    vote() {
+      /**
+       * 1. 判断是否关注公众号
+       * 2. 判断是否在投票时间
+       * 3. 判断是否超出限制
+       * 可以抽离逻辑 isValid()
+       */
+      // FIXME
+      this.$emit("plusVote", this.item.vote + 1)
+    },
+  },
   computed: {
     toUrl(): string {
       return `/pages/detail/detail?id=${this.item.id}`

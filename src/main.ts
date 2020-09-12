@@ -8,5 +8,6 @@
 import Vue from "vue"
 import App from "./App.vue"
 import request from "./utils/request"
+Vue.prototype.$request = request
 Vue.config.productionTip = false
 new App().$mount()

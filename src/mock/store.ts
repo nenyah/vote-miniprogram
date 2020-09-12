@@ -5,7 +5,7 @@
  * @LastEditors: Steven
  * @LastEditTime: 2020-09-11 16:56:28
  */
-import { Iinfo, Iitem, Istats } from "@/common/interface"
+import { Iinfo, Iitem } from "@/common/interface"
 export const items: Array<Iitem> = [
   {
     id: 1,
@@ -100,17 +100,17 @@ export const indexstats: Array<Iinfo> = [
     value: 45597802,
   },
 ]
-export const detailstats: Istats = [
-         {
-           name: "当前票数",
-           value: 23460,
-         },
-         {
-           name: "排名",
-           value: 24,
-         },
-         {
-           name: "距上一名",
-           value: 494,
-         },
-       ]
+export const detailstats: Array<Iinfo> = [
+  {
+    name: "当前票数",
+    value: 23460,
+  },
+  {
+    name: "排名",
+    value: 24,
+  },
+  {
+    name: "距上一名",
+    value: 494,
+  },
+]

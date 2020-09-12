@@ -49,9 +49,19 @@ export default Vue.extend({
     }
   },
   async onLoad() {
-    console.log("Vue", Vue)
+    /**
+     * 1. 下载活动信息
+     * 2. 下载选手信息
+     * TODO: 思考做成一个接口
+     */
+    this.getActivate()
+    this.$_request({ url: "/api/user" })
+      .then((res: object) => console.log(res))
+      .catch((err: object) => console.error(err))
   },
-  methods: {},
+  methods: {
+    getActivate() {},
+  },
   components: {
     banner,
     title,
