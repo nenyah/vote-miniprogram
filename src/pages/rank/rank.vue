@@ -33,7 +33,8 @@ export default Vue.extend({
   computed: {
     sortItems(): Array<Iitem> {
       return this.items.sort(
-        (a: Iitem, b: Iitem) => <number>b.vote - <number>a.vote
+        (a: Iitem, b: Iitem) =>
+          <number>b?.stats[0].value - <number>a?.stats[0].value
       )
     },
   },

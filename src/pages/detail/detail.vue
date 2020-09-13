@@ -101,20 +101,7 @@ export default Vue.extend({
       let [item] = this.items.filter((el) => el.id === this.id)
       console.log("item: ", item)
 
-      return [
-        {
-          name: "当前票数",
-          value: item?.vote,
-        },
-        {
-          name: "排名",
-          value: item?.rank,
-        },
-        {
-          name: "距上一名",
-          value: item?.diffLast,
-        },
-      ]
+      return item.stats
     },
   },
   methods: {

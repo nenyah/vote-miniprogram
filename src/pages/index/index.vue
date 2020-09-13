@@ -38,12 +38,11 @@ import searchBar from "@/components/search-bar/search-bar.vue"
 import voteList from "@/components/vote-list/vote-list.vue"
 import voteFooter from "@/components/footer/footer.vue"
 import request from "@/utils/request"
-import { items, indexstats } from "@/mock/store"
+import { items } from "@/mock/store"
 export default Vue.extend({
   data() {
     return {
       items,
-      indexstats,
       lastdate: "2天",
       pageType: "index",
     }
