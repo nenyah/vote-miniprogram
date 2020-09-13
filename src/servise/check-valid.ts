@@ -1,1 +1,3 @@
-export function isValid(params: any) {}
+export const isValid = (params: any) => {
+  return true
+}

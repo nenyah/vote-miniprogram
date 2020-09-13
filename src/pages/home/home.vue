@@ -4,6 +4,7 @@
 
 <script lang="ts">
 import Vue from "vue"
+import {} from "@/mock/store"
 export default Vue.extend({})
 </script>
 
