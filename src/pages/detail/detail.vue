@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-08 08:48:06
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-11 15:47:38
+ * @LastEditTime: 2020-09-14 10:36:58
 -->
 <template>
   <view class="bg-purple">
@@ -11,9 +11,12 @@
     <title></title>
     <!-- 统计票数 -->
     <stats :content="getStats" :isDetail="true">
-      <view class="text-2xl text-gray-100 font-bold w-full text-center mt-4"
-        >投票</view
+      <view
+        class="text-2xl text-gray-100 font-bold w-full text-center mt-4"
+        @click="handleVote(arg, $event)"
       >
+        投票
+      </view>
     </stats>
     <!-- 选手详情 -->
     <sub-title :content="title1"></sub-title>
@@ -105,7 +108,12 @@ export default Vue.extend({
     },
   },
   methods: {
+    // TODO：生成分享海报
     share() {},
+    // TODO：处理投票
+    handleVote() {
+      console.log("投票")
+    },
   },
 })
 </script>
