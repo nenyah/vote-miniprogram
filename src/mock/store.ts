@@ -1,11 +1,14 @@
 /*
- * @Description:
+ * @Description: mock数据
  * @Author: Steven
  * @Date: 2020-09-07 17:00:45
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-14 15:30:17
+ * @LastEditTime: 2020-09-14 15:42:04
  */
 import { Iactivity, Iinfo, Iitem } from "@/common/interface"
+/**
+ * 项目数据
+ */
 export const items: Array<Iitem> = [
   {
     id: 1,
@@ -151,6 +154,9 @@ export const items: Array<Iitem> = [
     ],
   },
 ]
+/**
+ * 活动数据
+ */
 export const activities: Array<Iactivity> = [
   {
     id: 0, // 活动编号

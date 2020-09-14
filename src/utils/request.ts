@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-11 08:52:11
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-14 15:10:49
+ * @LastEditTime: 2020-09-14 16:20:48
  */
 interface IParams {
   url: string

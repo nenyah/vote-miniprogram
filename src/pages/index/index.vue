@@ -3,22 +3,40 @@
  * @Author: Steven
  * @Date: 2020-08-26 16:08:15
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-14 15:31:33
+ * @LastEditTime: 2020-09-14 16:48:00
 -->
 <template>
   <view class="bg-purple">
     <!-- 广告轮播图 -->
-    <banner></banner>
+    <banner :src="activity.bannerImg"></banner>
     <!-- 主题名称 -->
-    <title></title>
+    <title :content="activity.name"></title>
     <!-- 统计区域 -->
-    <stats :content="indexstats">
+    <stats :content="activity.stats">
       <view class="mt-2 p-2 text-gray-100 text-center diff-time-box">
         活动结束时间还有{{ lastdate }}
       </view>
     </stats>
     <!-- 规则区域 -->
-    <brief-desc></brief-desc>
+    <view class="bg-color pt-4">
+    <!-- 活动规则 -->
+    <vote-rule :acitivity="acitivity"></vote-rule>
+    <!-- 活动详情 -->
+    <view class="text-white flex px-4">
+      <view class="attr">
+        <view class="fa fa-clock-o text-orange-500 mr-2"></view>
+        活动详情：
+      </view>
+      <view class="flex" @click="display = !display">
+        {{ display ? "收起" : "展开" }}
+        <view class="text-orange-500 ml-2">></view>
+      </view>
+    </view>
+    <!-- 详情描述 -->
+    <view v-if="display" class="my-3 text-gray-100 px-4">
+      {{ activity.desc }}
+    </view>
+  </view>
     <!-- 搜索区域 -->
     <search-bar></search-bar>
     <!-- 项目列表区域 -->
@@ -33,16 +51,18 @@ import Vue from "vue"
 import banner from "@/components/banner/banner.vue"
 import title from "@/components/title/title.vue"
 import stats from "@/components/stats/stats.vue"
-import briefDesc from "@/components/brief-desc/brief-desc.vue"
+import voteRule from "@/components/vote-rule/vote-rule.vue"
 import searchBar from "@/components/search-bar/search-bar.vue"
 import voteList from "@/components/vote-list/vote-list.vue"
 import voteFooter from "@/components/footer/footer.vue"
 import request from "@/utils/request"
-import { items } from "@/mock/store"
+import { getActivity } from "@/servise/activates"
+import { items, activities } from "@/mock/store"
 export default Vue.extend({
   data() {
     return {
       items,
+      activity: {},
       lastdate: "2天",
       pageType: "index",
     }
@@ -54,22 +74,24 @@ export default Vue.extend({
      * TODO: 思考做成一个接口
      */
 
-    this.getActivity(query)
-    this.$_request({ url: "/api/user" })
-      .then((res) => console.log(res))
-      .catch((err) => console.error(err))
+    this._getActivity(query)
   },
   methods: {
     // FIXME 获取活动信息
-    getActivity(query: any) {
+    async _getActivity(query: any) {
       console.log("query", query)
+      try {
+        this.activity = await getActivity(query.id)
+      } catch (error) {
+        this.activity = activities[query.id]
+      }
     },
   },
   components: {
     banner,
     title,
     stats,
-    briefDesc,
+    voteRule,
     searchBar,
     voteList,
     voteFooter,
@@ -85,5 +107,10 @@ export default Vue.extend({
   background-size: 100% 100%;
   border: none;
   border-radius: 0;
+}
+.bg-color {
+  background-image: $rule-bg-base64-code;
+  background-size: 100%;
+  background-repeat: no-repeat;
 }
 </style>
