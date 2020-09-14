@@ -32,9 +32,9 @@
         活动规则：
       </view>
       <view class="flex-1 text-gray-500 text-left">
-        每个微信号每天可以投{{ rule.day }}票（每天可为同一选手投{{
-          rule.item
-        }}票）。
+        每个微信号每天可以投{{ acitivity.rule[0].value }}票（每天可为同一选手投
+        {{ acitivity.rule[1].value }}
+        票）。
       </view>
     </view>
   </view>
@@ -44,15 +44,12 @@
 import Vue from "vue"
 import mainTitle from "@/components/main-title/main-title.vue"
 export default Vue.extend({
-  props: {
-    activity: Object,
-  },
+  props: ["activity"],
   components: {
     mainTitle,
   },
   data() {
     return {
-      rule: { day: 3, item: 1 },
       title: "活动规则",
     }
   },
