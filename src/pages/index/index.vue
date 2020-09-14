@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-08-26 16:08:15
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-14 16:48:00
+ * @LastEditTime: 2020-09-14 16:51:37
 -->
 <template>
   <view class="bg-purple">
@@ -19,24 +19,24 @@
     </stats>
     <!-- 规则区域 -->
     <view class="bg-color pt-4">
-    <!-- 活动规则 -->
-    <vote-rule :acitivity="acitivity"></vote-rule>
-    <!-- 活动详情 -->
-    <view class="text-white flex px-4">
-      <view class="attr">
-        <view class="fa fa-clock-o text-orange-500 mr-2"></view>
-        活动详情：
+      <!-- 活动规则 -->
+      <vote-rule :acitivity="acitivity"></vote-rule>
+      <!-- 活动详情 -->
+      <view class="text-white flex px-4">
+        <view class="attr">
+          <view class="fa fa-clock-o text-orange-500 mr-2"></view>
+          活动详情：
+        </view>
+        <view class="flex" @click="display = !display">
+          {{ display ? "收起" : "展开" }}
+          <view class="text-orange-500 ml-2">></view>
+        </view>
       </view>
-      <view class="flex" @click="display = !display">
-        {{ display ? "收起" : "展开" }}
-        <view class="text-orange-500 ml-2">></view>
+      <!-- 详情描述 -->
+      <view v-if="display" class="my-3 text-gray-100 px-4">
+        {{ activity.desc }}
       </view>
     </view>
-    <!-- 详情描述 -->
-    <view v-if="display" class="my-3 text-gray-100 px-4">
-      {{ activity.desc }}
-    </view>
-  </view>
     <!-- 搜索区域 -->
     <search-bar></search-bar>
     <!-- 项目列表区域 -->
@@ -65,6 +65,7 @@ export default Vue.extend({
       activity: {},
       lastdate: "2天",
       pageType: "index",
+      display: false,
     }
   },
   async onLoad(query) {
