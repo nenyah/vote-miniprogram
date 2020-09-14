@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-08 09:24:24
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-11 15:43:31
+ * @LastEditTime: 2020-09-14 12:05:40
 -->
 <template>
   <view
@@ -70,7 +70,7 @@ export default Vue.extend({
        * 3. 判断是否超出限制
        * 可以抽离逻辑 isValid()
        */
-      // FIXME
+      // FIXME: 投票
       this.$emit("plusVote", this.item.vote + 1)
     },
   },

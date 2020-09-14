@@ -3,9 +3,9 @@
  * @Author: Steven
  * @Date: 2020-09-07 17:00:45
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-14 10:02:09
+ * @LastEditTime: 2020-09-14 15:30:17
  */
-import { Iactivate, Iinfo, Iitem } from "@/common/interface"
+import { Iactivity, Iinfo, Iitem } from "@/common/interface"
 export const items: Array<Iitem> = [
   {
     id: 1,
@@ -151,15 +151,15 @@ export const items: Array<Iitem> = [
     ],
   },
 ]
-export const activates: Array<Iactivate> = [
+export const activities: Array<Iactivity> = [
   {
     id: 0, // 活动编号
     name: "2020伊人如梦*婉美如你 | 伊婉明星脸 全国100强投票", //活动名称
     bannerImg: [
       "https://www.huotoupiao.com/assets/www/ActivityPc2/img/tem2.jpg",
     ], //广告图片
-    startTime: "2020-10-15 00：00", //开始时间
-    endTime: "2020-12-01 00：00", //结束时间
+    startTime: "2020-10-15 00:00", //开始时间
+    endTime: "2020-12-01 00:00", //结束时间
     rule: [
       {
         name: "每个微信号每天可以投",
@@ -181,15 +181,15 @@ export const activates: Array<Iactivate> = [
     status: "ONGOING",
     stats: [
       {
-        name: "当前票数",
+        name: "参与人数",
         value: 0,
       },
       {
-        name: "排名",
+        name: "累计票数",
         value: 0,
       },
       {
-        name: "距上一名",
+        name: "累计访问",
         value: 0,
       },
     ], // 统计信息
@@ -200,8 +200,8 @@ export const activates: Array<Iactivate> = [
     bannerImg: [
       "https://www.huotoupiao.com/assets/www/ActivityPc2/img/tem2.jpg",
     ], //广告图片
-    startTime: "2020-10-15 00：00", //开始时间
-    endTime: "2020-12-01 00：00", //结束时间
+    startTime: "2020-10-15 00:00", //开始时间
+    endTime: "2020-12-01 00:00", //结束时间
     rule: [
       {
         name: "每个微信号每天可以投",
@@ -223,15 +223,15 @@ export const activates: Array<Iactivate> = [
     status: "ONGOING",
     stats: [
       {
-        name: "当前票数",
+        name: "参与人数",
         value: 0,
       },
       {
-        name: "排名",
+        name: "累计票数",
         value: 0,
       },
       {
-        name: "距上一名",
+        name: "累计访问",
         value: 0,
       },
     ], // 统计信息

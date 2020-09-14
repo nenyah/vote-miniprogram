@@ -1,3 +1,10 @@
+/*
+ * @Description: 配置项
+ * @Author: Steven
+ * @Date: 2020-09-14 09:15:22
+ * @LastEditors: Steven
+ * @LastEditTime: 2020-09-14 15:28:09
+ */
 import { Iinfo } from "./interface"
 // 活动规则
 export const rule: Array<Iinfo> = [
@@ -15,7 +22,7 @@ export const rule: Array<Iinfo> = [
   },
 ]
 // 活动统计
-export const activateStats: Array<Iinfo> = [
+export const activityStats: Array<Iinfo> = [
   {
     name: "参与人数",
     value: 0,

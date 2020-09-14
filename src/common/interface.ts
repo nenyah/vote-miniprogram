@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-11 16:32:30
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-14 09:39:05
+ * @LastEditTime: 2020-09-14 15:28:27
  */
 // 属性
 export interface Iinfo {
@@ -22,7 +22,7 @@ export interface Iitem {
   stats: Iinfo[] // 统计信息
 }
 // 活动
-export interface Iactivate {
+export interface Iactivity {
   id: number // 活动编号
   name: string //活动名称
   bannerImg: string[] //广告图片

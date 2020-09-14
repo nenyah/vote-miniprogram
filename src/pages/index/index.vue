@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-08-26 16:08:15
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-11 13:17:42
+ * @LastEditTime: 2020-09-14 15:31:33
 -->
 <template>
   <view class="bg-purple">
@@ -47,19 +47,23 @@ export default Vue.extend({
       pageType: "index",
     }
   },
-  async onLoad() {
+  async onLoad(query) {
     /**
-     * 1. 下载活动信息
+     * 1. 下载活动信息 通过活动列表页传入的id筛选
      * 2. 下载选手信息
      * TODO: 思考做成一个接口
      */
-    this.getActivate()
+
+    this.getActivity(query)
     this.$_request({ url: "/api/user" })
       .then((res) => console.log(res))
       .catch((err) => console.error(err))
   },
   methods: {
-    getActivate() {},
+    // FIXME 获取活动信息
+    getActivity(query: any) {
+      console.log("query", query)
+    },
   },
   components: {
     banner,
