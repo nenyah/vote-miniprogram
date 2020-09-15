@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-11 16:32:30
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-14 15:28:27
+ * @LastEditTime: 2020-09-15 10:26:27
  */
 // 属性
 export interface Iinfo {
@@ -30,6 +30,7 @@ export interface Iactivity {
   endTime: string //结束时间
   rule: Iinfo[] // 活动规则
   desc: string //活动描述
-  status:'ONGOING'|'ENDED'|'ISCOMING' // 活动状态
+  status: "ONGOING" | "ENDED" | "ISCOMING" // 活动状态
+  slogan: string // 口号，标语
   stats: Iinfo[] // 统计信息
 }

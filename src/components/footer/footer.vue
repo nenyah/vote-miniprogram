@@ -3,10 +3,10 @@
  * @Author: Steven
  * @Date: 2020-09-08 14:44:22
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-08 14:44:52
+ * @LastEditTime: 2020-09-15 10:28:12
 -->
 <template>
-  <view class="text-center text-gray-500">{{ content }}</view>
+  <view class="text-center text-gray-500">@{{ content }}</view>
 </template>
 
 <script lang="ts">

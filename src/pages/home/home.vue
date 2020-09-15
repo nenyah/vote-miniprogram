@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-14 09:15:23
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-14 15:50:53
+ * @LastEditTime: 2020-09-15 10:50:03
 -->
 <template>
   <view class="text-gray-900 p-2">
@@ -59,7 +59,8 @@ export default Vue.extend({
   },
   methods: {
     // FIXME 获取授权用户信息
-    _getUserInfo() {},
+    _getUserInfo() {
+    },
     // 获取活动信息
     async _getActivities() {
       try {

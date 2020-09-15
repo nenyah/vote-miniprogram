@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-08 09:24:24
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-14 12:05:40
+ * @LastEditTime: 2020-09-15 10:40:30
 -->
 <template>
   <view
@@ -34,7 +34,7 @@
       <view class="flex w-full">
         <view
           class="flex-1 border border-solid border-gray-500 bg-purple-300 text-white p-2"
-          >{{ item.vote }}</view
+          >{{ item.stats[0].value }}</view
         >
         <view
           class="flex-1 border border-solid border-orange-500 bg-orange-500 text-white p-2"

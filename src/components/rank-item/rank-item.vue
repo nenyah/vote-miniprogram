@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-08 15:49:57
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-11 14:39:16
+ * @LastEditTime: 2020-09-15 10:41:29
 -->
 <template>
   <view
@@ -17,7 +17,7 @@
     <navigator :url="toUrl">
       <view class="flex-1 text-center">{{ item.name }}</view>
     </navigator>
-    <view class="flex-1 text-center">{{ item.vote }}</view>
+    <view class="flex-1 text-center">{{ item.stats[0].value }}</view>
   </view>
 </template>
 

@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-08-26 16:08:15
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-15 10:21:58
+ * @LastEditTime: 2020-09-15 10:47:30
 -->
 <template>
   <view class="bg-purple">
@@ -42,7 +42,7 @@
     <!-- 项目列表区域 -->
     <vote-list :items="items" :pageType="pageType"></vote-list>
     <!-- 脚注区域 -->
-    <vote-footer></vote-footer>
+    <vote-footer :content="activity.slogan"></vote-footer>
   </view>
 </template>
 
@@ -57,6 +57,7 @@ import voteList from "@/components/vote-list/vote-list.vue"
 import voteFooter from "@/components/footer/footer.vue"
 import request from "@/utils/request"
 import { getActivity } from "@/servise/activates"
+import { getItems } from "@/servise/items";
 import { items, activities } from "@/mock/store"
 export default Vue.extend({
   data() {
@@ -74,8 +75,10 @@ export default Vue.extend({
      * 2. 下载选手信息
      * TODO: 思考做成一个接口
      */
-
+    // 1. 下载活动信息
     this._getActivity(query)
+    // 2. 下载选手信息
+    this._getItems()
   },
   methods: {
     // FIXME 获取活动信息
@@ -85,6 +88,14 @@ export default Vue.extend({
         this.activity = await getActivity(query.id)
       } catch (error) {
         this.activity = activities[query.id]
+      }
+    },
+    async _getItems() {
+      console.log("下载项目")
+      try {
+        this.items = await getItems(0)
+      } catch (error) {
+        this.items = items
       }
     },
   },

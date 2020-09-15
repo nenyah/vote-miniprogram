@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-08 09:23:10
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-11 15:36:20
+ * @LastEditTime: 2020-09-15 10:30:42
 -->
 <template>
   <view class="flex search-box border-img my-2">
@@ -12,7 +12,7 @@
         <input
           type="text"
           class="keyword form-control pl-2"
-          placeholder="搜索编号、参与项目"
+          :placeholder="placeholder"
         />
         <view class="flex items-center" style="background:#3945ad;">
           <view class="fa fa-search text-orange-500 pr-2"></view>
@@ -25,6 +25,9 @@
 <script lang="ts">
 import Vue from "vue"
 export default Vue.extend({
+  props: {
+    placeholder: { type: String, default: "搜索编号、项目名称" },
+  },
   data() {
     return {}
   },
