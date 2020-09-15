@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-08-26 16:08:15
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-14 16:51:37
+ * @LastEditTime: 2020-09-15 10:21:58
 -->
 <template>
   <view class="bg-purple">
@@ -20,7 +20,7 @@
     <!-- 规则区域 -->
     <view class="bg-color pt-4">
       <!-- 活动规则 -->
-      <vote-rule :acitivity="acitivity"></vote-rule>
+      <vote-rule :activity="activity"></vote-rule>
       <!-- 活动详情 -->
       <view class="text-white flex px-4">
         <view class="attr">

@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-08 14:28:34
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-14 16:46:00
+ * @LastEditTime: 2020-09-15 10:22:37
 -->
 <template>
   <view class="mt-5 pt-8 z-20 mb-2 px-4 text-gray-200 -t-10">
@@ -32,9 +32,9 @@
         活动规则：
       </view>
       <view class="flex-1 text-gray-500 text-left">
-        每个微信号每天可以投{{ acitivity.rule[0].value }}票（每天可为同一选手投
-        {{ acitivity.rule[1].value }}
-        票）。
+        每个微信号每天可以投{{
+          activity.rule[0].value
+        }}票（每天可为同一选手投{{ activity.rule[1].value }}票）。
       </view>
     </view>
   </view>
@@ -52,6 +52,9 @@ export default Vue.extend({
     return {
       title: "活动规则",
     }
+  },
+  mounted() {
+    console.log(this.activity)
   },
   onLoad() {},
   methods: {},
