@@ -118,11 +118,15 @@ export default Vue.extend({
     let {status}: any = this.activity
     if (status === "ISCOMING") {
       this.label = "开始"
+    //  开始还有多久
+      let beforeStart = moment.duration(now.diff(startTime))
+      console.log(beforeStart)
     } else if (status === "ONGOING") {
       this.label = "结束"
     } else {
       this.label = "活动已经结束"
     }
+
   },
   methods: {
     // FIXME 获取活动信息
