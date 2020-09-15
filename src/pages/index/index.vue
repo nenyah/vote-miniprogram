@@ -13,8 +13,10 @@
     <title :content="activity.name"></title>
     <!-- 统计区域 -->
     <stats :content="activity.stats">
-      <view class="mt-2 p-2 text-gray-100 text-center diff-time-box">
-        活动结束时间还有{{ lastdate }}
+      <view class="mt-2 p-2 text-gray-100 text-center diff-time-box flex justify-center">
+        活动结束时间还有
+        <uni-countdown color="#fff" background-color="" splitorColor="#fff" :day="day" :hour="hour" :minute="min"
+                       :second="sec"></uni-countdown>
       </view>
     </stats>
     <!-- 规则区域 -->
@@ -55,16 +57,21 @@ import voteRule from "@/components/vote-rule/vote-rule.vue"
 import searchBar from "@/components/search-bar/search-bar.vue"
 import voteList from "@/components/vote-list/vote-list.vue"
 import voteFooter from "@/components/footer/footer.vue"
-import request from "@/utils/request"
-import { getActivity } from "@/servise/activates"
-import { getItems } from "@/servise/items"
-import { items, activities } from "@/mock/store"
+import uniCountdown from "@/components/uni-countdown/uni-countdown.vue"
+import {getActivity} from "@/servise/activates"
+import {getItems} from "@/servise/items"
+import {activities, items} from "@/mock/store"
+import moment from "moment"
+moment().locale("cn")
 export default Vue.extend({
   data() {
     return {
       items,
       activity: {},
-      lastdate: "2天",
+      day: 0,
+      hour: 0,
+      min: 1,
+      sec: 30,
       itemType: "vote",
       display: false,
     }
@@ -73,7 +80,7 @@ export default Vue.extend({
     /**
      * 1. 下载活动信息 通过活动列表页传入的id筛选
      * 2. 下载选手信息
-     * TODO: 思考做成一个接口
+     * TODO: 处理倒记时
      */
     // 1. 下载活动信息
     this._getActivity(query)
@@ -82,6 +89,16 @@ export default Vue.extend({
     // 3. 存入当前活动id
     let globalData: any = getApp().globalData
     globalData.currentActId = +query?.id
+    // 4. 计算时间
+    // 获取活动时间
+    let {startTime, endTime}: any = this.activity
+    //  获取当前时间
+
+    let now = moment()
+    startTime = moment(startTime,"YYYY-MM-DD HH:mm")
+    endTime = moment(endTime,"YYYY-MM-DD HH:mm")
+    console.log(`now:${now}, startTime:${startTime}, endTime:${endTime}`)
+
   },
   methods: {
     // FIXME 获取活动信息
@@ -110,6 +127,7 @@ export default Vue.extend({
     searchBar,
     voteList,
     voteFooter,
+    uniCountdown,
   },
 })
 </script>
@@ -123,6 +141,7 @@ export default Vue.extend({
   border: none;
   border-radius: 0;
 }
+
 .bg-color {
   background-image: $rule-bg-base64-code;
   background-size: 100%;

@@ -11,12 +11,15 @@
     <title></title>
     <!-- 统计票数 -->
     <stats :content="getStats" :isDetail="true">
-      <view
-        class="text-2xl text-gray-100 font-bold w-full text-center mt-4"
-        @click="handleVote(arg, $event)"
+      <button
+          class="text-2xl text-gray-100 font-bold w-full text-center mt-4"
+          open-type="getUserInfo"
+          @getuserinfo="getuserinfo"
+          withCredentials="true"
+          hover-class="none"
       >
         投票
-      </view>
+      </button>
     </stats>
     <!-- 选手详情 -->
     <sub-title :content="title1"></sub-title>
@@ -34,8 +37,8 @@
     <!-- 帮我拉票 -->
     <view class="text-center">
       <view
-        class="inline-block text-gray-100 text-xl my-2 p-2 border-r-0 border-l-0 border-t-0 border-b-2 border-solid border-orange-500"
-        @click="share"
+          class="inline-block text-gray-100 text-xl my-2 p-2 border-r-0 border-l-0 border-t-0 border-b-2 border-solid border-orange-500"
+          @click="share"
       >
         帮我拉票
       </view>
@@ -43,13 +46,13 @@
 
     <!-- 返回 -->
     <navigator
-      url="/pages/index/index"
-      open-type="switchTab"
-      hover-class="other-navigator-hover"
+        :url="'/pages/index/index?id='+actId"
+        open-type="reLaunch"
+        hover-class="other-navigator-hover"
     >
       <view class="text-center">
         <view
-          class="inline-block text-gray-100 text-xl my-2 p-2 border-r-0 border-l-0 border-t-0 border-b-2 border-solid border-orange-500"
+            class="inline-block text-gray-100 text-xl my-2 p-2 border-r-0 border-l-0 border-t-0 border-b-2 border-solid border-orange-500"
         >
           返回
         </view>
@@ -68,13 +71,15 @@ import voteItem from "@/components/vote-item/vote-item.vue"
 import voteFooter from "@/components/footer/footer.vue"
 import subTitle from "@/components/sub-title/sub-title.vue"
 import detailVideo from "@/components/detail-video/detail-video.vue"
-import { items } from "@/mock/store"
-import { Iitem, Iinfo } from "@/common/interface"
+import {items} from "@/mock/store"
+import {Iinfo, Iitem} from "@/common/interface"
+
 export default Vue.extend({
   data() {
     return {
       items,
       id: 0,
+      actId: 0,
       item: <Iitem>{},
       title1: "选手详情",
       title2: "选手风采",
@@ -83,10 +88,14 @@ export default Vue.extend({
   },
   onLoad(query) {
     console.log(query)
-
+    // 保存活动id
+    const {currentActId}: any = getApp().globalData
+    this.actId = currentActId
+    // 筛选item
     this.id = +query?.id || 1
     let [item] = this.items.filter((el) => el.id === this.id)
     this.item = <Iitem>item
+    // 设置标题
     uni.setNavigationBarTitle({
       title: `我是${this.id}号，${this.item?.name}, 正在参加伊婉你最美`,
     })
@@ -109,12 +118,29 @@ export default Vue.extend({
   },
   methods: {
     // TODO：生成分享海报
-    share() {},
+    share() {
+      console.log("帮我拉票")
+    },
     // TODO：处理投票
     handleVote() {
       console.log("投票")
     },
-  },
+    getuserinfo: () => {
+      uni.login({
+        provider: "weixin",
+        success: loginRes => {
+          console.log(loginRes)
+          // 获取用户信息
+          uni.getUserInfo({
+            provider: "weixin",
+            success: infoRes => {
+              console.log("用户信息为：",infoRes)
+            }
+          })
+        }
+      })
+    },
+  }
 })
 </script>
 
