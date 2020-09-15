@@ -7,7 +7,7 @@
 -->
 <template>
   <view class="text-gray-100">
-    <view v-if="!isIndex">
+    <view v-if="!isVoteItem">
       <view class="flex w-4-5 px-2 m-auto text-orange-500 text-center">
         <view class="flex-1">排名</view>
         <view class="flex-1">编号</view>
@@ -16,7 +16,7 @@
       </view>
     </view>
 
-    <view class="flex flex-row flex-wrap w-full justify-center" v-if="isIndex">
+    <view class="flex flex-row flex-wrap w-full justify-center" v-if="isVoteItem">
       <block v-for="item in items" :key="item.id">
         <vote-item
           :item="item"
@@ -45,7 +45,7 @@ export default Vue.extend({
   },
   props: {
     items: Array,
-    pageType: String,
+    itemType: String,
   },
   onLoad() {},
   methods: {
@@ -57,8 +57,8 @@ export default Vue.extend({
     voteItem,
   },
   computed: {
-    isIndex(): Boolean {
-      return this.pageType === "index"
+    isVoteItem(): Boolean {
+      return this.itemType === "vote"
     },
   },
 })

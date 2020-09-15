@@ -3,10 +3,11 @@
  * @Author: Steven
  * @Date: 2020-08-26 16:08:15
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-09 09:54:18
+ * @LastEditTime: 2020-09-15 11:25:46
 -->
 <script lang="ts">
 import Vue from "vue"
+
 export default Vue.extend({
   mpType: "app",
   onLaunch() {
@@ -20,6 +21,10 @@ export default Vue.extend({
   },
   globalData: {
     baseurl: "huadongio.com",
+    activities: [],
+    currentActId: 0,
+    items: [],
+    currentItemId: 0,
   },
 })
 </script>

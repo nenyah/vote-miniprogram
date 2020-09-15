@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-08-26 16:08:15
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-15 10:47:30
+ * @LastEditTime: 2020-09-15 13:25:05
 -->
 <template>
   <view class="bg-purple">
@@ -40,7 +40,7 @@
     <!-- 搜索区域 -->
     <search-bar></search-bar>
     <!-- 项目列表区域 -->
-    <vote-list :items="items" :pageType="pageType"></vote-list>
+    <vote-list :items="items" :itemType="itemType"></vote-list>
     <!-- 脚注区域 -->
     <vote-footer :content="activity.slogan"></vote-footer>
   </view>
@@ -57,7 +57,7 @@ import voteList from "@/components/vote-list/vote-list.vue"
 import voteFooter from "@/components/footer/footer.vue"
 import request from "@/utils/request"
 import { getActivity } from "@/servise/activates"
-import { getItems } from "@/servise/items";
+import { getItems } from "@/servise/items"
 import { items, activities } from "@/mock/store"
 export default Vue.extend({
   data() {
@@ -65,7 +65,7 @@ export default Vue.extend({
       items,
       activity: {},
       lastdate: "2天",
-      pageType: "index",
+      itemType: "vote",
       display: false,
     }
   },
@@ -79,6 +79,9 @@ export default Vue.extend({
     this._getActivity(query)
     // 2. 下载选手信息
     this._getItems()
+    // 3. 存入当前活动id
+    let globalData: any = getApp().globalData
+    globalData.currentActId = +query?.id
   },
   methods: {
     // FIXME 获取活动信息

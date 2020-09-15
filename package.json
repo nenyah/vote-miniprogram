@@ -53,6 +53,7 @@
     "@dcloudio/uni-quickapp-native": "^2.0.0-28820200820001",
     "@dcloudio/uni-quickapp-webview": "^2.0.0-28820200820001",
     "@dcloudio/uni-stat": "^2.0.0-28820200820001",
+    "@types/weixin-app": "^2.9.1",
     "@vue/shared": "^3.0.0-rc.4",
     "core-js": "^3.6.5",
     "flyio": "^0.6.2",

@@ -3,23 +3,23 @@
  * @Author: Steven
  * @Date: 2020-09-14 09:15:23
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-15 10:50:03
+ * @LastEditTime: 2020-09-15 13:22:00
 -->
 <template>
   <view class="text-gray-900 p-2">
     <view
-      v-for="activity in activities"
-      :key="activity.id"
-      class="my-2 text-center text-gray-500 rounded shadow"
+        v-for="activity in activities"
+        :key="activity.id"
+        class="my-2 text-center text-gray-500 rounded shadow"
     >
       <navigator
-        :url="'/pages/index/index?id=' + activity.id"
-        open-type="reLaunch"
+          :url="'/pages/index/index?id=' + activity.id"
+          open-type="reLaunch"
       >
         <image
-          :src="activity.bannerImg[0]"
-          mode="widthFix"
-          class="rounded rounded-b-none w-full"
+            :src="activity.bannerImg[0]"
+            mode="widthFix"
+            class="rounded rounded-b-none w-full"
         ></image>
         <view class="p-2 text-left">
           <view>{{ activity.name }}</view>
@@ -40,27 +40,26 @@
 
 <script lang="ts">
 import Vue from "vue"
-import { activities } from "@/mock/store"
-import { getActivities } from "@/servise/activates"
+import {activities} from "@/mock/store"
+import {getActivities} from "@/servise/activates"
+
 export default Vue.extend({
   data() {
     return {
       activities,
+      userInfo: {},
     }
   },
 
   onLoad() {
-    // 1. 获取授权用户信息
-    // 2. 服务器接口获取活动信息
-    // 3. 用户信息，活动信息存入globaldata
-    // 4. 跳转投票首页参数传入活动id
-    this._getUserInfo()
+    // 1. 服务器接口获取活动信息
+    // 2. 活动信息存入globaldata
+    // 3. 跳转投票首页参数传入活动id
     this._getActivities()
+    let globalData: any = getApp().globalData
+    globalData.activities = this.activities
   },
   methods: {
-    // FIXME 获取授权用户信息
-    _getUserInfo() {
-    },
     // 获取活动信息
     async _getActivities() {
       try {
