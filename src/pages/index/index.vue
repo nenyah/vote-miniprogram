@@ -13,11 +13,14 @@
     <title :content="activity.name"></title>
     <!-- 统计区域 -->
     <stats :content="activity.stats">
-      <view class="mt-2 p-2 text-gray-100 text-center diff-time-box flex justify-center">
-        活动结束时间还有
-        <uni-countdown color="#fff" background-color="" splitorColor="#fff" :day="day" :hour="hour" :minute="min"
-                       :second="sec"></uni-countdown>
-      </view>
+      <block v-if="!activity.status==='ENDED'">
+        <view class="mt-2 p-2 text-gray-100 text-center diff-time-box flex justify-center">
+          {{ msg }}
+          <uni-countdown color="#fff" background-color="" splitorColor="#fff" :day="day" :hour="hour" :minute="min"
+                         :second="sec"></uni-countdown>
+        </view>
+      </block>
+      <block v-else>{{ msg }}</block>
     </stats>
     <!-- 规则区域 -->
     <view class="bg-color pt-4">
@@ -62,7 +65,8 @@ import {getActivity} from "@/servise/activates"
 import {getItems} from "@/servise/items"
 import {activities, items} from "@/mock/store"
 import moment from "moment"
-moment().locale("cn")
+
+moment().locale("zh-cn")
 export default Vue.extend({
   data() {
     return {
@@ -74,6 +78,7 @@ export default Vue.extend({
       sec: 30,
       itemType: "vote",
       display: false,
+      msg: "活动已经结束",
     }
   },
   async onLoad(query) {
@@ -83,20 +88,26 @@ export default Vue.extend({
      * TODO: 处理倒记时
      */
     // 1. 下载活动信息
-    this._getActivity(query)
+    await this._getActivity(query)
     // 2. 下载选手信息
-    this._getItems()
+    await this._getItems()
     // 3. 存入当前活动id
     let globalData: any = getApp().globalData
     globalData.currentActId = +query?.id
     // 4. 计算时间
     // 获取活动时间
-    let {startTime, endTime}: any = this.activity
+    let {startTime, endTime, status}: any = this.activity
     //  获取当前时间
 
     let now = moment()
-    startTime = moment(startTime,"YYYY-MM-DD HH:mm")
-    endTime = moment(endTime,"YYYY-MM-DD HH:mm")
+    startTime = moment(startTime)
+    endTime = moment(endTime)
+    // 根据状态显示不同内容
+    if (status === "ISCOMING") {
+      this.msg = "活动开始还有"
+    } else if (status === "ONGOING") {
+      this.msg = "活动结束还有"
+    }
     console.log(`now:${now}, startTime:${startTime}, endTime:${endTime}`)
 
   },

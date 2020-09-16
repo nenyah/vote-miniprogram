@@ -12,6 +12,15 @@ export default Vue.extend({
   mpType: "app",
   onLaunch() {
     console.log("App Launch")
+    uni.login({
+      provider: "weixin",
+      success: loginRes => {
+        console.log(loginRes.authResult)
+      },
+      fail: err => {
+        console.error(err)
+      }
+    })
   },
   onShow() {
     console.log("App Show")
