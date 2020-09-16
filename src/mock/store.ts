@@ -207,8 +207,8 @@ export const activities: Array<Iactivity> = [
     bannerImg: [
       "https://www.huotoupiao.com/assets/www/ActivityPc2/img/tem2.jpg",
     ], //广告图片
-    startTime: "2020-09-15 01:00", //开始时间
-    endTime: "2020-12-01 01:00", //结束时间
+    startTime: "2020-09-15 00:00", //开始时间
+    endTime: "2020-10-11 00:00", //结束时间
     rule: [
       {
         name: "每个微信号每天可以投",
@@ -250,8 +250,8 @@ export const activities: Array<Iactivity> = [
     bannerImg: [
       "https://www.huotoupiao.com/assets/www/ActivityPc2/img/tem2.jpg",
     ], //广告图片
-    startTime: "2020-09-01 01:00", //开始时间
-    endTime: "2020-09-14 01:00", //结束时间
+    startTime: "2020-09-01 00:00", //开始时间
+    endTime: "2020-09-15 00:00", //结束时间
     rule: [
       {
         name: "每个微信号每天可以投",
@@ -275,15 +275,15 @@ export const activities: Array<Iactivity> = [
     stats: [
       {
         name: "参与人数",
-        value: 0,
+        value: 100,
       },
       {
         name: "累计票数",
-        value: 0,
+        value: 23000,
       },
       {
         name: "累计访问",
-        value: 0,
+        value: 560000,
       },
     ], // 统计信息
   },

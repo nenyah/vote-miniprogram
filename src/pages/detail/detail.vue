@@ -29,7 +29,7 @@
     </view>
 
     <!-- 风采展示 -->
-    <sub-title :content="title2"></sub-title>
+    <sub-title v-if="item.show!==undefined" :content="title2"></sub-title>
     <detail-video></detail-video>
     <!-- 选手简介 -->
     <sub-title :content="title3"></sub-title>
@@ -134,7 +134,7 @@ export default Vue.extend({
           uni.getUserInfo({
             provider: "weixin",
             success: infoRes => {
-              console.log("用户信息为：",infoRes)
+              console.log("用户信息为：", infoRes)
             }
           })
         }

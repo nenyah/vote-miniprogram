@@ -14,23 +14,21 @@
     <!-- 统计区域 -->
     <stats :content="activity.stats">
       <view
-          class="mt-2 p-2 text-gray-100 text-center diff-time-box flex justify-center"
+        class="mt-2 p-2 text-gray-100 text-center diff-time-box flex justify-center"
       >
-        <block v-if="!(activity.status==='ENDED')">
-          活动{{ label }}时间还有
+        <block v-if="!(activity.status === 'ENDED')">
+          {{ msg }}
           <uni-countdown
-              color="#fff"
-              background-color=""
-              splitorColor="#fff"
-              :day="day"
-              :hour="hour"
-              :minute="min"
-              :second="sec"
+            color="#fff"
+            background-color=""
+            splitorColor="#fff"
+            :day="day"
+            :hour="hour"
+            :minute="min"
+            :second="sec"
           ></uni-countdown>
         </block>
-        <block v-else>
-          活动已经结束
-        </block>
+        <block v-else>{{ msg }}</block>
       </view>
     </stats>
     <!-- 规则区域 -->
@@ -72,9 +70,9 @@ import searchBar from "@/components/search-bar/search-bar.vue"
 import voteList from "@/components/vote-list/vote-list.vue"
 import voteFooter from "@/components/footer/footer.vue"
 import uniCountdown from "@/components/uni-countdown/uni-countdown.vue"
-import {getActivity} from "@/servise/activates"
-import {getItems} from "@/servise/items"
-import {activities, items} from "@/mock/store"
+import { getActivity } from "@/servise/activates"
+import { getItems } from "@/servise/items"
+import { activities, items } from "@/mock/store"
 import moment from "moment"
 
 moment().locale("zh-cn")
@@ -89,7 +87,7 @@ export default Vue.extend({
       sec: 30,
       itemType: "vote",
       display: false,
-      label: "开始",
+      msg: "活动已经结束",
     }
   },
   async onLoad(query) {
@@ -107,26 +105,20 @@ export default Vue.extend({
     globalData.currentActId = +query?.id
     // 4. 计算时间
     // 获取活动时间
-    let {startTime, endTime}: any = this.activity
+    let { startTime, endTime, status }: any = this.activity
     //  获取当前时间
     console.log(startTime, endTime)
     let now = moment()
     startTime = moment(startTime)
     endTime = moment(endTime)
-    console.log(`now:${now}, startTime:${startTime}, endTime:${endTime}`)
-    //  判断当前时间是在开始前还是进行中还是结束后
-    let {status}: any = this.activity
+    let duration = moment.duration(now.diff(startTime))
+    // 根据状态显示不同内容
     if (status === "ISCOMING") {
-      this.label = "开始"
-    //  开始还有多久
-      let beforeStart = moment.duration(now.diff(startTime))
-      console.log(beforeStart)
+      this.msg = "活动开始还有"
     } else if (status === "ONGOING") {
-      this.label = "结束"
-    } else {
-      this.label = "活动已经结束"
+      this.msg = "活动结束还有"
     }
-
+    console.log(`now:${now}, startTime:${startTime}, endTime:${endTime}`)
   },
   methods: {
     // FIXME 获取活动信息
