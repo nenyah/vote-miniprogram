@@ -13,14 +13,14 @@
     <title :content="activity.name"></title>
     <!-- 统计区域 -->
     <stats :content="activity.stats">
-      <block v-if="!activity.status==='ENDED'">
-        <view class="mt-2 p-2 text-gray-100 text-center diff-time-box flex justify-center">
+      <view class="mt-2 p-2 text-gray-100 text-center diff-time-box flex justify-center">
+        <block v-if="!(activity.status==='ENDED')">
           {{ msg }}
           <uni-countdown color="#fff" background-color="" splitorColor="#fff" :day="day" :hour="hour" :minute="min"
                          :second="sec"></uni-countdown>
-        </view>
-      </block>
-      <block v-else>{{ msg }}</block>
+        </block>
+        <block v-else>{{ msg }}</block>
+      </view>
     </stats>
     <!-- 规则区域 -->
     <view class="bg-color pt-4">
@@ -102,14 +102,15 @@ export default Vue.extend({
     let now = moment()
     startTime = moment(startTime)
     endTime = moment(endTime)
+    let duration = moment.duration(now.diff(startTime))
     // 根据状态显示不同内容
     if (status === "ISCOMING") {
       this.msg = "活动开始还有"
+
     } else if (status === "ONGOING") {
       this.msg = "活动结束还有"
     }
     console.log(`now:${now}, startTime:${startTime}, endTime:${endTime}`)
-
   },
   methods: {
     // FIXME 获取活动信息
@@ -129,6 +130,7 @@ export default Vue.extend({
         this.items = items
       }
     },
+
   },
   components: {
     banner,

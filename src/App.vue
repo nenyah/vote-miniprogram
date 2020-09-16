@@ -15,10 +15,10 @@ export default Vue.extend({
     uni.login({
       provider: "weixin",
       success: loginRes => {
-        console.log(loginRes.authResult)
+        console.log("微信登录返回信息", loginRes)
       },
       fail: err => {
-        console.error(err)
+        console.error("微信登录错误信息", err)
       }
     })
   },
