@@ -36,12 +36,14 @@
           class="flex-1 border border-solid border-gray-500 bg-purple-300 text-white p-2"
           >{{ item.stats[0].value }}</view
         >
-        <view
-          class="flex-1 border border-solid border-orange-500 bg-orange-500 text-white p-2"
-          @click="vote"
-        >
-          投票
-        </view>
+        <vote-button>
+          <view
+            class="flex-1 border border-solid border-orange-500 bg-orange-500 text-white p-2"
+            @click="vote"
+          >
+            投票
+          </view>
+        </vote-button>
       </view>
     </view>
   </view>
@@ -49,7 +51,11 @@
 
 <script lang="ts">
 import Vue from "vue"
+import voteButton from "@/components/vote-button/vote-button.vue"
 export default Vue.extend({
+  components: {
+    voteButton,
+  },
   data() {
     return {}
   },

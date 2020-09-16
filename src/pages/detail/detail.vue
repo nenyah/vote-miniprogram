@@ -135,6 +135,18 @@ export default Vue.extend({
             provider: "weixin",
             success: infoRes => {
               console.log("用户信息为：", infoRes)
+              //TODO: 传值给后端
+              uni.showToast({
+                title: "投票成功！",
+                icon: "success"
+              })
+            },
+            fail: err => {
+              console.error("获取用户信息失败", err)
+              uni.showToast({
+                title: `获取用户信息失败，没法进行投票哦！`,
+                icon: "none"
+              })
             }
           })
         }

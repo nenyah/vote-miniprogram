@@ -1,9 +1,15 @@
 {
   "pages": [
     {
-      "path": "pages/home/home",
+      "path": "pages/login/login",
       "style": {
         "navigationBarTitleText": "微投票"
+      }
+    },
+    {
+      "path": "pages/home/home",
+      "style": {
+        "navigationBarTitleText": "婉美投票"
       }
     },
     {
