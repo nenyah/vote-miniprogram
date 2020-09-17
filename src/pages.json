@@ -1,9 +1,9 @@
 {
   "pages": [
     {
-      "path": "pages/login/login",
+      "path": "pages/test/test",
       "style": {
-        "navigationBarTitleText": "微投票"
+        "navigationBarTitleText": "婉美投票"
       }
     },
     {
@@ -34,6 +34,12 @@
       "path": "pages/detail/detail",
       "style": {
         "navigationBarTitleText": "我是1号，正在参加活动名称"
+      }
+    },
+    {
+      "path": "pages/login/login",
+      "style": {
+        "navigationBarTitleText": "微投票"
       }
     }
   ],
