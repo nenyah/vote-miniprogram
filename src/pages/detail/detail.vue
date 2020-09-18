@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-08 08:48:06
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-17 16:37:59
+ * @LastEditTime: 2020-09-18 13:42:14
 -->
 <template>
   <view class="bg-purple">
@@ -163,6 +163,7 @@ export default Vue.extend({
           arcY: 0, // 圆的y坐标
           arcR: 0, // 圆的半径
         },
+      ],
     }
   },
   onLoad(query) {
@@ -212,14 +213,13 @@ export default Vue.extend({
       //     url: `/pages/index/index`,
       //   })
     },
-    saveHttpImg: (url: string) => {
-      let _t: any = this
+    saveHttpImg(url: string): void {
       uni.downloadFile({
         url: url, //仅为示例，并非真实的资源
         success: (res) => {
           if (res.statusCode === 200) {
             let file = res.tempFilePath
-            _t.save(file)
+            this.save(file)
           }
         },
       })

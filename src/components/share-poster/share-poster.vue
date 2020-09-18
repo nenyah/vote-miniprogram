@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-17 13:23:59
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-17 16:57:40
+ * @LastEditTime: 2020-09-18 13:40:18
 -->
 <template>
   <view class="page">
@@ -110,19 +110,18 @@ export default Vue.extend({
       // 网络图片需要先进行下载然后直接保存到相册
       // this.saveHttpImg(e);
       // 本地图片可以直接保存到相册
-    //   this.save(e)
-    //   uni.redirectTo({
-    //     url: `/pages/index/index`,
-    //   })
+      //   this.save(e)
+      //   uni.redirectTo({
+      //     url: `/pages/index/index`,
+      //   })
     },
-    saveHttpImg: (url: string) => {
-      let _t: any = <any>this
+    saveHttpImg(url: string): void {
       uni.downloadFile({
         url: url, //仅为示例，并非真实的资源
         success: (res) => {
           if (res.statusCode === 200) {
             let file = res.tempFilePath
-            _t.save(file)
+            this.save(file)
           }
         },
       })
