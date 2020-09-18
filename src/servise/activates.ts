@@ -3,28 +3,21 @@
  * @Author: Steven
  * @Date: 2020-09-14 15:04:38
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-14 15:39:59
+ * @LastEditTime: 2020-09-18 14:56:25
  */
 import { Iactivity } from "@/common/interface"
 import request from "@/utils/request"
+import config from "@/common/config"
 /**
  * 获取所有活动
  * @param page 当前页
  */
-export const getActivities = (page: number) => {
+export const getActivities = (pageNo: number = 1) => {
   return <Promise<Iactivity> | Promise<any>>request({
-    url: "/activaties",
+    url: `${config}/weixin/activity`,
     data: {
-      page,
+      pageNo,
+      pageSize: 10,
     },
-  })
-}
-/**
- * 获取指定活动信息
- * @param id 活动id
- */
-export const getActivity = (id: number) => {
-  return request({
-    url: `/activities/${id}`,
   })
 }

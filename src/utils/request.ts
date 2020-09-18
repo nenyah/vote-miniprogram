@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-11 08:52:11
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-14 16:20:48
+ * @LastEditTime: 2020-09-18 15:05:57
  */
 interface IParams {
   url: string
@@ -19,6 +19,8 @@ export default (params: IParams) => {
   })
   return new Promise(
     (resolve: (value: any) => void, reject: (value: any) => void) => {
+      console.log(`正在请求：${params.url}`)
+
       uni.request({
         ...params,
         success(res) {

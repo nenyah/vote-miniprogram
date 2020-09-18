@@ -3,26 +3,26 @@
  * @Author: Steven
  * @Date: 2020-09-14 09:15:23
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-15 13:22:00
+ * @LastEditTime: 2020-09-18 16:24:45
 -->
 <template>
   <view class="text-gray-900 p-2">
     <view
-        v-for="activity in activities"
-        :key="activity.id"
-        class="my-2 text-center text-gray-500 rounded shadow"
+      v-for="activity in activities"
+      :key="activity.id"
+      class="my-2 text-center text-gray-500 rounded shadow"
     >
       <navigator
-          :url="'/pages/index/index?id=' + activity.id"
-          open-type="reLaunch"
+        :url="'/pages/index/index?id=' + activity.id"
+        open-type="reLaunch"
       >
         <image
-            :src="activity.bannerImg[0]"
-            mode="widthFix"
-            class="rounded rounded-b-none w-full"
+          :src="activity.bannerImg.split(',')[0]"
+          mode="aspectFill"
+          class="rounded rounded-b-none w-full h-24"
         ></image>
         <view class="p-2 text-left">
-          <view>{{ activity.name }}</view>
+          <view class="text-gray-900">{{ activity.name }}</view>
           <view class="flex items-center">
             <view class="fa fa-group mr-1 text-red-300 text-center"></view>
             <view>{{ activity.stats[0].value }}人参与，已投票：</view>
@@ -30,7 +30,9 @@
           </view>
           <view class="flex items-center">
             <view class="fa fa-clock-o mr-1 text-red-300 text-center"></view>
-            <view>{{ activity.endTime }} 结束</view>
+            <view>
+              {{ activity.endTime.substr(0, 16).replace("T", " ") }} 结束
+            </view>
           </view>
         </view>
       </navigator>
@@ -40,8 +42,8 @@
 
 <script lang="ts">
 import Vue from "vue"
-import {activities} from "@/mock/store"
-import {getActivities} from "@/servise/activates"
+import { activities } from "@/mock/store"
+import { getActivities } from "@/servise/activates"
 
 export default Vue.extend({
   data() {
@@ -51,11 +53,11 @@ export default Vue.extend({
     }
   },
 
-  onLoad() {
+  async onLoad() {
     // 1. 服务器接口获取活动信息
     // 2. 活动信息存入globaldata
     // 3. 跳转投票首页参数传入活动id
-    this._getActivities()
+    await this._getActivities()
     let globalData: any = getApp().globalData
     globalData.activities = this.activities
   },
@@ -63,7 +65,9 @@ export default Vue.extend({
     // 获取活动信息
     async _getActivities() {
       try {
-        this.activities = await getActivities(0)
+        let { data }: any = await getActivities(1)
+        console.log("成功获取活动信息", data)
+        this.activities = data.data
       } catch (error) {
         console.error(error)
         this.activities = activities

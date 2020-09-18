@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-08-26 16:08:15
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-15 13:25:05
+ * @LastEditTime: 2020-09-18 14:58:47
 -->
 <template>
   <view class="bg-purple">
@@ -70,7 +70,6 @@ import searchBar from "@/components/search-bar/search-bar.vue"
 import voteList from "@/components/vote-list/vote-list.vue"
 import voteFooter from "@/components/footer/footer.vue"
 import uniCountdown from "@/components/uni-countdown/uni-countdown.vue"
-import { getActivity } from "@/servise/activates"
 import { getItems } from "@/servise/items"
 import { activities, items } from "@/mock/store"
 import moment from "moment"
@@ -124,11 +123,7 @@ export default Vue.extend({
     // FIXME 获取活动信息
     async _getActivity(query: any) {
       console.log("query", query)
-      try {
-        this.activity = await getActivity(query.id)
-      } catch (error) {
-        this.activity = activities[query.id]
-      }
+      this.activity = activities[query.id]
     },
     async _getItems() {
       console.log("下载项目")

@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-14 09:15:22
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-14 15:28:09
+ * @LastEditTime: 2020-09-18 14:45:03
  */
 import { Iinfo } from "./interface"
 // 活动规则
@@ -51,3 +51,15 @@ export const itemStats: Array<Iinfo> = [
     value: 0,
   },
 ]
+
+let url_config = ""
+
+if (process.env.NODE_ENV === "development") {
+  // 开发环境
+  url_config = "http://192.168.0.175:9003/"
+} else {
+  // 生产环境
+  url_config = "https://*****.com/"
+}
+
+export default url_config
