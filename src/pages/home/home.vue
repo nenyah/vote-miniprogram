@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-14 09:15:23
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-18 16:24:45
+ * @LastEditTime: 2020-09-18 16:55:26
 -->
 <template>
   <view class="text-gray-900 p-2">
@@ -17,7 +17,7 @@
         open-type="reLaunch"
       >
         <image
-          :src="activity.bannerImg.split(',')[0]"
+          :src="formatUrl(activity)"
           mode="aspectFill"
           class="rounded rounded-b-none w-full h-24"
         ></image>
@@ -71,6 +71,13 @@ export default Vue.extend({
       } catch (error) {
         console.error(error)
         this.activities = activities
+      }
+    },
+  },
+  computed: {
+    formatUrl(): any {
+      return (params: string) => {
+        return (params as any).bannerImg.split(",")[0]
       }
     },
   },
