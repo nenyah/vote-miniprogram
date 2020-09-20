@@ -20,9 +20,12 @@ export default (params: IParams) => {
   return new Promise(
     (resolve: (value: any) => void, reject: (value: any) => void) => {
       console.log(`正在请求：${params.url}`)
-
-      uni.request({
+      let defaultParams = {
+        timeout: 500,
         ...params,
+      }
+      uni.request({
+        ...defaultParams,
         success(res) {
           resolve(res)
         },

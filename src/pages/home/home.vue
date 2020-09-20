@@ -44,6 +44,7 @@
 import Vue from "vue"
 import { activities } from "@/mock/store"
 import { getActivities } from "@/servise/activates"
+import { Iactivity } from "@/common/interface"
 
 export default Vue.extend({
   data() {
@@ -57,7 +58,9 @@ export default Vue.extend({
     // 1. 服务器接口获取活动信息
     // 2. 活动信息存入globaldata
     // 3. 跳转投票首页参数传入活动id
-    await this._getActivities()
+    console.log("home load")
+
+    this.activities = await this._getActivities()
     let globalData: any = getApp().globalData
     globalData.activities = this.activities
   },
@@ -67,17 +70,17 @@ export default Vue.extend({
       try {
         let { data }: any = await getActivities(1)
         console.log("成功获取活动信息", data)
-        this.activities = data.data
+        return data.data
       } catch (error) {
-        console.error(error)
-        this.activities = activities
+        console.error("远程获取活动信息失败", error)
+        return activities
       }
     },
   },
   computed: {
-    formatUrl(): any {
-      return (params: string) => {
-        return (params as any).bannerImg.split(",")[0]
+    formatUrl(): (params: Iactivity) => string {
+      return (params: Iactivity) => {
+        return params.bannerImg[0]
       }
     },
   },
