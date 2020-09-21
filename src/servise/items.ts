@@ -3,27 +3,34 @@
  * @Author: Steven
  * @Date: 2020-09-14 15:04:50
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-14 15:20:50
+ * @LastEditTime: 2020-09-21 12:20:56
  */
 import request from "@/utils/request"
-/**
- * 获取所有项目
- * @param page 当前页
- */
-export const getItems = (page: number) => {
-  return request({
-    url: "/items",
-    data: {
-      page,
-    },
-  })
+import config from "@/common/config"
+
+type PageNo = number
+type PageSize = number
+type Code = string
+type Name = string
+type ActivityId = number
+type CategoryId = number
+interface Iparams {
+  pageNo?: PageNo
+  pageSize?: PageSize
+  code?: Code
+  name?: Name
+  activityId: ActivityId
+  categoryId?: CategoryId
 }
 /**
- * 获取指定id项目
- * @param id 项目id
+ * 
+ * @param params Iparams
  */
-export const getItem = (id: number) => {
+export const getItems = (params: Iparams) => {
   return request({
-    url: `/items/${id}`,
+    url: `${config}weixin/item`,
+    data: {
+      ...params,
+    },
   })
 }

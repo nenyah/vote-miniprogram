@@ -3,14 +3,14 @@
  * @Author: Steven
  * @Date: 2020-09-08 09:24:24
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-15 10:40:30
+ * @LastEditTime: 2020-09-21 12:35:47
 -->
 <template>
   <view
     class="flex flex-col flex-1 text-center justify-center border border-solid border-gray-600 bg-purple-100 m-2 p-2 border-img"
     :class="customWidth"
   >
-    <view class="text-gray-500 my-1">{{ item.id }} 号</view>
+    <view class="text-gray-500 my-1">{{ item.code }} 号</view>
     <navigator v-if="index" :url="toUrl">
       <image
         :src="item.img"

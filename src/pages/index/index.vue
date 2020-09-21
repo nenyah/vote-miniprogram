@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-08-26 16:08:15
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-18 14:58:47
+ * @LastEditTime: 2020-09-21 12:44:11
 -->
 <template>
   <view class="bg-purple">
@@ -48,7 +48,7 @@
       </view>
       <!-- 详情描述 -->
       <view v-if="display" class="my-3 text-gray-100 px-4">
-        {{ activity.desc }}
+        {{ activity.description }}
       </view>
     </view>
     <!-- 搜索区域 -->
@@ -73,8 +73,13 @@ import uniCountdown from "@/components/uni-countdown/uni-countdown.vue"
 import { getItems } from "@/servise/items"
 import { activities, items } from "@/mock/store"
 import moment from "moment"
+import { Iactivity } from "@/common/interface"
 
 moment().locale("zh-cn")
+
+interface Query {
+  id: number
+}
 export default Vue.extend({
   data() {
     return {
@@ -96,9 +101,9 @@ export default Vue.extend({
      * TODO: 处理倒记时
      */
     // 1. 下载活动信息
-    await this._getActivity(query)
+    await this._getActivity(query as Query)
     // 2. 下载选手信息
-    await this._getItems()
+    await this._getItems(query as Query)
     // 3. 存入当前活动id
     let globalData: any = getApp().globalData
     globalData.currentActId = +query?.id
@@ -111,9 +116,12 @@ export default Vue.extend({
     startTime = moment(startTime)
     endTime = moment(endTime)
     let duration = moment.duration(now.diff(startTime))
+    console.log("时长：", duration)
+
     // 根据状态显示不同内容
     if (status === "ISCOMING") {
       this.msg = "活动开始还有"
+      // 判断有没有天
     } else if (status === "ONGOING") {
       this.msg = "活动结束还有"
     }
@@ -121,14 +129,26 @@ export default Vue.extend({
   },
   methods: {
     // FIXME 获取活动信息
-    async _getActivity(query: any) {
+    async _getActivity(query: Query) {
       console.log("query", query)
-      this.activity = activities[query.id]
+      let globalData: any = getApp().globalData
+      if (globalData?.activities) {
+        this.activity = globalData.activities.filter(
+          (el: Iactivity) => el.id === query.id
+        )[0]
+      } else {
+        this.activity = activities.filter(
+          (el: Iactivity) => el.id === query.id
+        )[0]
+      }
     },
-    async _getItems() {
+    async _getItems(query: Query) {
       console.log("下载项目")
       try {
-        this.items = await getItems(0)
+        let { data } = await getItems({ activityId: query.id })
+        console.log("获取选手信息", data.data)
+
+        this.items = data.data
       } catch (error) {
         this.items = items
       }

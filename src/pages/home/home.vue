@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-14 09:15:23
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-21 10:24:28
+ * @LastEditTime: 2020-09-21 11:26:08
 -->
 <template>
   <view class="text-gray-900 p-2">
@@ -25,8 +25,8 @@
           <view class="text-gray-900">{{ activity.name }}</view>
           <view class="flex items-center">
             <view class="fa fa-group mr-1 text-red-300 text-center"></view>
-            <view>{{ activity.stats["参与人数"] }}人参与，已投票：</view>
-            <view>{{ activity.stats["累计票数"] }}</view>
+            <view>{{ activity.stats[1].value }}人参与，已投票：</view>
+            <view>{{ activity.stats[2].value }}</view>
           </view>
           <view class="flex items-center">
             <view class="fa fa-clock-o mr-1 text-red-300 text-center"></view>

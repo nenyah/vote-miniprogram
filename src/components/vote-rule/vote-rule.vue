@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-08 14:28:34
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-15 10:35:27
+ * @LastEditTime: 2020-09-21 11:26:46
 -->
 <template>
   <view class="mt-5 pt-8 z-20 mb-2 px-4 text-gray-200 -t-10">
@@ -14,7 +14,7 @@
         活动开始：
       </view>
       <view class="flex-none text-gray-500 text-left">
-        {{ activity.startTime }}
+        {{ activity.startTime.replace("T", " ") }}
       </view>
     </view>
     <view class="flex">
@@ -23,7 +23,7 @@
         活动结束：
       </view>
       <view class="flex-none text-gray-500 text-left">
-        {{ activity.endTime }}
+        {{ activity.endTime.replace("T", " ") }}
       </view>
     </view>
     <view class="flex">

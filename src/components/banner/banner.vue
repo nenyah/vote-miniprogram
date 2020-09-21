@@ -3,13 +3,13 @@
  * @Author: Steven
  * @Date: 2020-09-08 09:21:24
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-14 16:32:46
+ * @LastEditTime: 2020-09-21 10:40:20
 -->
 <template>
   <view>
     <image
       :src="src[0]"
-      mode="aspectFit"
+      mode="aspectFill"
       style="width: 100vw; background-color: #eeeeee;"
     ></image>
   </view>

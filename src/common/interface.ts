@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-11 16:32:30
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-15 10:26:27
+ * @LastEditTime: 2020-09-21 11:31:22
  */
 
 // 属性
@@ -29,7 +29,7 @@ export interface Iitem {
   // 选手风采
   show?: string
   // 选手简介
-  desc: string
+  description: string
   // 统计信息
   stats: Iinfo[]
 }
@@ -49,7 +49,7 @@ export interface Iactivity {
   // 活动规则
   rule: Iinfo[]
   //活动描述
-  desc: string
+  description: string
   // 活动状态
   status: "ONGOING" | "ENDED" | "ISCOMING"
   // 口号，标语
