@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-08 09:24:24
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-21 12:35:47
+ * @LastEditTime: 2020-09-21 13:38:29
 -->
 <template>
   <view
@@ -82,7 +82,7 @@ export default Vue.extend({
   },
   computed: {
     toUrl(): string {
-      return `/pages/detail/detail?id=${this.item.id}`
+      return `/pages/detail/detail?id=${this.item.code}`
     },
     customWidth(): string {
       return `w-${64 / this.col}`

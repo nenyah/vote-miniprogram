@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-07 16:59:44
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-21 13:35:10
+ * @LastEditTime: 2020-09-21 14:56:02
 -->
 <template>
   <view class="bg-purple h-full pt-2 px-2">
@@ -19,19 +19,13 @@ import title from "@/components/title/title.vue"
 import voteList from "@/components/vote-list/vote-list.vue"
 import voteFooter from "@/components/footer/footer.vue"
 import { getItems } from "@/servise/items"
-import { Iactivity, Iitem } from "@/common/interface"
+import { Iactivity, Iitem, IglobalData } from "@/common/interface"
 import { items } from "@/mock/store"
 
 interface Query {
   id: number
 }
-interface GlobalData {
-  baseurl: string
-  activities: Iactivity[]
-  currentActId: number
-  items: Iitem[]
-  currentItemId: number
-}
+
 let app = getApp()
 export default Vue.extend({
   data() {
@@ -42,7 +36,7 @@ export default Vue.extend({
   },
   async onLoad() {
     // 获取全局数据
-    let currentActId = (app.globalData as GlobalData).currentActId
+    let currentActId = (app.globalData as IglobalData).currentActId
     // 下载选手信息
     await this._getItems({ id: currentActId })
   },

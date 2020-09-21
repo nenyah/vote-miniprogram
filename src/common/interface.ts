@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-11 16:32:30
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-21 11:31:22
+ * @LastEditTime: 2020-09-21 14:54:46
  */
 
 // 属性
@@ -16,8 +16,10 @@ export interface Iinfo {
 
 // 选手
 export interface Iitem {
-  // 选手编号
+  // 选手数据编号
   id: number
+  // 选手编号
+  code: string
   // 选手名称
   name: string
   // 选手图片
@@ -56,4 +58,13 @@ export interface Iactivity {
   slogan: string
   // 统计信息
   stats: Iinfo[]
+}
+// 全局数据
+export interface IglobalData {
+  baseurl: string
+  activities: Iactivity[]
+  currentActId: number
+  items: Iitem[]
+  currentItemId: number
+  openid: string
 }

@@ -3,14 +3,14 @@
  * @Author: Steven
  * @Date: 2020-09-08 08:48:06
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-18 13:42:14
+ * @LastEditTime: 2020-09-21 14:56:47
 -->
 <template>
   <view class="bg-purple">
     <!-- 标题 -->
     <title></title>
     <!-- 统计票数 -->
-    <stats :content="getStats" :isDetail="true">
+    <stats :content="item.stats" :isDetail="true">
       <button
         class="text-2xl text-gray-100 font-bold w-full text-center mt-4"
         open-type="getUserInfo"
@@ -33,7 +33,7 @@
     <detail-video></detail-video>
     <!-- 选手简介 -->
     <sub-title :content="title3"></sub-title>
-    <view class="text-gray-100 p-4">{{ item.desc }}</view>
+    <view class="text-gray-100 p-4">{{ item.description }}</view>
     <!-- 帮我拉票 -->
     <view class="text-center">
       <view
@@ -49,7 +49,6 @@
         :lists="lists"
         height="400"
         width="300"
-        showPreview
       />
     </view>
 
@@ -82,12 +81,13 @@ import subTitle from "@/components/sub-title/sub-title.vue"
 import detailVideo from "@/components/detail-video/detail-video.vue"
 import mosoweCanvasImage from "@/components/mosowe-canvas-image/mosowe-canvas-image.vue"
 import { items } from "@/mock/store"
-import { Iinfo, Iitem } from "@/common/interface"
+import { Iinfo, Iitem, Iactivity, IglobalData } from "@/common/interface"
+import { getItems } from "@/servise/items"
+import { handleVote } from "@/servise/vote"
 
 export default Vue.extend({
   data() {
     return {
-      items,
       id: 0,
       actId: 0,
       item: <Iitem>{},
@@ -166,18 +166,19 @@ export default Vue.extend({
       ],
     }
   },
-  onLoad(query) {
-    console.log(query)
+  async onLoad(query) {
+    // 打印参数
+    console.log("传入参数:", query)
     // 保存活动id
-    const { currentActId }: any = getApp().globalData
-    this.actId = currentActId
+    const globalData = getApp().globalData as IglobalData
+    this.actId = globalData.currentActId
     // 筛选item
-    this.id = +query?.id || 1
-    let [item] = this.items.filter((el) => el.id === this.id)
-    this.item = <Iitem>item
+    await this._getItem({ activityId: this.actId, code: query?.id })
     // 设置标题
     uni.setNavigationBarTitle({
-      title: `我是${this.id}号，${this.item?.name}, 正在参加伊婉你最美`,
+      title: `我是${this.id}号，${this.item?.name}, 正在参加${
+        globalData.activities[this.actId].name
+      }`,
     })
   },
   components: {
@@ -189,15 +190,20 @@ export default Vue.extend({
     detailVideo,
     mosoweCanvasImage,
   },
-  computed: {
-    getStats(): Array<Iinfo> {
-      let [item] = this.items.filter((el) => el.id === this.id)
-      console.log("item: ", item)
-
-      return item.stats
-    },
-  },
   methods: {
+    // 获取选手信息
+    async _getItem({ activityId, code }: any) {
+      try {
+        let { data } = await getItems({ activityId, code })
+        console.log("获取到信息", data.data)
+
+        this.item = data?.data[0]
+      } catch (error) {
+        console.error("远程获取数据错误")
+
+        this.item = items.filter((el) => el.code == code)[0]
+      }
+    },
     beginCanvas() {
       let child: any = this.$refs.mosoweCanvasComponents
       child.createCanvas()
@@ -252,17 +258,23 @@ export default Vue.extend({
     handleVote() {
       console.log("投票")
     },
-    getuserinfo: () => {
+    getuserinfo() {
+      let itemID = this.item?.id
       uni.login({
         provider: "weixin",
         success: (loginRes) => {
-          console.log(loginRes)
+          console.log("登录信息", loginRes)
           // 获取用户信息
           uni.getUserInfo({
             provider: "weixin",
-            success: (infoRes) => {
+            success: async (infoRes) => {
               console.log("用户信息为：", infoRes)
+
               //TODO: 传值给后端
+              await handleVote({
+                itemId: this.item.id,
+                openId: infoRes.userInfo.openId,
+              })
               uni.showToast({
                 title: "投票成功！",
                 icon: "success",

@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-14 09:15:22
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-21 11:25:04
+ * @LastEditTime: 2020-09-21 15:44:24
  */
 import { Iinfo } from "./interface"
 // 活动规则
@@ -59,7 +59,7 @@ if (process.env.NODE_ENV === "prod") {
   url_config = "http://192.168.0.175:9003/"
 } else {
   // 生产环境
-  url_config = "http://www2.huadongbio.com:9004/"
+  url_config = "https://www2.huadongbio.com:9004/"
 }
 
 export default url_config
