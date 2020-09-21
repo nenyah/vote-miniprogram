@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-07 16:59:44
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-09 16:46:30
+ * @LastEditTime: 2020-09-21 13:35:10
 -->
 <template>
   <view class="bg-purple h-full pt-2 px-2">
@@ -15,12 +15,24 @@
 
 <script lang="ts">
 import Vue from "vue"
-import { Iitem } from "@/common/interface"
-import { items } from "@/mock/store"
 import title from "@/components/title/title.vue"
 import voteList from "@/components/vote-list/vote-list.vue"
 import voteFooter from "@/components/footer/footer.vue"
+import { getItems } from "@/servise/items"
+import { Iactivity, Iitem } from "@/common/interface"
+import { items } from "@/mock/store"
 
+interface Query {
+  id: number
+}
+interface GlobalData {
+  baseurl: string
+  activities: Iactivity[]
+  currentActId: number
+  items: Iitem[]
+  currentItemId: number
+}
+let app = getApp()
 export default Vue.extend({
   data() {
     return {
@@ -28,8 +40,25 @@ export default Vue.extend({
       pageType: "rank",
     }
   },
-  onLoad() {},
-  methods: {},
+  async onLoad() {
+    // 获取全局数据
+    let currentActId = (app.globalData as GlobalData).currentActId
+    // 下载选手信息
+    await this._getItems({ id: currentActId })
+  },
+  methods: {
+    async _getItems(query: Query) {
+      console.log("下载项目")
+      try {
+        let { data } = await getItems({ activityId: query.id })
+        console.log("获取选手信息", data.data)
+
+        this.items = data.data
+      } catch (error) {
+        this.items = items
+      }
+    },
+  },
   computed: {
     sortItems(): Array<Iitem> {
       return this.items.sort(

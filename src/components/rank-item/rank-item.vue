@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-08 15:49:57
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-15 10:41:29
+ * @LastEditTime: 2020-09-21 13:36:53
 -->
 <template>
   <view
@@ -13,7 +13,7 @@
     <view class="flex justify-center flex-1 text-center">
       <view :class="top3">{{ index + 1 }}</view>
     </view>
-    <view class="flex-1 text-center">{{ item.id }}</view>
+    <view class="flex-1 text-center">{{ item.code }}</view>
     <navigator :url="toUrl">
       <view class="flex-1 text-center">{{ item.name }}</view>
     </navigator>
@@ -49,7 +49,7 @@ export default Vue.extend({
       return this.index % 2 === 0
     },
     toUrl(): string {
-      return `/pages/detail/detail?id=${this.item.id}`
+      return `/pages/detail/detail?id=${this.item.code}`
     },
   },
 })
