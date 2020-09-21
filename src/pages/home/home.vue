@@ -88,12 +88,12 @@ export default Vue.extend({
         success: async (loginRes) => {
           console.log("微信登录返回信息", loginRes)
           // 获取openid
-          // let { data } = await login({ code: loginRes.code })
-          // console.log("远程登录返回信息", data)
+          let { data } = await login({ code: loginRes.code })
+          console.log("远程登录返回信息", data)
 
           // 存入全局
           let globaldata = app.globalData as IglobalData
-          // globaldata.openid = data.openid
+          globaldata.openid = data.openId
 
           uni.getUserInfo({
             provider: "weixin",

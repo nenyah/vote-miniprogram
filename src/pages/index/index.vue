@@ -84,6 +84,7 @@ export default Vue.extend({
   data() {
     return {
       items,
+      actId: 0,
       activity: {},
       day: 0,
       hour: 0,
@@ -95,15 +96,22 @@ export default Vue.extend({
     }
   },
   async onLoad(query) {
+    uni.$on("update", (data) => {
+      console.log("监听到事件来自 update ，携带参数 msg 为：" + data.msg)
+      this._getActivity()
+      this._getItems()
+    })
     /**
      * 1. 下载活动信息 通过活动列表页传入的id筛选
      * 2. 下载选手信息
      * TODO: 处理倒记时
      */
+    // 1. 记录传入参数
+    this.actId = query?.id
     // 1. 下载活动信息
-    await this._getActivity(query as Query)
+    await this._getActivity()
     // 2. 下载选手信息
-    await this._getItems(query as Query)
+    await this._getItems()
     // 3. 存入当前活动id
     let globalData: any = getApp().globalData
     globalData.currentActId = +query?.id
@@ -127,25 +135,29 @@ export default Vue.extend({
     }
     console.log(`now:${now}, startTime:${startTime}, endTime:${endTime}`)
   },
+  onUnload() {
+    uni.$off("update", function(data) {
+      console.log("监听到事件来自 update ，携带参数 msg 为：" + data.msg)
+    })
+  },
   methods: {
     // FIXME 获取活动信息
-    async _getActivity(query: Query) {
-      console.log("query", query)
+    async _getActivity() {
       let globalData: any = getApp().globalData
       if (globalData?.activities) {
         this.activity = globalData.activities.filter(
-          (el: Iactivity) => el.id === query.id
+          (el: Iactivity) => el.id === this.actId
         )[0]
       } else {
         this.activity = activities.filter(
-          (el: Iactivity) => el.id === query.id
+          (el: Iactivity) => el.id === this.actId
         )[0]
       }
     },
-    async _getItems(query: Query) {
+    async _getItems() {
       console.log("下载项目")
       try {
-        let { data } = await getItems({ activityId: query.id })
+        let { data } = await getItems({ activityId: this.actId })
         console.log("获取选手信息", data.data)
 
         this.items = data.data

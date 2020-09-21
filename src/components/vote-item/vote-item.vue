@@ -52,6 +52,7 @@
 <script lang="ts">
 import Vue from "vue"
 import voteButton from "@/components/vote-button/vote-button.vue"
+import { handleVote } from "@/servise/vote"
 export default Vue.extend({
   components: {
     voteButton,
@@ -69,7 +70,7 @@ export default Vue.extend({
   },
   onLoad() {},
   methods: {
-    vote() {
+    async vote() {
       /**
        * 1. 判断是否关注公众号
        * 2. 判断是否在投票时间
@@ -77,7 +78,13 @@ export default Vue.extend({
        * 可以抽离逻辑 isValid()
        */
       // FIXME: 投票
-      this.$emit("plusVote", this.item.vote + 1)
+      let openid = getApp().globalData?.openid
+      let { data } = await handleVote({
+        itemId: this.item.id,
+        openId: openid,
+      })
+      console.log("上传之后", data)
+      uni.$emit("update", { msg: "页面更新" })
     },
   },
   computed: {
