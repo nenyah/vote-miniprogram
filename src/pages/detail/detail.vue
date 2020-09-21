@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-08 08:48:06
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-21 16:38:41
+ * @LastEditTime: 2020-09-21 17:01:40
 -->
 <template>
   <view class="bg-purple">
@@ -276,7 +276,7 @@ export default Vue.extend({
               //TODO: 传值给后端
               let { data } = await handleVote({
                 itemId: this.item.id,
-                openId: infoRes.userInfo.openId,
+                openId: (getApp().globalData as IglobalData).openid,
               })
               console.log("上传之后", data)
               if (data.success) {

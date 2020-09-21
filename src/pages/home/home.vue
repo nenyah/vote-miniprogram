@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-14 09:15:23
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-21 16:48:35
+ * @LastEditTime: 2020-09-21 17:00:09
 -->
 <template>
   <view class="text-gray-900 p-2">
@@ -88,12 +88,12 @@ export default Vue.extend({
         success: async (loginRes) => {
           console.log("微信登录返回信息", loginRes)
           // 获取openid
-          // let { data } = await login({ code: loginRes.code })
-          // console.log("远程登录返回信息", data)
+          let { data } = await login({ code: loginRes.code })
+          console.log("远程登录返回信息", data)
 
           // 存入全局
           let globaldata = app.globalData as IglobalData
-          // globaldata.openid = data.openid
+          globaldata.openid = data.openId
 
           uni.getUserInfo({
             provider: "weixin",
