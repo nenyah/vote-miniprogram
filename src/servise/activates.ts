@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-14 15:04:38
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-18 14:56:25
+ * @LastEditTime: 2020-09-21 09:47:52
  */
 import { Iactivity } from "@/common/interface"
 import request from "@/utils/request"
@@ -14,7 +14,7 @@ import config from "@/common/config"
  */
 export const getActivities = (pageNo: number = 1) => {
   return <Promise<Iactivity> | Promise<any>>request({
-    url: `${config}/weixin/activity`,
+    url: `${config}weixin/activity`,
     data: {
       pageNo,
       pageSize: 10,

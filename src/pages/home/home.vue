@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-14 09:15:23
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-18 16:55:26
+ * @LastEditTime: 2020-09-21 10:24:28
 -->
 <template>
   <view class="text-gray-900 p-2">
@@ -25,8 +25,8 @@
           <view class="text-gray-900">{{ activity.name }}</view>
           <view class="flex items-center">
             <view class="fa fa-group mr-1 text-red-300 text-center"></view>
-            <view>{{ activity.stats[0].value }}人参与，已投票：</view>
-            <view>{{ activity.stats[1].value }}</view>
+            <view>{{ activity.stats["参与人数"] }}人参与，已投票：</view>
+            <view>{{ activity.stats["累计票数"] }}</view>
           </view>
           <view class="flex items-center">
             <view class="fa fa-clock-o mr-1 text-red-300 text-center"></view>
@@ -55,6 +55,8 @@ export default Vue.extend({
   },
 
   async onLoad() {
+    // 判断是否登录
+    await this._isLogin()
     // 1. 服务器接口获取活动信息
     // 2. 活动信息存入globaldata
     // 3. 跳转投票首页参数传入活动id
@@ -75,6 +77,43 @@ export default Vue.extend({
         console.error("远程获取活动信息失败", error)
         return activities
       }
+    },
+    async _isLogin() {
+      // 判断是否登录
+      // 1. 登录进入对应页面
+      // 2. 没有登录进入登录授权页面
+      uni.login({
+        provider: "weixin",
+        success: (loginRes) => {
+          console.log("微信登录返回信息", loginRes)
+          uni.getUserInfo({
+            provider: "weixin",
+            success: (infoRes) => {
+              console.log("获取授权信息", infoRes)
+
+              let formdata = {
+                nickName: infoRes.userInfo.nickName,
+                gender: infoRes.userInfo.gender,
+                openId: infoRes.userInfo.openId,
+                unionId: infoRes.userInfo.unionId,
+              }
+              // self.$go.post("/wxlogin",formdata).then((res) => { })
+            },
+          })
+        },
+        fail: (err) => {
+          console.error("微信登录错误信息", err)
+          uni.redirectTo({
+            url: "../login/login",
+            success: (res) => {
+              console.log("跳转成功", res)
+            },
+            fail: (err) => {
+              console.log("跳转失败", err)
+            },
+          })
+        },
+      })
     },
   },
   computed: {
