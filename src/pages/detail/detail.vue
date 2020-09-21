@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-08 08:48:06
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-21 14:56:47
+ * @LastEditTime: 2020-09-21 16:38:41
 -->
 <template>
   <view class="bg-purple">
@@ -89,6 +89,7 @@ export default Vue.extend({
   data() {
     return {
       id: 0,
+      code: "",
       actId: 0,
       item: <Iitem>{},
       title1: "选手详情",
@@ -172,8 +173,9 @@ export default Vue.extend({
     // 保存活动id
     const globalData = getApp().globalData as IglobalData
     this.actId = globalData.currentActId
+    this.code = query?.code
     // 筛选item
-    await this._getItem({ activityId: this.actId, code: query?.id })
+    await this._getItem()
     // 设置标题
     uni.setNavigationBarTitle({
       title: `我是${this.id}号，${this.item?.name}, 正在参加${
@@ -192,7 +194,9 @@ export default Vue.extend({
   },
   methods: {
     // 获取选手信息
-    async _getItem({ activityId, code }: any) {
+    async _getItem() {
+      let activityId = this.actId,
+        code = this.code
       try {
         let { data } = await getItems({ activityId, code })
         console.log("获取到信息", data.data)
@@ -255,11 +259,10 @@ export default Vue.extend({
       child.createCanvas()
     },
     // TODO：处理投票
-    handleVote() {
-      console.log("投票")
-    },
     getuserinfo() {
-      let itemID = this.item?.id
+      let id = this.item.id
+      console.log("ID:", id)
+
       uni.login({
         provider: "weixin",
         success: (loginRes) => {
@@ -268,17 +271,28 @@ export default Vue.extend({
           uni.getUserInfo({
             provider: "weixin",
             success: async (infoRes) => {
-              console.log("用户信息为：", infoRes)
+              console.log("用户信息为：", infoRes, id)
 
               //TODO: 传值给后端
-              await handleVote({
+              let { data } = await handleVote({
                 itemId: this.item.id,
                 openId: infoRes.userInfo.openId,
               })
-              uni.showToast({
-                title: "投票成功！",
-                icon: "success",
-              })
+              console.log("上传之后", data)
+              if (data.success) {
+                // 成功后显示投票成功并刷新数据
+                uni.showToast({
+                  title: "投票成功！",
+                  icon: "success",
+                })
+                this._getItem()
+              } else {
+                // 失败后显示原因
+                uni.showToast({
+                  title: data.errorMsg,
+                  icon: "none",
+                })
+              }
             },
             fail: (err) => {
               console.error("获取用户信息失败", err)

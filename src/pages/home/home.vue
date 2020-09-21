@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-14 09:15:23
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-21 13:21:45
+ * @LastEditTime: 2020-09-21 16:48:35
 -->
 <template>
   <view class="text-gray-900 p-2">
@@ -44,8 +44,9 @@
 import Vue from "vue"
 import { activities } from "@/mock/store"
 import { getActivities } from "@/servise/activates"
-import { Iactivity } from "@/common/interface"
-
+import { Iactivity, IglobalData } from "@/common/interface"
+import { login } from "@/servise/login"
+let app = getApp()
 export default Vue.extend({
   data() {
     return {
@@ -84,19 +85,21 @@ export default Vue.extend({
       // 2. 没有登录进入登录授权页面
       uni.login({
         provider: "weixin",
-        success: (loginRes) => {
+        success: async (loginRes) => {
           console.log("微信登录返回信息", loginRes)
+          // 获取openid
+          // let { data } = await login({ code: loginRes.code })
+          // console.log("远程登录返回信息", data)
+
+          // 存入全局
+          let globaldata = app.globalData as IglobalData
+          // globaldata.openid = data.openid
+
           uni.getUserInfo({
             provider: "weixin",
             success: (infoRes) => {
               console.log("获取授权信息", infoRes)
 
-              // let formdata = {
-              //   nickName: infoRes.userInfo.nickName,
-              //   gender: infoRes.userInfo.sex,
-              //   openId: infoRes.userInfo.openId,
-              //   unionId: infoRes.userInfo.unionId,
-              // }
               // self.$go.post("/wxlogin",formdata).then((res) => { })
             },
           })

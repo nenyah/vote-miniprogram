@@ -1,5 +1,5 @@
 {
-    "name" : "uni-project",
+    "name" : "wevote",
     "appid" : "",
     "description" : "",
     "versionName" : "1.0.0",
@@ -50,7 +50,7 @@
     "mp-weixin" : {
         /* 小程序特有相关 */
         "usingComponents" : true,
-        "appid" : "wx5e9dd7985ded64b1",
+        "appid" : "wx93a6bf22f5df52f0",
         "setting" : {
             "urlCheck" : true,
             "minified" : true
