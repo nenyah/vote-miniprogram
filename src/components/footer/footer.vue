@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-08 14:44:22
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-15 10:28:12
+ * @LastEditTime: 2020-09-21 13:06:36
 -->
 <template>
   <view class="text-center text-gray-500">@{{ content }}</view>
@@ -15,7 +15,7 @@ export default Vue.extend({
   props: {
     content: {
       type: String,
-      default: "@2020伊人如梦*婉美如你",
+      default: "2020伊人如梦*婉美如你",
     },
   },
   data() {

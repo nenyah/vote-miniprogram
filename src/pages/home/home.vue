@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-14 09:15:23
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-21 11:26:08
+ * @LastEditTime: 2020-09-21 13:21:45
 -->
 <template>
   <view class="text-gray-900 p-2">
@@ -91,12 +91,12 @@ export default Vue.extend({
             success: (infoRes) => {
               console.log("获取授权信息", infoRes)
 
-              let formdata = {
-                nickName: infoRes.userInfo.nickName,
-                gender: infoRes.userInfo.gender,
-                openId: infoRes.userInfo.openId,
-                unionId: infoRes.userInfo.unionId,
-              }
+              // let formdata = {
+              //   nickName: infoRes.userInfo.nickName,
+              //   gender: infoRes.userInfo.sex,
+              //   openId: infoRes.userInfo.openId,
+              //   unionId: infoRes.userInfo.unionId,
+              // }
               // self.$go.post("/wxlogin",formdata).then((res) => { })
             },
           })

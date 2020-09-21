@@ -3,12 +3,12 @@
  * @Author: Steven
  * @Date: 2020-09-08 14:38:03
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-14 15:31:56
+ * @LastEditTime: 2020-09-21 13:01:21
 -->
 <template>
   <view class="pt-16 px-4 bg-color text-gray-200">
     <main-title :title="title"></main-title>
-    <view class="mt-2">{{ activity.desc }}</view>
+    <view class="mt-2">{{ activity.description }}</view>
   </view>
 </template>
 
@@ -20,7 +20,7 @@ export default Vue.extend({
   props: {
     activity: {
       type: Object,
-      required: true
+      required: true,
     },
   },
   components: {
@@ -31,8 +31,7 @@ export default Vue.extend({
       title: "活动详情",
     }
   },
-  onLoad() {
-  },
+  onLoad() {},
   methods: {},
 })
 </script>

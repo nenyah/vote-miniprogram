@@ -15,7 +15,8 @@
     {
       "path": "pages/desc/desc",
       "style": {
-        "navigationBarTitleText": "详情-活动名称"
+        "navigationBarTitleText": "详情-活动名称",
+        "backgroundColor": "#0d134d"
       }
     },
     {
