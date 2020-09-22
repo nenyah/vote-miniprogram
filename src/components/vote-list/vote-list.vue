@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-08 09:24:10
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-11 14:45:10
+ * @LastEditTime: 2020-09-22 14:31:17
 -->
 <template>
   <view class="text-gray-100">
@@ -17,7 +17,7 @@
     </view>
 
     <view
-      class="flex flex-row flex-wrap w-full justify-center"
+      class="flex flex-row flex-wrap w-full justify-around content-center"
       v-if="isVoteItem"
     >
       <block v-for="item in items" :key="item.id">
