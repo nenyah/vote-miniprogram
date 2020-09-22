@@ -67,7 +67,7 @@
       </view>
     </navigator>
     <!-- 脚注 -->
-    <vote-footer></vote-footer>
+    <vote-footer ::content="activity.name"></vote-footer>
   </view>
 </template>
 
@@ -84,8 +84,8 @@ import { items } from "@/mock/store"
 import { Iinfo, Iitem, Iactivity, IglobalData } from "@/common/interface"
 import { getItems } from "@/servise/items"
 import { handleVote } from "@/servise/vote"
-import { login } from "@/servise/login"
-
+import { login, uLogin } from "@/servise/login"
+import * as _ from "lodash"
 export default Vue.extend({
   data() {
     return {
@@ -186,6 +186,7 @@ export default Vue.extend({
         globalData.activities[this.actId].name
       }`,
     })
+    // TODOS:更新帮我拉票内容
   },
   components: {
     title,
@@ -262,7 +263,6 @@ export default Vue.extend({
       let child: any = this.$refs.mosoweCanvasComponents
       child.createCanvas()
     },
-    // TODO：处理投票
     getuserinfo() {
       let id = this.item.id
       console.log("ID:", id)
@@ -271,41 +271,52 @@ export default Vue.extend({
       uni.getStorage({
         key: "userInfo",
         success: async (res) => {
-          let openid = getApp().globalData?.openid
-          // 判断有没有openid,没有就登录获取
-          if (!openid) {
-            uni.login({
-              provider: "weixin",
-              success: async (res) => {
-                console.log("获取code", res)
-                try {
-                  openid = await login({
-                    code: res.code,
-                  })
-                } catch (error) {
-                  console.error("获取openid失败", error)
-                }
-              },
-            })
-          }
-          let { data } = await handleVote({
-            itemId: this.item.id,
-            openId: openid,
-          })
-          console.log("上传之后", data)
-          if (data.success) {
-            // 成功后显示投票成功并刷新数据
+          let { openid, activities, currentActId } = getApp()
+            .globalData as IglobalData
+          let { status } = activities.filter((el) => el.id == currentActId)[0]
+          console.log("openid:", openid, "status:", status)
+          // 判断是否是进行中的活动，不是就直接返回
+          if (!(status == "ONGOING")) {
             uni.showToast({
-              title: "投票成功！",
-              icon: "success",
-            })
-            this._getItem()
-          } else {
-            // 失败后显示原因
-            uni.showToast({
-              title: data.errorMsg,
+              title: "现在不是投票时间哦！",
               icon: "none",
             })
+            return
+          }
+          // 没有openid
+          if (_.isEmpty(openid)) {
+            try {
+              let res = await uLogin()
+              let { data } = await login({ code: res.code })
+              openid = data.openId
+              console.log(`code:${res.code}, openid:`, data.openId)
+            } catch (err) {
+              console.error("获取code失败", err)
+            }
+          }
+          try {
+            // 上传投票信息
+            let { data } = await handleVote({
+              itemId: this.item.id,
+              openId: openid,
+            })
+            console.log("上传之后", data)
+            if (data.success) {
+              // 成功后显示投票成功并刷新数据
+              uni.showToast({
+                title: "投票成功！",
+                icon: "success",
+              })
+              this._getItem()
+            } else {
+              // 失败后显示原因
+              uni.showToast({
+                title: data.errorMsg,
+                icon: "none",
+              })
+            }
+          } catch (err) {
+            console.error("上传投票信息失败", err)
           }
         },
       })
