@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-08 08:48:06
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-22 16:18:28
+ * @LastEditTime: 2020-09-22 16:56:36
 -->
 <template>
   <view class="bg-purple">
@@ -84,6 +84,7 @@ import { items } from "@/mock/store"
 import { Iinfo, Iitem, Iactivity, IglobalData } from "@/common/interface"
 import { getItems } from "@/servise/items"
 import { handleVote } from "@/servise/vote"
+import { login } from "@/servise/login"
 
 export default Vue.extend({
   data() {
@@ -271,8 +272,22 @@ export default Vue.extend({
         key: "userInfo",
         success: async (res) => {
           let openid = getApp().globalData?.openid
-          console.log("用户信息为：", res, this.item.id, openid)
-
+          // 判断有没有openid,没有就登录获取
+          if (!openid) {
+            uni.login({
+              provider: "weixin",
+              success: async (res) => {
+                console.log("获取code", res)
+                try {
+                  openid = await login({
+                    code: res.code,
+                  })
+                } catch (error) {
+                  console.error("获取openid失败", error)
+                }
+              },
+            })
+          }
           let { data } = await handleVote({
             itemId: this.item.id,
             openId: openid,
