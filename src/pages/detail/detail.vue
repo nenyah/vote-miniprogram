@@ -271,12 +271,16 @@ export default Vue.extend({
           uni.getUserInfo({
             provider: "weixin",
             success: async (infoRes) => {
-              console.log("用户信息为：", infoRes, id)
+              let openid = getApp().globalData?.openid
+              console.log("用户信息为：", infoRes, this.item.id, openid)
 
-              //TODO: 传值给后端
               let { data } = await handleVote({
                 itemId: this.item.id,
+<<<<<<< HEAD
                 openId: (getApp().globalData as IglobalData).openid,
+=======
+                openId: openid,
+>>>>>>> 640c19fbb6aa4ee5b6f156b4e9512f06ad3585a9
               })
               console.log("上传之后", data)
               if (data.success) {

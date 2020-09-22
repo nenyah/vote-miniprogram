@@ -35,16 +35,20 @@ export default Vue.extend({
     }
   },
   async onLoad() {
-    // 获取全局数据
-    let currentActId = (app.globalData as IglobalData).currentActId
-    // 下载选手信息
-    await this._getItems({ id: currentActId })
+    this._getItems()
   },
+  async onShow() {
+    this._getItems()
+  },
+  // TODOS: 下拉加载更多
   methods: {
-    async _getItems(query: Query) {
+    async _getItems() {
+      // 获取全局数据
+      let currentActId = (app.globalData as IglobalData).currentActId
       console.log("下载项目")
       try {
-        let { data } = await getItems({ activityId: query.id })
+        // 下载选手信息
+        let { data } = await getItems({ activityId: currentActId })
         console.log("获取选手信息", data.data)
 
         this.items = data.data

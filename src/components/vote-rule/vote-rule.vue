@@ -14,7 +14,7 @@
         活动开始：
       </view>
       <view class="flex-none text-gray-500 text-left">
-        {{ activity.startTime.replace("T", " ") }}
+        {{ formatTime(activity.startTime) }}
       </view>
     </view>
     <view class="flex">
@@ -23,7 +23,7 @@
         活动结束：
       </view>
       <view class="flex-none text-gray-500 text-left">
-        {{ activity.endTime.replace("T", " ") }}
+        {{ formatTime(activity.endTime) }}
       </view>
     </view>
     <view class="flex">
@@ -55,6 +55,13 @@ export default Vue.extend({
   },
   mounted() {},
   methods: {},
+  computed: {
+    formatTime() {
+      return (params: string) => {
+        return params?.replace("T", " ")
+      }
+    },
+  },
 })
 </script>
 
