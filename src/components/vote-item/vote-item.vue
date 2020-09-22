@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-08 09:24:24
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-22 09:23:01
+ * @LastEditTime: 2020-09-22 14:14:35
 -->
 <template>
   <view
@@ -14,8 +14,8 @@
     <navigator v-if="index" :url="toUrl">
       <image
         :src="item.img"
-        mode="widthFix"
-        style="width: 100%; background-color: #eeeeee;"
+        mode="scaleToFill"
+        style="width: 100%; height:20vh; background-color: #eeeeee;"
       ></image>
       <view class="text-gray-100 text-lg font-bold mt-1">{{ item.name }}</view>
       <view class="text-gray-500 my-1">{{ item.group }}</view>
