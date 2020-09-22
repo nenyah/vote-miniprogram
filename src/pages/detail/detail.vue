@@ -3,12 +3,12 @@
  * @Author: Steven
  * @Date: 2020-09-08 08:48:06
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-22 15:37:54
+ * @LastEditTime: 2020-09-22 16:18:28
 -->
 <template>
   <view class="bg-purple">
     <!-- 标题 -->
-    <title></title>
+    <title :content="activity.name"></title>
     <!-- 统计票数 -->
     <stats :content="item.stats" :isDetail="true">
       <button
@@ -33,7 +33,7 @@
     <detail-video></detail-video>
     <!-- 选手简介 -->
     <sub-title :content="title3"></sub-title>
-    <view class="text-gray-100 p-4">{{ item.description }}</view>
+    <view class="text-gray-100 p-4 text-center">{{ item.description }}</view>
     <!-- 帮我拉票 -->
     <view class="text-center">
       <view
@@ -91,6 +91,7 @@ export default Vue.extend({
       id: 0,
       code: "",
       actId: 0,
+      activity: {} as Iactivity,
       item: <Iitem>{},
       title1: "选手详情",
       title2: "选手风采",
@@ -175,11 +176,12 @@ export default Vue.extend({
     const globalData = getApp().globalData as IglobalData
     this.actId = globalData.currentActId
     this.code = query?.code
+    this.activity = globalData.activities[this.actId]
     // 筛选item
     await this._getItem()
     // 设置标题
     uni.setNavigationBarTitle({
-      title: `我是${this.id}号，${this.item?.name}, 正在参加${
+      title: `我是${this.code}号，${this.item?.name}, 正在参加${
         globalData.activities[this.actId].name
       }`,
     })
