@@ -22,9 +22,12 @@ interface UserParams {
   encryptedData: EncryptedData
   iv: IV
 }
+
 /**
- * 登录
+ * 登录换取openid
+ * 文档： [https://www2.huadongbio.com:9004/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config#/WeixinLogin/weixinLogin](https://www2.huadongbio.com:9004/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config#/WeixinLogin/weixinLogin)
  * @param params LoginParams
+ *
  */
 export const login = (params: LoginParams) => {
   return request({
@@ -45,4 +48,16 @@ export const userInfo = (params: UserParams) => {
       ...params,
     },
   })
+}
+
+export const uLogin = () => {
+  return new Promise(
+    (resolve: (value: any) => void, reject: (value: any) => void) => {
+      uni.login({
+        provider: "weixin",
+        success: (res) => resolve(res),
+        fail: (err) => reject(err),
+      })
+    }
+  )
 }

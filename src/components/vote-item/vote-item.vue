@@ -53,6 +53,9 @@
 import Vue from "vue"
 import voteButton from "@/components/vote-button/vote-button.vue"
 import { handleVote } from "@/servise/vote"
+import { Iactivity, IglobalData } from "@/common/interface"
+import { login, uLogin } from "@/servise/login"
+import * as _ from "lodash"
 export default Vue.extend({
   components: {
     voteButton,
@@ -73,20 +76,47 @@ export default Vue.extend({
     async vote() {
       /**
        * 1. 判断是否关注公众号
-       * 2. 判断是否在投票时间
-       * 3. 判断是否超出限制
-       * 可以抽离逻辑 isValid()
+       * 2. 判断是否在投票时间 本地判断
+       * 3. 判断是否超出限制 服务器判断
+       *
        */
-      // FIXME: 投票
-      let openid = getApp().globalData?.openid
-      console.log("openid:", openid)
 
-      let { data } = await handleVote({
-        itemId: this.item.id,
-        openId: openid,
-      })
-      console.log("上传之后", data)
-      uni.$emit("update", { msg: "页面更新" })
+      let { openid, activities, currentActId } = getApp()
+        .globalData as IglobalData
+      let { status } = activities.filter((el) => el.id == currentActId)[0]
+      console.log("openid:", openid, "status:", status)
+      // 判断是否是进行中的活动，不是就直接返回
+      if (!(status == "ONGOING")) {
+        uni.showToast({
+          title: "现在不是投票时间哦！",
+          icon: "none",
+        })
+        return
+      }
+      // 没有openid
+      if (_.isEmpty(openid)) {
+        try {
+          let res = await uLogin()
+          let { data } = await login({ code: res.code })
+          openid = data.openId
+          console.log(`code:${res.code}, openid:`, data.openId)
+        } catch (err) {
+          console.error("获取code失败", err)
+        }
+      }
+
+      try {
+        // 上传投票信息
+        let { data } = await handleVote({
+          itemId: this.item.id,
+          openId: openid,
+        })
+        console.log("上传之后", data)
+        // 上传成功后刷新页面
+        uni.$emit("update", { msg: "页面更新" })
+      } catch (err) {
+        console.error("上传投票信息失败", err)
+      }
     },
   },
   computed: {
