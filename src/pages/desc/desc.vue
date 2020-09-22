@@ -3,14 +3,14 @@
  * @Author: Steven
  * @Date: 2020-09-08 08:45:00
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-21 13:02:17
+ * @LastEditTime: 2020-09-22 10:31:22
 -->
 <template>
   <view class="bg-purple pt-2 h-full min-h-full">
-    <title></title>
+    <title :content="activity.name"></title>
     <vote-rule :activity="activity"></vote-rule>
     <vote-detail :activity="activity"></vote-detail>
-    <vote-footer></vote-footer>
+    <vote-footer :content="activity.name"></vote-footer>
   </view>
 </template>
 
