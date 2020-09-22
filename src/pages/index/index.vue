@@ -26,6 +26,7 @@
             :hour="hour"
             :minute="min"
             :second="sec"
+            :showDay="showDay"
           ></uni-countdown>
         </block>
         <block v-else>{{ msg }}</block>
@@ -95,6 +96,7 @@ export default Vue.extend({
       sec: 30,
       itemType: "vote",
       display: false,
+      showDay: false,
       msg: "活动已经结束",
     }
   },
@@ -147,8 +149,31 @@ export default Vue.extend({
     if (status === "ISCOMING") {
       this.msg = "活动开始还有"
       // TODOS:判断有没有天
+      if (duration.days() > 0) {
+        this.showDay = true
+        this.day = duration.days()
+        this.hour = duration.hours()
+        this.min = duration.minutes()
+        this.sec = duration.seconds()
+      } else {
+        this.hour = duration.hours()
+        this.min = duration.minutes()
+        this.sec = duration.seconds()
+      }
     } else if (status === "ONGOING") {
       this.msg = "活动结束还有"
+      duration = moment.duration(now.diff(endTime))
+      if (duration.days() > 0) {
+        this.showDay = true
+        this.day = duration.days()
+        this.hour = duration.hours()
+        this.min = duration.minutes()
+        this.sec = duration.seconds()
+      } else {
+        this.hour = duration.hours()
+        this.min = duration.minutes()
+        this.sec = duration.seconds()
+      }
     }
     console.log(`now:${now}, startTime:${startTime}, endTime:${endTime}`)
   },
