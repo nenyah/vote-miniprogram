@@ -162,10 +162,10 @@ export default Vue.extend({
           height: 110, // 图片绘制高度
           x: 100, // 图片绘制X轴位置
           y: 35, // 图片绘制Y轴位置
-          arc: false, // 圆形
-          arcX: 0, // 圆的x坐标
-          arcY: 0, // 圆的y坐标
-          arcR: 0, // 圆的半径
+          arc: true, // 圆形
+          arcX: 155, // 圆的x坐标
+          arcY: 90, // 圆的y坐标
+          arcR: 55, // 圆的半径
         },
       ],
     }
@@ -187,6 +187,11 @@ export default Vue.extend({
       }`,
     })
     // TODOS:更新帮我拉票内容
+    // 更新名称
+    this.lists[1].content = this.activity.name
+    this.lists[2].content = this.item.code
+    this.lists[3].content = this.item.group || ""
+    this.lists[5].content = this.item.img
   },
   components: {
     title,
