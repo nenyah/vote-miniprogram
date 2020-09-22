@@ -3,11 +3,11 @@
  * @Author: Steven
  * @Date: 2020-09-11 08:52:11
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-18 15:05:57
+ * @LastEditTime: 2020-09-22 13:21:22
  */
 interface IParams {
   url: string
-  method?: "GET" | "POST"
+  method?: "GET" | "POST" | "PUT"
   setUpUrl?: boolean
   data?: any
 }

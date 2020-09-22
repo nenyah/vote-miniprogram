@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-08 08:48:06
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-22 09:02:16
+ * @LastEditTime: 2020-09-22 11:02:27
 -->
 <template>
   <view class="bg-purple">
@@ -252,7 +252,7 @@ export default Vue.extend({
       })
     },
 
-    // TODO：生成分享海报
+    // 生成分享海报
     share() {
       console.log("帮我拉票")
       let child: any = this.$refs.mosoweCanvasComponents

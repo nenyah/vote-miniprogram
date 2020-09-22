@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-14 15:04:38
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-21 09:47:52
+ * @LastEditTime: 2020-09-22 13:32:56
  */
 import { Iactivity } from "@/common/interface"
 import request from "@/utils/request"
@@ -19,5 +19,12 @@ export const getActivities = (pageNo: number = 1) => {
       pageNo,
       pageSize: 10,
     },
+  })
+}
+export const putVisits = (activityId: number) => {
+  return request({
+    url: `${config}weixin/activity/visits`,
+    method: "PUT",
+    data: activityId,
   })
 }

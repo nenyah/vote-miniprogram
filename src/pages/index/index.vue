@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-08-26 16:08:15
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-22 10:58:03
+ * @LastEditTime: 2020-09-22 13:19:51
 -->
 <template>
   <view class="bg-purple">
@@ -71,7 +71,7 @@ import voteList from "@/components/vote-list/vote-list.vue"
 import voteFooter from "@/components/footer/footer.vue"
 import uniCountdown from "@/components/uni-countdown/uni-countdown.vue"
 import { getItems } from "@/servise/items"
-import { getActivities } from "@/servise/activates"
+import { getActivities, putVisits } from "@/servise/activates"
 import { activities, items } from "@/mock/store"
 import moment from "moment"
 import { Iactivity } from "@/common/interface"
@@ -112,6 +112,13 @@ export default Vue.extend({
      * 2. 下载选手信息
      * TODO: 处理倒记时
      */
+    // 增加访问量
+    try {
+      await putVisits(query?.id)
+    } catch (error) {
+      console.error("增加访问量失败", error)
+    }
+
     // 1. 记录传入参数
     this.actId = query?.id
     // 2. 下载活动信息
