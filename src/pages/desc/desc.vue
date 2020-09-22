@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-08 08:45:00
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-22 10:31:22
+ * @LastEditTime: 2020-09-22 10:59:11
 -->
 <template>
   <view class="bg-purple pt-2 h-full min-h-full">
@@ -25,7 +25,7 @@ import { Iactivity } from "@/common/interface"
 export default Vue.extend({
   data() {
     return {
-      activity: {},
+      activity: {} as Iactivity,
       actId: 0,
     }
   },
@@ -36,6 +36,10 @@ export default Vue.extend({
     this.activity = activities.filter(
       (el: Iactivity) => el.id == currentActId
     )[0]
+    // 设置标题
+    uni.setNavigationBarTitle({
+      title: `详情-${this.activity.name}`,
+    })
     console.log(this.activity)
   },
   methods: {},

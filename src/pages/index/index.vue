@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-08-26 16:08:15
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-22 10:26:18
+ * @LastEditTime: 2020-09-22 10:58:03
 -->
 <template>
   <view class="bg-purple">
@@ -114,14 +114,18 @@ export default Vue.extend({
      */
     // 1. 记录传入参数
     this.actId = query?.id
-    // 1. 下载活动信息
+    // 2. 下载活动信息
     await this._getActivity()
-    // 2. 下载选手信息
+    // 设置标题
+    uni.setNavigationBarTitle({
+      title: this.activity.name,
+    })
+    // 3. 下载选手信息
     await this._getItems()
-    // 3. 存入当前活动id
+    // 4. 存入当前活动id
     let globalData: any = getApp().globalData
     globalData.currentActId = +query?.id
-    // 4. 计算时间
+    // 5. 计算时间
     // 获取活动时间
     let { startTime, endTime, status }: any = this.activity
     //  获取当前时间

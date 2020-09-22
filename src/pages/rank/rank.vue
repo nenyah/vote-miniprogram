@@ -3,13 +3,13 @@
  * @Author: Steven
  * @Date: 2020-09-07 16:59:44
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-21 14:56:02
+ * @LastEditTime: 2020-09-22 10:45:30
 -->
 <template>
   <view class="bg-purple h-full pt-2 px-2">
-    <title></title>
+    <title :content="activity.name"></title>
     <vote-list :items="sortItems" :pageType="pageType"></vote-list>
-    <vote-footer></vote-footer>
+    <vote-footer :content="activity.name"></vote-footer>
   </view>
 </template>
 
@@ -31,6 +31,7 @@ export default Vue.extend({
   data() {
     return {
       items,
+      activity: {} as Iactivity,
       pageType: "rank",
     }
   },
@@ -44,7 +45,9 @@ export default Vue.extend({
   methods: {
     async _getItems() {
       // 获取全局数据
-      let currentActId = (app.globalData as IglobalData).currentActId
+      let { currentActId, activities } = app.globalData as IglobalData
+      // 获取活动
+      this.activity = activities.filter((el) => el.id == currentActId)[0]
       console.log("下载项目")
       try {
         // 下载选手信息
@@ -53,6 +56,9 @@ export default Vue.extend({
 
         this.items = data.data
       } catch (error) {
+        uni.showToast({
+          title: `${error}`,
+        })
         this.items = items
       }
     },

@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-08 14:44:22
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-21 13:06:36
+ * @LastEditTime: 2020-09-22 10:55:40
 -->
 <template>
   <view class="text-center text-gray-500">@{{ content }}</view>
@@ -26,4 +26,5 @@ export default Vue.extend({
 })
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+</style>
