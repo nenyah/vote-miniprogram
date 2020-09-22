@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-14 09:15:23
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-22 09:28:54
+ * @LastEditTime: 2020-09-22 15:55:27
 -->
 <template>
   <view class="text-gray-900 p-2">
@@ -45,7 +45,7 @@ import Vue from "vue"
 import { activities } from "@/mock/store"
 import { getActivities } from "@/servise/activates"
 import { Iactivity, IglobalData } from "@/common/interface"
-import { login } from "@/servise/login"
+import { login, userInfo } from "@/servise/login"
 let app = getApp()
 export default Vue.extend({
   data() {
@@ -59,13 +59,14 @@ export default Vue.extend({
     // 判断是否登录
     await this._isLogin()
     // 1. 服务器接口获取活动信息
-    // 2. 活动信息存入globaldata
-    // 3. 跳转投票首页参数传入活动id
-    console.log("home load")
-
     this.activities = await this._getActivities()
+    // 2. 活动信息存入globaldata
     let globalData: any = getApp().globalData
     globalData.activities = this.activities
+    // 3. 跳转投票首页参数传入活动id
+    // 4. 上传用户信息
+
+    console.log("home load")
   },
   methods: {
     // 获取活动信息
@@ -83,37 +84,11 @@ export default Vue.extend({
       // 判断是否登录
       // 1. 登录进入对应页面
       // 2. 没有登录进入登录授权页面
-
-      uni.login({
-        provider: "weixin",
-        success: async (loginRes) => {
-          console.log("微信登录返回信息", loginRes)
-          // 获取openid
-          let { data } = await login({ code: loginRes.code })
-          console.log("远程登录返回信息", data)
-
-          // 存入全局
-          let globaldata = app.globalData as IglobalData
-          globaldata.openid = data.openId
-          // 检查是否有缓存
-          uni.getStorage({
-            key: "userInfo",
-            success: async (res) => {
-              console.log("缓存数据用户信息", res)
-            },
-            fail: (err) => {
-              console.error("微信登录错误信息", err)
-              uni.redirectTo({
-                url: "../login/login",
-                success: (res) => {
-                  console.log("跳转成功", res)
-                },
-                fail: (err) => {
-                  console.log("跳转失败", err)
-                },
-              })
-            },
-          })
+      // 检查是否有缓存
+      uni.getStorage({
+        key: "userInfo",
+        success: async (res) => {
+          console.log("缓存数据用户信息", res)
         },
         fail: (err) => {
           console.error("微信登录错误信息", err)

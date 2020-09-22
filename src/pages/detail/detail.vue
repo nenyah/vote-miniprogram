@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-08 08:48:06
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-22 11:02:27
+ * @LastEditTime: 2020-09-22 15:37:54
 -->
 <template>
   <view class="bg-purple">
@@ -100,7 +100,7 @@ export default Vue.extend({
         // 图片，图片有先后，叠加画图
         {
           type: "image",
-          content: "http://192.168.0.175:9000/test/bg.jpg", // 图片url
+          content: "http://www2.huadongbio.com:9000/vote-app/2020-09-22/bg.jpg", // 图片url
           width: 300, // 图片绘制宽度
           height: 400, // 图片绘制高度
           x: 0, // 图片绘制X轴位置
@@ -154,7 +154,8 @@ export default Vue.extend({
         },
         {
           type: "image",
-          content: "http://192.168.0.175:9000/test/avatar.png", // 图片url
+          content:
+            "http://www2.huadongbio.com:9000/vote-app/2020-09-22/avatar.png", // 图片url
           width: 110, // 图片绘制宽度
           height: 110, // 图片绘制高度
           x: 100, // 图片绘制X轴位置
@@ -263,45 +264,32 @@ export default Vue.extend({
       let id = this.item.id
       console.log("ID:", id)
 
-      uni.login({
-        provider: "weixin",
-        success: (loginRes) => {
-          console.log("登录信息", loginRes)
-          // 获取用户信息
-          uni.getUserInfo({
-            provider: "weixin",
-            success: async (infoRes) => {
-              let openid = getApp().globalData?.openid
-              console.log("用户信息为：", infoRes, this.item.id, openid)
+      // 获取用户信息
+      uni.getStorage({
+        key: "userInfo",
+        success: async (res) => {
+          let openid = getApp().globalData?.openid
+          console.log("用户信息为：", res, this.item.id, openid)
 
-              let { data } = await handleVote({
-                itemId: this.item.id,
-                openId: openid,
-              })
-              console.log("上传之后", data)
-              if (data.success) {
-                // 成功后显示投票成功并刷新数据
-                uni.showToast({
-                  title: "投票成功！",
-                  icon: "success",
-                })
-                this._getItem()
-              } else {
-                // 失败后显示原因
-                uni.showToast({
-                  title: data.errorMsg,
-                  icon: "none",
-                })
-              }
-            },
-            fail: (err) => {
-              console.error("获取用户信息失败", err)
-              uni.showToast({
-                title: `获取用户信息失败，没法进行投票哦！`,
-                icon: "none",
-              })
-            },
+          let { data } = await handleVote({
+            itemId: this.item.id,
+            openId: openid,
           })
+          console.log("上传之后", data)
+          if (data.success) {
+            // 成功后显示投票成功并刷新数据
+            uni.showToast({
+              title: "投票成功！",
+              icon: "success",
+            })
+            this._getItem()
+          } else {
+            // 失败后显示原因
+            uni.showToast({
+              title: data.errorMsg,
+              icon: "none",
+            })
+          }
         },
       })
     },

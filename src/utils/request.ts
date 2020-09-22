@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-11 08:52:11
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-22 13:21:22
+ * @LastEditTime: 2020-09-22 16:02:27
  */
 interface IParams {
   url: string
@@ -21,7 +21,7 @@ export default (params: IParams) => {
     (resolve: (value: any) => void, reject: (value: any) => void) => {
       console.log(`正在请求：${params.url}`)
       let defaultParams = {
-        timeout: 500,
+        timeout: 6000,
         ...params,
       }
       uni.request({
