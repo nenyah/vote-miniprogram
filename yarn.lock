@@ -1655,6 +1655,11 @@
   resolved "https://registry.npm.taobao.org/@types/json-schema/download/@types/json-schema-7.0.5.tgz#dcce4430e64b443ba8945f0290fb564ad5bac6dd"
   integrity sha1-3M5EMOZLRDuolF8CkPtWStW6xt0=
 
+"@types/lodash@^4.14.161":
+  version "4.14.161"
+  resolved "https://registry.npm.taobao.org/@types/lodash/download/@types/lodash-4.14.161.tgz#a21ca0777dabc6e4f44f3d07f37b765f54188b18"
+  integrity sha1-ohygd32rxuT0Tz0H83t2X1QYixg=
+
 "@types/mime@*":
   version "2.0.3"
   resolved "https://registry.npm.taobao.org/@types/mime/download/@types/mime-2.0.3.tgz#c893b73721db73699943bfc3653b1deb7faa4a3a"
@@ -7163,6 +7168,11 @@ load-json-file@^1.0.0:
     pify "^2.0.0"
     pinkie-promise "^2.0.0"
     strip-bom "^2.0.0"
+
+loadash@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.npm.taobao.org/loadash/download/loadash-1.0.0.tgz#b92e54d809f3c225f4f9a9cfbaeae5b56de1ca9f"
+  integrity sha1-uS5U2AnzwiX0+anPuurltW3hyp8=
 
 loader-runner@^2.3.1, loader-runner@^2.4.0:
   version "2.4.0"

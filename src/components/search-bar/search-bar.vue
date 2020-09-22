@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-08 09:23:10
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-15 10:30:42
+ * @LastEditTime: 2020-09-22 10:11:20
 -->
 <template>
   <view class="flex search-box border-img my-2">
@@ -13,6 +13,7 @@
           type="text"
           class="keyword form-control pl-2"
           :placeholder="placeholder"
+          v-model="code"
         />
         <view class="flex items-center" style="background:#3945ad;">
           <view class="fa fa-search text-orange-500 pr-2"></view>
@@ -29,10 +30,22 @@ export default Vue.extend({
     placeholder: { type: String, default: "搜索编号、项目名称" },
   },
   data() {
-    return {}
+    return {
+      code: "",
+    }
   },
   onLoad() {},
-  methods: {},
+  watch: {
+    code(newCode, oldCode) {
+      this.$emit("updateItem", newCode)
+    },
+  },
+  methods: {
+    // handleInput(e: any) {
+    //   console.log("输入内容:", e.detail.value)
+    //   this.$emit("updateItem", e.detail.value)
+    // },
+  },
 })
 </script>
 

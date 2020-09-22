@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-17 10:02:11
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-21 09:40:14
+ * @LastEditTime: 2020-09-22 09:14:52
 -->
 <template>
   <view class="flex flex-col justify-center items-center content-center h-full">
@@ -33,6 +33,10 @@ export default Vue.extend({
             provider: "weixin",
             success: (res) => {
               console.log("成功获取用户信息", res)
+              uni.setStorage({
+                key: "userInfo",
+                data: res,
+              })
               // 成功后，跳转到活动列表页
               uni.reLaunch({
                 url: "../home/home",

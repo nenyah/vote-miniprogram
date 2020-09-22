@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-08 09:24:24
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-21 16:33:40
+ * @LastEditTime: 2020-09-22 09:23:01
 -->
 <template>
   <view
@@ -79,6 +79,8 @@ export default Vue.extend({
        */
       // FIXME: 投票
       let openid = getApp().globalData?.openid
+      console.log("openid:", openid)
+
       let { data } = await handleVote({
         itemId: this.item.id,
         openId: openid,

@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-14 09:15:23
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-21 17:00:09
+ * @LastEditTime: 2020-09-22 09:28:54
 -->
 <template>
   <view class="text-gray-900 p-2">
@@ -83,6 +83,7 @@ export default Vue.extend({
       // 判断是否登录
       // 1. 登录进入对应页面
       // 2. 没有登录进入登录授权页面
+
       uni.login({
         provider: "weixin",
         success: async (loginRes) => {
@@ -94,13 +95,23 @@ export default Vue.extend({
           // 存入全局
           let globaldata = app.globalData as IglobalData
           globaldata.openid = data.openId
-
-          uni.getUserInfo({
-            provider: "weixin",
-            success: (infoRes) => {
-              console.log("获取授权信息", infoRes)
-
-              // self.$go.post("/wxlogin",formdata).then((res) => { })
+          // 检查是否有缓存
+          uni.getStorage({
+            key: "userInfo",
+            success: async (res) => {
+              console.log("缓存数据用户信息", res)
+            },
+            fail: (err) => {
+              console.error("微信登录错误信息", err)
+              uni.redirectTo({
+                url: "../login/login",
+                success: (res) => {
+                  console.log("跳转成功", res)
+                },
+                fail: (err) => {
+                  console.log("跳转失败", err)
+                },
+              })
             },
           })
         },

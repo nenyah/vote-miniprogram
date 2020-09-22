@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-08 08:48:06
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-21 17:01:40
+ * @LastEditTime: 2020-09-22 09:02:16
 -->
 <template>
   <view class="bg-purple">
@@ -276,11 +276,7 @@ export default Vue.extend({
 
               let { data } = await handleVote({
                 itemId: this.item.id,
-<<<<<<< HEAD
-                openId: (getApp().globalData as IglobalData).openid,
-=======
                 openId: openid,
->>>>>>> 640c19fbb6aa4ee5b6f156b4e9512f06ad3585a9
               })
               console.log("上传之后", data)
               if (data.success) {

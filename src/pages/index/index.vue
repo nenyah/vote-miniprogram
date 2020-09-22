@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-08-26 16:08:15
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-21 12:44:11
+ * @LastEditTime: 2020-09-22 10:26:18
 -->
 <template>
   <view class="bg-purple">
@@ -52,11 +52,11 @@
       </view>
     </view>
     <!-- 搜索区域 -->
-    <search-bar></search-bar>
+    <search-bar @updateItem="handleInput"></search-bar>
     <!-- 项目列表区域 -->
     <vote-list :items="items" :itemType="itemType"></vote-list>
     <!-- 脚注区域 -->
-    <vote-footer :content="activity.slogan"></vote-footer>
+    <vote-footer :content="activity.name"></vote-footer>
   </view>
 </template>
 
@@ -71,10 +71,11 @@ import voteList from "@/components/vote-list/vote-list.vue"
 import voteFooter from "@/components/footer/footer.vue"
 import uniCountdown from "@/components/uni-countdown/uni-countdown.vue"
 import { getItems } from "@/servise/items"
+import { getActivities } from "@/servise/activates"
 import { activities, items } from "@/mock/store"
 import moment from "moment"
 import { Iactivity } from "@/common/interface"
-
+import * as _ from "lodash"
 moment().locale("zh-cn")
 
 interface Query {
@@ -85,7 +86,9 @@ export default Vue.extend({
     return {
       items,
       actId: 0,
-      activity: {},
+      activity: {} as Iactivity,
+      code: "",
+      dbouncedGetItems: () => {},
       day: 0,
       hour: 0,
       min: 1,
@@ -96,11 +99,14 @@ export default Vue.extend({
     }
   },
   async onLoad(query) {
+    // 添加事件监听
     uni.$on("update", (data) => {
       console.log("监听到事件来自 update ，携带参数 msg 为：" + data.msg)
       this._getActivity()
       this._getItems()
     })
+    // 添加防抖
+    this.dbouncedGetItems = _.debounce(this._getItems, 500)
     /**
      * 1. 下载活动信息 通过活动列表页传入的id筛选
      * 2. 下载选手信息
@@ -129,7 +135,7 @@ export default Vue.extend({
     // 根据状态显示不同内容
     if (status === "ISCOMING") {
       this.msg = "活动开始还有"
-      // 判断有没有天
+      // TODOS:判断有没有天
     } else if (status === "ONGOING") {
       this.msg = "活动结束还有"
     }
@@ -141,14 +147,26 @@ export default Vue.extend({
     })
   },
   methods: {
-    // FIXME 获取活动信息
+    handleInput(e: any) {
+      console.log("接收到内容", e)
+      this.code = e
+      this.dbouncedGetItems()
+    },
+    // 获取活动信息
     async _getActivity() {
-      let globalData: any = getApp().globalData
-      if (globalData?.activities) {
-        this.activity = globalData.activities.filter(
-          (el: Iactivity) => el.id === this.actId
+      try {
+        // 下载最新活动信息
+        let { data }: any = await getActivities(1)
+        console.log("成功获取活动信息", data.data)
+        // 根据actId筛选
+        this.activity = data.data.filter(
+          (el: Iactivity) => el.id == this.actId
         )[0]
-      } else {
+      } catch (error) {
+        console.error("下载活动信息出错", error)
+        uni.showToast({
+          title: `${error}`,
+        })
         this.activity = activities.filter(
           (el: Iactivity) => el.id === this.actId
         )[0]
@@ -157,7 +175,10 @@ export default Vue.extend({
     async _getItems() {
       console.log("下载项目")
       try {
-        let { data } = await getItems({ activityId: this.actId })
+        let { data } = await getItems({
+          activityId: this.actId,
+          code: this.code,
+        })
         console.log("获取选手信息", data.data)
 
         this.items = data.data
