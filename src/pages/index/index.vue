@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-08-26 16:08:15
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-22 13:19:51
+ * @LastEditTime: 2020-09-23 09:20:28
 -->
 <template>
   <view class="bg-purple">
@@ -142,7 +142,7 @@ export default Vue.extend({
     let now = moment()
     startTime = moment(startTime)
     endTime = moment(endTime)
-    let duration = moment.duration(now.diff(startTime))
+    let duration = moment.duration(startTime.diff(now))
     console.log("时长：", duration)
 
     // 根据状态显示不同内容
@@ -162,7 +162,7 @@ export default Vue.extend({
       }
     } else if (status === "ONGOING") {
       this.msg = "活动结束还有"
-      duration = moment.duration(now.diff(endTime))
+      duration = moment.duration(endTime.diff(now))
       if (duration.days() > 0) {
         this.showDay = true
         this.day = duration.days()
