@@ -1,12 +1,13 @@
 <template>
   <view class="bg-purple h-full pt-2 px-2">
-	  <view v-if="actId<0" class="text-gray-100 text-center">还没有选择活动哦</view>
-	  <view v-else>
-		  <title :content="activity.name"></title>
-		  <vote-list :items="sortItems" :pageType="pageType"></vote-list>
-		  <vote-footer :content="activity.name"></vote-footer>
-	  </view>
-
+    <view v-if="actId < 0" class="text-gray-100 text-center"
+      >还没有选择活动哦</view
+    >
+    <view v-else>
+      <title :content="activity.name"></title>
+      <vote-list :items="sortItems" :pageType="pageType"></vote-list>
+      <vote-footer :content="activity.name"></vote-footer>
+    </view>
   </view>
 </template>
 
@@ -28,22 +29,27 @@ export default Vue.extend({
   data() {
     return {
       items,
-	  actId:-1,
+      actId: -1,
       activity: {} as Iactivity,
       pageType: "rank",
     }
   },
   async onLoad() {
-	const { activities, currentActId }: any = getApp().globalData
-	
-	this.actId = currentActId
-    this._getItems()
+    this.init()
   },
   async onShow() {
-    this._getItems()
+    this.init()
   },
   // TODOS: 下拉加载更多
   methods: {
+    init() {
+      const { activities, currentActId }: any = getApp().globalData
+
+      this.actId = currentActId
+      if (currentActId > -1) {
+        this._getItems()
+      }
+    },
     async _getItems() {
       // 获取全局数据
       let { currentActId, activities } = app.globalData as IglobalData
@@ -81,3 +87,6 @@ export default Vue.extend({
 </script>
 
 <style></style>
+
+function newFunction() { const { activities,currentActId }:
+any=getApp().globalData this.actId=currentActId this._getItems() }

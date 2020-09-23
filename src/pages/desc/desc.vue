@@ -1,16 +1,14 @@
 <template>
-	
   <view class="bg-purple pt-2 h-full min-h-full">
-	  <view v-if="actId<0" class="text-gray-100 text-center">
-		  还没有选择活动哦
-	  </view>
-	  <view v-else>
-		  <title :content="activity.name"></title>
-    <vote-rule :activity="activity"></vote-rule>
-    <vote-detail :activity="activity"></vote-detail>
-    <vote-footer :content="activity.name"></vote-footer>
-	</view>
-    
+    <view v-if="actId < 0" class="text-gray-100 text-center">
+      还没有选择活动哦
+    </view>
+    <view v-else>
+      <title :content="activity.name"></title>
+      <vote-rule :activity="activity"></vote-rule>
+      <vote-detail :activity="activity"></vote-detail>
+      <vote-footer :content="activity.name"></vote-footer>
+    </view>
   </view>
 </template>
 
@@ -30,18 +28,25 @@ export default Vue.extend({
     }
   },
   onLoad() {
-    const { activities, currentActId }: any = getApp().globalData
-	
-    this.actId = currentActId
-    this.activity = activities.filter(
-      (el: Iactivity) => el.id == currentActId
-    )[0]
+    this.init()
     // 设置标题
     uni.setNavigationBarTitle({
       title: `详情-${this.activity?.name}`,
     })
   },
-  methods: {},
+  onShow() {
+    this.init()
+  },
+  methods: {
+    init() {
+      const { activities, currentActId }: any = getApp().globalData
+
+      this.actId = currentActId
+      this.activity = activities.filter(
+        (el: Iactivity) => el.id == currentActId
+      )[0]
+    },
+  },
   components: {
     title,
     voteRule,
@@ -52,3 +57,7 @@ export default Vue.extend({
 </script>
 
 <style></style>
+
+function newFunction() { const { activities,currentActId }:
+any=getApp().globalData this.actId=currentActId this.activity=activities.filter(
+(el: Iactivity) => el.id==currentActId )[0] }
