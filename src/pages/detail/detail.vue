@@ -67,7 +67,7 @@
       </view>
     </navigator>
     <!-- 脚注 -->
-    <vote-footer ::content="activity.name"></vote-footer>
+    <vote-footer :content="activity.name"></vote-footer>
   </view>
 </template>
 
@@ -102,7 +102,7 @@ export default Vue.extend({
         // 图片，图片有先后，叠加画图
         {
           type: "image",
-          content: "http://www2.huadongbio.com:9000/vote-app/2020-09-22/bg.jpg", // 图片url
+          content: "https://tp.huadongbio.com:9004/weixin/img/bg.jpg", // 图片url
           width: 300, // 图片绘制宽度
           height: 400, // 图片绘制高度
           x: 0, // 图片绘制X轴位置

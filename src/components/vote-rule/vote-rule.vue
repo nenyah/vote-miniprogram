@@ -58,7 +58,7 @@ export default Vue.extend({
   computed: {
     formatTime() {
       return (params: string) => {
-        return params?.replace("T", " ")
+        return params?.substr(0, 16).replace("T", " ")
       }
     },
   },

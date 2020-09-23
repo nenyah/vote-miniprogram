@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-08-26 16:08:15
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-23 09:20:28
+ * @LastEditTime: 2020-09-23 09:23:04
 -->
 <template>
   <view class="bg-purple">
@@ -14,19 +14,19 @@
     <!-- 统计区域 -->
     <stats :content="activity.stats">
       <view
-        class="mt-2 p-2 text-gray-100 text-center diff-time-box flex justify-center"
+          class="mt-2 p-2 text-gray-100 text-center diff-time-box flex justify-center"
       >
         <block v-if="!(activity.status === 'ENDED')">
           {{ msg }}
           <uni-countdown
-            color="#fff"
-            background-color=""
-            splitorColor="#fff"
-            :day="day"
-            :hour="hour"
-            :minute="min"
-            :second="sec"
-            :showDay="showDay"
+              color="#fff"
+              background-color=""
+              splitorColor="#fff"
+              :day="day"
+              :hour="hour"
+              :minute="min"
+              :second="sec"
+              :showDay="showDay"
           ></uni-countdown>
         </block>
         <block v-else>{{ msg }}</block>
@@ -71,17 +71,19 @@ import searchBar from "@/components/search-bar/search-bar.vue"
 import voteList from "@/components/vote-list/vote-list.vue"
 import voteFooter from "@/components/footer/footer.vue"
 import uniCountdown from "@/components/uni-countdown/uni-countdown.vue"
-import { getItems } from "@/servise/items"
-import { getActivities, putVisits } from "@/servise/activates"
-import { activities, items } from "@/mock/store"
+import {getItems} from "@/servise/items"
+import {getActivities, putVisits} from "@/servise/activates"
+import {activities, items} from "@/mock/store"
 import moment from "moment"
-import { Iactivity } from "@/common/interface"
+import {Iactivity} from "@/common/interface"
 import * as _ from "lodash"
+
 moment().locale("zh-cn")
 
 interface Query {
   id: number
 }
+
 export default Vue.extend({
   data() {
     return {
@@ -89,7 +91,8 @@ export default Vue.extend({
       actId: 0,
       activity: {} as Iactivity,
       code: "",
-      dbouncedGetItems: () => {},
+      dbouncedGetItems: () => {
+      },
       day: 0,
       hour: 0,
       min: 1,
@@ -112,7 +115,6 @@ export default Vue.extend({
     /**
      * 1. 下载活动信息 通过活动列表页传入的id筛选
      * 2. 下载选手信息
-     * TODO: 处理倒记时
      */
     // 增加访问量
     try {
@@ -136,55 +138,44 @@ export default Vue.extend({
     globalData.currentActId = +query?.id
     // 5. 计算时间
     // 获取活动时间
-    let { startTime, endTime, status }: any = this.activity
+    let {startTime, endTime, status}: any = this.activity
     //  获取当前时间
-    console.log(startTime, endTime)
     let now = moment()
     startTime = moment(startTime)
     endTime = moment(endTime)
     let duration = moment.duration(startTime.diff(now))
-    console.log("时长：", duration)
 
     // 根据状态显示不同内容
     if (status === "ISCOMING") {
       this.msg = "活动开始还有"
-      // TODOS:判断有没有天
-      if (duration.days() > 0) {
-        this.showDay = true
-        this.day = duration.days()
-        this.hour = duration.hours()
-        this.min = duration.minutes()
-        this.sec = duration.seconds()
-      } else {
-        this.hour = duration.hours()
-        this.min = duration.minutes()
-        this.sec = duration.seconds()
-      }
+      this.setCountDown(duration)
     } else if (status === "ONGOING") {
       this.msg = "活动结束还有"
       duration = moment.duration(endTime.diff(now))
-      if (duration.days() > 0) {
-        this.showDay = true
-        this.day = duration.days()
-        this.hour = duration.hours()
-        this.min = duration.minutes()
-        this.sec = duration.seconds()
-      } else {
-        this.hour = duration.hours()
-        this.min = duration.minutes()
-        this.sec = duration.seconds()
-      }
+      this.setCountDown(duration)
     }
     console.log(`now:${now}, startTime:${startTime}, endTime:${endTime}`)
   },
   onUnload() {
-    uni.$off("update", function(data) {
+    uni.$off("update", function (data) {
       console.log("监听到事件来自 update ，携带参数 msg 为：" + data.msg)
     })
   },
   methods: {
+    setCountDown: function (duration: moment.Duration) {
+      if (duration.days() > 0) {
+        this.showDay = true
+        this.day = duration.days()
+        this.hour = duration.hours()
+        this.min = duration.minutes()
+        this.sec = duration.seconds()
+      } else {
+        this.hour = duration.hours()
+        this.min = duration.minutes()
+        this.sec = duration.seconds()
+      }
+    },
     handleInput(e: any) {
-      console.log("接收到内容", e)
       this.code = e
       this.dbouncedGetItems()
     },
@@ -192,11 +183,10 @@ export default Vue.extend({
     async _getActivity() {
       try {
         // 下载最新活动信息
-        let { data }: any = await getActivities(1)
-        console.log("成功获取活动信息", data.data)
+        let {data}: any = await getActivities(1)
         // 根据actId筛选
         this.activity = data.data.filter(
-          (el: Iactivity) => el.id == this.actId
+            (el: Iactivity) => el.id == this.actId
         )[0]
       } catch (error) {
         console.error("下载活动信息出错", error)
@@ -204,22 +194,21 @@ export default Vue.extend({
           title: `${error}`,
         })
         this.activity = activities.filter(
-          (el: Iactivity) => el.id === this.actId
+            (el: Iactivity) => el.id === this.actId
         )[0]
       }
     },
     async _getItems() {
-      console.log("下载项目")
       try {
-        let { data } = await getItems({
+        let {data} = await getItems({
           activityId: this.actId,
           code: this.code,
         })
-        console.log("获取选手信息", data.data)
 
         this.items = data.data
       } catch (error) {
         this.items = items
+        console.error("获取选手信息出错", error)
       }
     },
   },

@@ -8,18 +8,18 @@
 <template>
   <view class="text-gray-900 p-2">
     <view
-      v-for="activity in activities"
-      :key="activity.id"
-      class="my-2 text-center text-gray-500 rounded shadow"
+        v-for="activity in activities"
+        :key="activity.id"
+        class="my-2 text-center text-gray-500 rounded shadow"
     >
       <navigator
-        :url="'/pages/index/index?id=' + activity.id"
-        open-type="reLaunch"
+          :url="'/pages/index/index?id=' + activity.id"
+          open-type="reLaunch"
       >
         <image
-          :src="formatUrl(activity)"
-          mode="aspectFill"
-          class="rounded rounded-b-none w-full h-24"
+            :src="formatUrl(activity)"
+            mode="aspectFill"
+            class="rounded rounded-b-none w-full h-24"
         ></image>
         <view class="p-2 text-left">
           <view class="text-gray-900">{{ activity.name }}</view>
@@ -31,7 +31,7 @@
           <view class="flex items-center">
             <view class="fa fa-clock-o mr-1 text-red-300 text-center"></view>
             <view>
-              {{ activity.endTime.substr(0, 16).replace("T", " ") }} 结束
+              {{ formatTime(activity.endTime) }} 结束
             </view>
           </view>
         </view>
@@ -42,10 +42,11 @@
 
 <script lang="ts">
 import Vue from "vue"
-import { activities } from "@/mock/store"
-import { getActivities } from "@/servise/activates"
-import { Iactivity, IglobalData } from "@/common/interface"
-import { login, userInfo } from "@/servise/login"
+import {activities} from "@/mock/store"
+import {getActivities} from "@/servise/activates"
+import {Iactivity} from "@/common/interface"
+import {userInfo} from "@/servise/login"
+
 let app = getApp()
 export default Vue.extend({
   data() {
@@ -63,28 +64,22 @@ export default Vue.extend({
     // 2. 活动信息存入globaldata
     let globalData: any = getApp().globalData
     globalData.activities = this.activities
-    // 3. 跳转投票首页参数传入活动id
-    // 4. 上传用户信息
 
-    console.log("home load")
   },
   methods: {
     // 获取活动信息
     async _getActivities() {
       try {
-        let { data }: any = await getActivities(1)
-        console.log("成功获取活动信息", data)
+        let {data}: any = await getActivities(1)
         return data.data
       } catch (error) {
-        console.error("远程获取活动信息失败", error)
         return activities
       }
     },
     async _isLogin() {
       // 判断是否登录
-      // 1. 登录进入对应页面
-      // 2. 没有登录进入登录授权页面
-      // 检查是否有缓存
+      // 1. 检查是否有缓存,有登录进入对应页面
+      // 2. 没有就进入登录授权页面
       uni.getStorage({
         key: "userInfo",
         success: async (res) => {
@@ -94,23 +89,22 @@ export default Vue.extend({
           console.error("微信登录错误信息", err)
           uni.redirectTo({
             url: "../login/login",
-            success: (res) => {
-              console.log("跳转成功", res)
-            },
-            fail: (err) => {
-              console.log("跳转失败", err)
-            },
           })
         },
       })
     },
   },
   computed: {
-    formatUrl(): (params: Iactivity) => string {
+    formatUrl() {
       return (params: Iactivity) => {
         return params.bannerImg[0]
       }
     },
+    formatTime() {
+      return (params: string) => {
+        return params.substr(0, 16).replace("T", " ")
+      }
+    }
   },
 })
 </script>

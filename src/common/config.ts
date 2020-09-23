@@ -7,7 +7,7 @@
  */
 import { Iinfo } from "./interface"
 // 活动规则
-export const rule: Array<Iinfo> = [
+const rule: Array<Iinfo> = [
   {
     name: "每个微信号每天可以投",
     value: 3,
@@ -59,7 +59,7 @@ if (process.env.NODE_ENV === "prod") {
   url_config = "http://192.168.0.175:9003/"
 } else {
   // 生产环境
-  url_config = "https://www2.huadongbio.com:9004/"
+  url_config = "https://tp.huadongbio.com:9004/"
 }
 
 export default url_config
