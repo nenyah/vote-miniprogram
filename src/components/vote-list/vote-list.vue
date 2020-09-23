@@ -1,10 +1,3 @@
-<!--
- * @Description: 
- * @Author: Steven
- * @Date: 2020-09-08 09:24:10
- * @LastEditors: Steven
- * @LastEditTime: 2020-09-22 14:31:17
--->
 <template>
   <view class="text-gray-100">
     <view v-if="!isVoteItem">

@@ -21,17 +21,14 @@ export default {
   components: {},
   props: {
     showPreview: {
-      // 生成图像后是否预览
       type: Boolean,
       default: false,
     },
     height: {
-      // canvas高度
       type: [String, Number],
       default: 200,
     },
     width: {
-      // canvas宽度
       type: [String, Number],
       default: 200,
     },
@@ -39,52 +36,51 @@ export default {
       type: Array,
       default: () => {
         return [
-          // 图片，图片有先后，叠加画图
           {
             type: "image",
-            content: "https://www.zhonglixunqing.cn/images/uniapp/1.jpg", // 图片url
-            width: 200, // 图片绘制宽度
-            height: 200, // 图片绘制高度
-            x: 0, // 图片绘制X轴位置
-            y: 0, // 图片绘制Y轴位置
-            arc: false, // 圆形
-            arcX: 0, // 圆的x坐标
-            arcY: 0, // 圆的y坐标
-            arcR: 0, // 圆的半径
+            content: "https://www.zhonglixunqing.cn/images/uniapp/1.jpg", 
+            width: 200, 
+            height: 200, 
+            x: 0, 
+            y: 0, 
+            arc: false, 
+            arcX: 0, 
+            arcY: 0, 
+            arcR: 0,
           },
           {
             type: "image",
-            content: "https://www.zhonglixunqing.cn/images/uniapp/2.jpg", // 图片url
-            width: 100, // 图片绘制宽度
-            height: 100, // 图片绘制高度
-            x: 0, // 图片绘制X轴位置
-            y: 0, // 图片绘制Y轴位置
-            arc: false, // 圆形，如果需要圆形图片绘制，请放在列表最后，否则后续绘制将在此圆形内
-            arcX: 0, // 圆的x坐标
-            arcY: 0, // 圆的y坐标
-            arcR: 0, // 圆的半径
+            content: "https://www.zhonglixunqing.cn/images/uniapp/2.jpg", 
+            width: 100, 
+            height: 100, 
+            x: 0, 
+            y: 0, 
+            arc: false,
+            arcX: 0, 
+            arcY: 0, 
+            arcR: 0, 
           },
           {
             type: "text",
-            content: "你好", // 文字
-            x: 10, // X轴
-            y: 50, // Y轴
-            color: "#ff0000", // 颜色
-            size: 20, // 字号
-            maxWidth: 100, // 最大宽度
-            align: "left", // 对齐方式
+            content: "你好", 
+            x: 10, 
+            y: 50, 
+            color: "#ff0000", 
+            size: 20, 
+            maxWidth: 100, 
+            align: "left", 
           },
           {
             type: "image",
-            content: "https://www.zhonglixunqing.cn/images/uniapp/3.jpg", // 图片url
-            width: 100, // 图片绘制宽度
-            height: 100, // 图片绘制高度
-            x: 150, // 图片绘制X轴位置
-            y: 150, // 图片绘制Y轴位置
-            arc: true, // 圆形，如果需要圆形图片绘制，请放在列表最后，否则后续绘制将在此圆形内
-            arcX: 200, // 圆的x坐标
-            arcY: 200, // 圆的y坐标
-            arcR: 50, // 圆的半径
+            content: "https://www.zhonglixunqing.cn/images/uniapp/3.jpg", 
+            width: 100, 
+            height: 100, 
+            x: 150, 
+            y: 150, 
+            arc: true,
+            arcX: 200, 
+            arcY: 200, 
+            arcR: 50, 
           },
         ]
       },
@@ -335,6 +331,9 @@ export default {
     overflow: hidden;
     height: 0;
     width: 0;
+	position: fixed;
+	left: -10000;
+	top: -10000;
   }
 }
 </style>

@@ -1,10 +1,3 @@
-<!--
- * @Description: 
- * @Author: Steven
- * @Date: 2020-09-08 15:49:57
- * @LastEditors: Steven
- * @LastEditTime: 2020-09-21 13:36:53
--->
 <template>
   <view
     class="flex w-4-5 my-2 py-2 text-center"

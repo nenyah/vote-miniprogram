@@ -22,9 +22,9 @@ export default Vue.extend({
   globalData: {
     baseurl: "huadongio.com",
     activities: [],
-    currentActId: 0,
+    currentActId: -1,
     items: [],
-    currentItemId: 0,
+    currentItemId: -1,
     openid:"",
   },
 })

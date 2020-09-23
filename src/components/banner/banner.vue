@@ -1,10 +1,3 @@
-<!--
- * @Description: 
- * @Author: Steven
- * @Date: 2020-09-08 09:21:24
- * @LastEditors: Steven
- * @LastEditTime: 2020-09-21 10:40:20
--->
 <template>
   <view>
     <image

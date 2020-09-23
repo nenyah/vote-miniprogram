@@ -53,7 +53,7 @@ export const itemStats: Array<Iinfo> = [
 ]
 
 let url_config = ""
-
+// development
 if (process.env.NODE_ENV === "prod") {
   // 开发环境
   url_config = "http://192.168.0.175:9003/"

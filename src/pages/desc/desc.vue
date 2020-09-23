@@ -1,16 +1,16 @@
-<!--
- * @Description: 
- * @Author: Steven
- * @Date: 2020-09-08 08:45:00
- * @LastEditors: Steven
- * @LastEditTime: 2020-09-22 10:59:11
--->
 <template>
+	
   <view class="bg-purple pt-2 h-full min-h-full">
-    <title :content="activity.name"></title>
+	  <view v-if="actId<0" class="text-gray-100 text-center">
+		  还没有选择活动哦
+	  </view>
+	  <view v-else>
+		  <title :content="activity.name"></title>
     <vote-rule :activity="activity"></vote-rule>
     <vote-detail :activity="activity"></vote-detail>
     <vote-footer :content="activity.name"></vote-footer>
+	</view>
+    
   </view>
 </template>
 
@@ -26,21 +26,20 @@ export default Vue.extend({
   data() {
     return {
       activity: {} as Iactivity,
-      actId: 0,
+      actId: -1,
     }
   },
   onLoad() {
     const { activities, currentActId }: any = getApp().globalData
-
+	
     this.actId = currentActId
     this.activity = activities.filter(
       (el: Iactivity) => el.id == currentActId
     )[0]
     // 设置标题
     uni.setNavigationBarTitle({
-      title: `详情-${this.activity.name}`,
+      title: `详情-${this.activity?.name}`,
     })
-    console.log(this.activity)
   },
   methods: {},
   components: {

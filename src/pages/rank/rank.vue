@@ -1,15 +1,12 @@
-<!--
- * @Description: 
- * @Author: Steven
- * @Date: 2020-09-07 16:59:44
- * @LastEditors: Steven
- * @LastEditTime: 2020-09-22 10:45:30
--->
 <template>
   <view class="bg-purple h-full pt-2 px-2">
-    <title :content="activity.name"></title>
-    <vote-list :items="sortItems" :pageType="pageType"></vote-list>
-    <vote-footer :content="activity.name"></vote-footer>
+	  <view v-if="actId<0" class="text-gray-100 text-center">还没有选择活动哦</view>
+	  <view v-else>
+		  <title :content="activity.name"></title>
+		  <vote-list :items="sortItems" :pageType="pageType"></vote-list>
+		  <vote-footer :content="activity.name"></vote-footer>
+	  </view>
+
   </view>
 </template>
 
@@ -31,11 +28,15 @@ export default Vue.extend({
   data() {
     return {
       items,
+	  actId:-1,
       activity: {} as Iactivity,
       pageType: "rank",
     }
   },
   async onLoad() {
+	const { activities, currentActId }: any = getApp().globalData
+	
+	this.actId = currentActId
     this._getItems()
   },
   async onShow() {

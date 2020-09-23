@@ -1,10 +1,3 @@
-<!--
- * @Description: 
- * @Author: Steven
- * @Date: 2020-09-08 08:48:06
- * @LastEditors: Steven
- * @LastEditTime: 2020-09-22 16:56:36
--->
 <template>
   <view class="bg-purple">
     <!-- 标题 -->
@@ -12,11 +5,11 @@
     <!-- 统计票数 -->
     <stats :content="item.stats" :isDetail="true">
       <button
-        class="text-2xl text-gray-100 font-bold w-full text-center mt-4"
-        open-type="getUserInfo"
-        @getuserinfo="getuserinfo"
-        withCredentials="true"
-        hover-class="none"
+          class="text-2xl text-gray-100 font-bold w-full text-center mt-4"
+          open-type="getUserInfo"
+          @getuserinfo="getuserinfo"
+          withCredentials="true"
+          hover-class="none"
       >
         投票
       </button>
@@ -37,30 +30,30 @@
     <!-- 帮我拉票 -->
     <view class="text-center">
       <view
-        class="inline-block text-gray-100 text-xl my-2 p-2 border-r-0 border-l-0 border-t-0 border-b-2 border-solid border-orange-500"
-        @click="share"
+          class="inline-block text-gray-100 text-xl my-2 p-2 border-r-0 border-l-0 border-t-0 border-b-2 border-solid border-orange-500"
+          @click="share"
       >
         帮我拉票
       </view>
       <image :src="canvasUrl" mode="widthFix"></image>
       <mosowe-canvas-image
-        ref="mosoweCanvasComponents"
-        @canvasImage="_canvasImage"
-        :lists="lists"
-        height="400"
-        width="300"
+          ref="mosoweCanvasComponents"
+          @canvasImage="_canvasImage"
+          :lists="lists"
+          height="400"
+          width="300"
       />
     </view>
 
     <!-- 返回 -->
     <navigator
-      :url="'/pages/index/index?id=' + actId"
-      open-type="reLaunch"
-      hover-class="other-navigator-hover"
+        :url="'/pages/index/index?id=' + actId"
+        open-type="reLaunch"
+        hover-class="other-navigator-hover"
     >
       <view class="text-center">
         <view
-          class="inline-block text-gray-100 text-xl my-2 p-2 border-r-0 border-l-0 border-t-0 border-b-2 border-solid border-orange-500"
+            class="inline-block text-gray-100 text-xl my-2 p-2 border-r-0 border-l-0 border-t-0 border-b-2 border-solid border-orange-500"
         >
           返回
         </view>
@@ -80,12 +73,13 @@ import voteFooter from "@/components/footer/footer.vue"
 import subTitle from "@/components/sub-title/sub-title.vue"
 import detailVideo from "@/components/detail-video/detail-video.vue"
 import mosoweCanvasImage from "@/components/mosowe-canvas-image/mosowe-canvas-image.vue"
-import { items } from "@/mock/store"
-import { Iinfo, Iitem, Iactivity, IglobalData } from "@/common/interface"
-import { getItems } from "@/servise/items"
-import { handleVote } from "@/servise/vote"
-import { login, uLogin } from "@/servise/login"
+import {items} from "@/mock/store"
+import {Iactivity, IglobalData, Iitem} from "@/common/interface"
+import {getItems} from "@/servise/items"
+import {handleVote} from "@/servise/vote"
+import {login, uLogin} from "@/servise/login"
 import * as _ from "lodash"
+
 export default Vue.extend({
   data() {
     return {
@@ -99,80 +93,77 @@ export default Vue.extend({
       title3: "选手简介",
       canvasUrl: {} as any,
       lists: [
-        // 图片，图片有先后，叠加画图
         {
           type: "image",
           content: "https://tp.huadongbio.com:9004/weixin/img/bg.jpg", // 图片url
-          width: 300, // 图片绘制宽度
-          height: 400, // 图片绘制高度
-          x: 0, // 图片绘制X轴位置
-          y: 0, // 图片绘制Y轴位置
-          arc: false, // 圆形
-          arcX: 0, // 圆的x坐标
-          arcY: 0, // 圆的y坐标
-          arcR: 0, // 圆的半径
+          width: 300,
+          height: 400,
+          x: 0,
+          y: 0,
+          arc: false,
+          arcX: 0,
+          arcY: 0,
+          arcR: 0,
         },
         {
           type: "text",
-          content: "2020伊婉你最美", // 文字
-          x: 150, // X轴
-          y: 20, // Y轴
-          color: "#fff", // 颜色
-          size: 10, // 字号
-          maxWidth: 100, // 最大宽度
-          align: "center", // 对齐方式
+          content: "2020伊婉你最美",
+          x: 150,
+          y: 20,
+          color: "#fff",
+          size: 10,
+          maxWidth: 100,
+          align: "center",
         },
         {
           type: "text",
-          content: "1 号", // 文字
-          x: 150, // X轴
-          y: 190, // Y轴
-          color: "#000", // 颜色
-          size: 20, // 字号
-          maxWidth: 100, // 最大宽度
-          align: "center", // 对齐方式
+          content: "1 号",
+          x: 150,
+          y: 190,
+          color: "#000",
+          size: 20,
+          maxWidth: 100,
+          align: "center",
         },
         {
           type: "text",
-          content: "漂亮组", // 文字
-          x: 150, // X轴
-          y: 220, // Y轴
-          color: "#000", // 颜色
-          size: 18, // 字号
-          maxWidth: 100, // 最大宽度
-          align: "center", // 对齐方式
+          content: "漂亮组",
+          x: 150,
+          y: 220,
+          color: "#000",
+          size: 18,
+          maxWidth: 100,
+          align: "center",
         },
         {
           type: "qr",
-          content: "https://www.zhonglixunqing.cn/images/uniapp/1.jpg", // 图片url
-          width: 100, // 图片绘制宽度
-          height: 100, // 图片绘制高度
-          x: 100, // 图片绘制X轴位置
-          y: 250, // 图片绘制Y轴位置
-          arc: false, // 圆形
-          arcX: 0, // 圆的x坐标
-          arcY: 0, // 圆的y坐标
-          arcR: 0, // 圆的半径
+          content: "https://www.zhonglixunqing.cn/images/uniapp/1.jpg",
+          width: 100,
+          height: 100,
+          x: 100,
+          y: 250,
+          arc: false,
+          arcX: 0,
+          arcY: 0,
+          arcR: 0,
         },
         {
           type: "image",
           content:
-            "http://www2.huadongbio.com:9000/vote-app/2020-09-22/avatar.png", // 图片url
-          width: 110, // 图片绘制宽度
-          height: 110, // 图片绘制高度
-          x: 100, // 图片绘制X轴位置
-          y: 35, // 图片绘制Y轴位置
-          arc: true, // 圆形
-          arcX: 155, // 圆的x坐标
-          arcY: 90, // 圆的y坐标
-          arcR: 55, // 圆的半径
+              "http://www2.huadongbio.com:9000/vote-app/2020-09-22/avatar.png",
+          width: 110,
+          height: 110,
+          x: 100,
+          y: 35,
+          arc: true,
+          arcX: 155,
+          arcY: 90,
+          arcR: 55,
         },
       ],
     }
   },
   async onLoad(query) {
-    // 打印参数
-    console.log("传入参数:", query)
     // 保存活动id
     const globalData = getApp().globalData as IglobalData
     this.actId = globalData.currentActId
@@ -183,11 +174,10 @@ export default Vue.extend({
     // 设置标题
     uni.setNavigationBarTitle({
       title: `我是${this.code}号，${this.item?.name}, 正在参加${
-        globalData.activities[this.actId].name
+          globalData.activities[this.actId].name
       }`,
     })
-    // TODOS:更新帮我拉票内容
-    // 更新名称
+    // 更新帮我拉新内容
     this.lists[1].content = this.activity.name
     this.lists[2].content = this.item.code
     this.lists[3].content = this.item.group || ""
@@ -206,10 +196,9 @@ export default Vue.extend({
     // 获取选手信息
     async _getItem() {
       let activityId = this.actId,
-        code = this.code
+          code = this.code
       try {
-        let { data } = await getItems({ activityId, code })
-        console.log("获取到信息", data.data)
+        let {data} = await getItems({activityId, code})
 
         this.item = data?.data[0]
       } catch (error) {
@@ -276,9 +265,9 @@ export default Vue.extend({
       uni.getStorage({
         key: "userInfo",
         success: async (res) => {
-          let { openid, activities, currentActId } = getApp()
-            .globalData as IglobalData
-          let { status } = activities.filter((el) => el.id == currentActId)[0]
+          let {openid, activities, currentActId} = getApp()
+              .globalData as IglobalData
+          let {status} = activities.filter((el) => el.id == currentActId)[0]
           console.log("openid:", openid, "status:", status)
           // 判断是否是进行中的活动，不是就直接返回
           if (!(status == "ONGOING")) {
@@ -292,7 +281,7 @@ export default Vue.extend({
           if (_.isEmpty(openid)) {
             try {
               let res = await uLogin()
-              let { data } = await login({ code: res.code })
+              let {data} = await login({code: res.code})
               openid = data.openId
               console.log(`code:${res.code}, openid:`, data.openId)
             } catch (err) {
@@ -301,7 +290,7 @@ export default Vue.extend({
           }
           try {
             // 上传投票信息
-            let { data } = await handleVote({
+            let {data} = await handleVote({
               itemId: this.item.id,
               openId: openid,
             })

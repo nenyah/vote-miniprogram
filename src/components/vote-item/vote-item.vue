@@ -1,10 +1,3 @@
-<!--
- * @Description: 
- * @Author: Steven
- * @Date: 2020-09-08 09:24:24
- * @LastEditors: Steven
- * @LastEditTime: 2020-09-22 14:14:35
--->
 <template>
   <view
     class="flex flex-col flex-1 text-center justify-center border border-solid border-gray-600 bg-purple-100 m-2 p-2 border-img"
@@ -84,7 +77,6 @@ export default Vue.extend({
       let { openid, activities, currentActId } = getApp()
         .globalData as IglobalData
       let { status } = activities.filter((el) => el.id == currentActId)[0]
-      console.log("openid:", openid, "status:", status)
       // 判断是否是进行中的活动，不是就直接返回
       if (!(status == "ONGOING")) {
         uni.showToast({

@@ -1,10 +1,3 @@
-<!--
- * @Description: 视频
- * @Author: Steven
- * @Date: 2020-09-10 15:15:21
- * @LastEditors: Steven
- * @LastEditTime: 2020-09-10 16:26:37
--->
 <template>
   <view>
     <view class="uni-padding-wrap uni-common-mt">

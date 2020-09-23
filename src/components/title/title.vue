@@ -1,10 +1,3 @@
-<!--
- * @Description: 
- * @Author: Steven
- * @Date: 2020-09-08 14:22:37
- * @LastEditors: Steven
- * @LastEditTime: 2020-09-21 10:30:05
--->
 <template>
   <view class="px-2 text-2xl text-center text-white">{{ content }}</view>
 </template>

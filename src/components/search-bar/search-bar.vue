@@ -1,19 +1,12 @@
-<!--
- * @Description: 
- * @Author: Steven
- * @Date: 2020-09-08 09:23:10
- * @LastEditors: Steven
- * @LastEditTime: 2020-09-22 10:11:20
--->
 <template>
   <view class="flex search-box border-img my-2">
     <view class="w-full" style="padding:0;">
       <view class="input-group flex">
         <input
-          type="text"
-          class="keyword form-control pl-2"
-          :placeholder="placeholder"
-          v-model="code"
+            type="text"
+            class="keyword form-control pl-2"
+            :placeholder="placeholder"
+            v-model="code"
         />
         <view class="flex items-center" style="background:#3945ad;">
           <view class="fa fa-search text-orange-500 pr-2"></view>
@@ -25,27 +18,24 @@
 
 <script lang="ts">
 import Vue from "vue"
+
 export default Vue.extend({
   props: {
-    placeholder: { type: String, default: "搜索编号、项目名称" },
+    placeholder: {type: String, default: "搜索编号、项目名称"},
   },
   data() {
     return {
       code: "",
     }
   },
-  onLoad() {},
+  onLoad() {
+  },
   watch: {
     code(newCode, oldCode) {
       this.$emit("updateItem", newCode)
     },
   },
-  methods: {
-    // handleInput(e: any) {
-    //   console.log("输入内容:", e.detail.value)
-    //   this.$emit("updateItem", e.detail.value)
-    // },
-  },
+  methods: {},
 })
 </script>
 
@@ -53,10 +43,12 @@ export default Vue.extend({
 .search-box {
   position: relative;
   overflow: hidden;
+
   .input-group {
     position: relative;
     width: 100%;
   }
+
   .input-group::after {
     content: "";
     position: absolute;
@@ -67,6 +59,7 @@ export default Vue.extend({
     border: 1px solid #6b76d1;
     z-index: 10;
   }
+
   .keyword {
     width: 100%;
     height: 50px;
@@ -79,10 +72,12 @@ export default Vue.extend({
     box-shadow: none;
     border: none;
   }
+
   .keyword::placeholder {
     color: #b6bdf3;
   }
 }
+
 .border-img {
   position: relative;
 }

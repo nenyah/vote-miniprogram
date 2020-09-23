@@ -9,7 +9,6 @@ import Vue from "vue"
 export default Vue.extend({
   methods: {
     handleClick() {
-      console.log("触发点击")
     },
   },
 })

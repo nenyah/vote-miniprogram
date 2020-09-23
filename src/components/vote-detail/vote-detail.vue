@@ -1,10 +1,3 @@
-<!--
- * @Description: 
- * @Author: Steven
- * @Date: 2020-09-08 14:38:03
- * @LastEditors: Steven
- * @LastEditTime: 2020-09-21 13:41:51
--->
 <template>
   <view class="pt-16 px-4 bg-color text-gray-200">
     <main-title :title="title"></main-title>

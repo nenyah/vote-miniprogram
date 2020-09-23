@@ -1,10 +1,3 @@
-<!--
- * @Description: 
- * @Author: Steven
- * @Date: 2020-09-08 09:22:09
- * @LastEditors: Steven
- * @LastEditTime: 2020-09-11 13:10:52
--->
 <template>
   <view class="px-4 pt-2">
     <view class="w-4-5  mt-2 p-2 stat-border">
