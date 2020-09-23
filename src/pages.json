@@ -1,79 +1,89 @@
 {
-	"pages": [
-		
-		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationBarTitleText": "活动名称"
-			}
-		},
-		{
-			"path": "pages/desc/desc",
-			"style": {
-				"navigationBarTitleText": "详情-活动名称",
-				"backgroundColor": "#0d134d"
-			}
-		},
-		{
-			"path": "pages/rank/rank",
-			"style": {
-				"navigationBarTitleText": "排名"
-			}
-		},
-		{
-			"path": "pages/detail/detail",
-			"style": {
-				"navigationBarTitleText": "我是1号，正在参加活动名称"
-			}
-		},
-		{
-			"path": "pages/login/login",
-			"style": {
-				"navigationBarTitleText": "婉美投票"
-			}
-		},
-		{
-			"path": "pages/test/test",
-			"style": {
-				"navigationBarTitleText": "婉美投票"
-			}
-		}
-	],
-	"globalStyle": {
-		"navigationBarTextStyle": "#cfcfcf",
-		"navigationBarTitleText": "投票小程序",
-		"navigationBarBackgroundColor": "#000",
-		"backgroundColor": "#0d134d"
-	},
-	"tabBar": {
-		"color": "#8a8a8a",
-		"selectedColor": "#ffffff",
-		"borderStyle": "black",
-		"backgroundColor": "#283079",
-		"height": "50px",
-		"fontSize": "10px",
-		"iconWidth": "24px",
-		"spacing": "3px",
-		"list": [
-
-			{
-				"pagePath": "pages/index/index",
-				"iconPath": "static/home.png",
-				"selectedIconPath": "static/home_HL.png",
-				"text": "投票"
-			},
-			{
-				"pagePath": "pages/desc/desc",
-				"iconPath": "static/desc.png",
-				"selectedIconPath": "static/desc_HL.png",
-				"text": "详情"
-			},
-			{
-				"pagePath": "pages/rank/rank",
-				"iconPath": "static/rank.png",
-				"selectedIconPath": "static/rank_HL.png",
-				"text": "排名"
-			}
-		]
-	}
+  "pages": [
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationBarTitleText": "活动名称"
+      }
+    },
+    {
+      "path": "pages/desc/desc",
+      "style": {
+        "navigationBarTitleText": "详情-活动名称",
+        "backgroundColor": "#0d134d"
+      }
+    },
+    {
+      "path": "pages/rank/rank",
+      "style": {
+        "navigationBarTitleText": "排名"
+      }
+    },
+    {
+      "path": "pages/detail/detail",
+      "style": {
+        "navigationBarTitleText": "我是1号，正在参加活动名称"
+      }
+    },
+    {
+      "path": "pages/login/login",
+      "style": {
+        "navigationBarTitleText": "婉美投票"
+      }
+    },
+    {
+      "path": "pages/test/test",
+      "style": {
+        "navigationBarTitleText": "婉美投票"
+      }
+    },
+    {
+      "path": "pages/profile/profile",
+      "style": {
+        "navigationBarTitleText": "我的"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "#cfcfcf",
+    "navigationBarTitleText": "投票小程序",
+    "navigationBarBackgroundColor": "#000",
+    "backgroundColor": "#0d134d"
+  },
+  "tabBar": {
+    "color": "#8a8a8a",
+    "selectedColor": "#ffffff",
+    "borderStyle": "black",
+    "backgroundColor": "#283079",
+    "height": "50px",
+    "fontSize": "10px",
+    "iconWidth": "24px",
+    "spacing": "3px",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "static/home.png",
+        "selectedIconPath": "static/home_HL.png",
+        "text": "投票"
+      },
+      {
+        "pagePath": "pages/desc/desc",
+        "iconPath": "static/desc.png",
+        "selectedIconPath": "static/desc_HL.png",
+        "text": "详情"
+      },
+      {
+        "pagePath": "pages/rank/rank",
+        "iconPath": "static/rank.png",
+        "selectedIconPath": "static/rank_HL.png",
+        "text": "排名"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "iconPath": "static/me.png",
+        "selectedIconPath": "static/me_HL.png",
+        "text": "排名"
+      }
+    ]
+  }
 }
