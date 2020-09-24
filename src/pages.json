@@ -82,7 +82,7 @@
         "pagePath": "pages/profile/profile",
         "iconPath": "static/me.png",
         "selectedIconPath": "static/me_HL.png",
-        "text": "排名"
+        "text": "我"
       }
     ]
   }
