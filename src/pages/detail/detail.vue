@@ -5,11 +5,11 @@
     <!-- 统计票数 -->
     <stats :content="item.stats" :isDetail="true">
       <button
-          class="text-2xl text-gray-100 font-bold w-full text-center mt-4"
-          open-type="getUserInfo"
-          @getuserinfo="getuserinfo"
-          withCredentials="true"
-          hover-class="none"
+        class="text-2xl text-gray-100 font-bold w-full text-center mt-4"
+        open-type="getUserInfo"
+        @getuserinfo="getuserinfo"
+        withCredentials="true"
+        hover-class="none"
       >
         投票
       </button>
@@ -30,30 +30,30 @@
     <!-- 帮我拉票 -->
     <view class="text-center">
       <view
-          class="inline-block text-gray-100 text-xl my-2 p-2 border-r-0 border-l-0 border-t-0 border-b-2 border-solid border-orange-500"
-          @click="share"
+        class="inline-block text-gray-100 text-xl my-2 p-2 border-r-0 border-l-0 border-t-0 border-b-2 border-solid border-orange-500"
+        @click="share"
       >
         帮我拉票
       </view>
       <image :src="canvasUrl" mode="widthFix"></image>
       <mosowe-canvas-image
-          ref="mosoweCanvasComponents"
-          @canvasImage="_canvasImage"
-          :lists="lists"
-          height="400"
-          width="300"
+        ref="mosoweCanvasComponents"
+        @canvasImage="_canvasImage"
+        :lists="lists"
+        height="400"
+        width="300"
       />
     </view>
 
     <!-- 返回 -->
     <navigator
-        :url="'/pages/index/index?id=' + actId"
-        open-type="reLaunch"
-        hover-class="other-navigator-hover"
+      :url="'/pages/index/index?id=' + actId"
+      open-type="reLaunch"
+      hover-class="other-navigator-hover"
     >
       <view class="text-center">
         <view
-            class="inline-block text-gray-100 text-xl my-2 p-2 border-r-0 border-l-0 border-t-0 border-b-2 border-solid border-orange-500"
+          class="inline-block text-gray-100 text-xl my-2 p-2 border-r-0 border-l-0 border-t-0 border-b-2 border-solid border-orange-500"
         >
           返回
         </view>
@@ -73,11 +73,11 @@ import voteFooter from "@/components/footer/footer.vue"
 import subTitle from "@/components/sub-title/sub-title.vue"
 import detailVideo from "@/components/detail-video/detail-video.vue"
 import mosoweCanvasImage from "@/components/mosowe-canvas-image/mosowe-canvas-image.vue"
-import {items} from "@/mock/store"
-import {Iactivity, IglobalData, Iitem} from "@/common/interface"
-import {getItems} from "@/servise/items"
-import {handleVote} from "@/servise/vote"
-import {login, uLogin} from "@/servise/login"
+import { items } from "@/mock/store"
+import { Iactivity, IglobalData, Iitem } from "@/common/interface"
+import { getItems } from "@/servise/items"
+import { handleVote } from "@/servise/vote"
+import { login, uLogin } from "@/servise/login"
 import * as _ from "lodash"
 
 export default Vue.extend({
@@ -150,7 +150,7 @@ export default Vue.extend({
         {
           type: "image",
           content:
-              "http://www2.huadongbio.com:9000/vote-app/2020-09-22/avatar.png",
+            "http://www2.huadongbio.com:9000/vote-app/2020-09-22/avatar.png",
           width: 110,
           height: 110,
           x: 100,
@@ -174,7 +174,7 @@ export default Vue.extend({
     // 设置标题
     uni.setNavigationBarTitle({
       title: `我是${this.code}号，${this.item?.name}, 正在参加${
-          globalData.activities[this.actId].name
+        globalData.activities[this.actId].name
       }`,
     })
     // 更新帮我拉新内容
@@ -196,9 +196,9 @@ export default Vue.extend({
     // 获取选手信息
     async _getItem() {
       let activityId = this.actId,
-          code = this.code
+        code = this.code
       try {
-        let {data} = await getItems({activityId, code})
+        let { data } = await getItems({ activityId, code })
 
         this.item = data?.data[0]
       } catch (error) {
@@ -265,9 +265,9 @@ export default Vue.extend({
       uni.getStorage({
         key: "userInfo",
         success: async (res) => {
-          let {openid, activities, currentActId} = getApp()
-              .globalData as IglobalData
-          let {status} = activities.filter((el) => el.id == currentActId)[0]
+          let { openid, activities, currentActId } = getApp()
+            .globalData as IglobalData
+          let { status } = activities.filter((el) => el.id == currentActId)[0]
           console.log("openid:", openid, "status:", status)
           // 判断是否是进行中的活动，不是就直接返回
           if (!(status == "ONGOING")) {
@@ -281,7 +281,7 @@ export default Vue.extend({
           if (_.isEmpty(openid)) {
             try {
               let res = await uLogin()
-              let {data} = await login({code: res.code})
+              let { data } = await login(res.code)
               openid = data.openId
               console.log(`code:${res.code}, openid:`, data.openId)
             } catch (err) {
@@ -290,7 +290,7 @@ export default Vue.extend({
           }
           try {
             // 上传投票信息
-            let {data} = await handleVote({
+            let { data } = await handleVote({
               itemId: this.item.id,
               openId: openid,
             })

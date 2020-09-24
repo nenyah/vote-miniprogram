@@ -89,7 +89,7 @@ export default Vue.extend({
       if (_.isEmpty(openid)) {
         try {
           let res = await uLogin()
-          let { data } = await login({ code: res.code })
+          let { data } = await login(res.code)
           openid = data.openId
           console.log(`code:${res.code}, openid:`, data.openId)
         } catch (err) {
