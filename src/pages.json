@@ -42,6 +42,12 @@
       "style": {
         "navigationBarTitleText": "我的"
       }
+    },
+    {
+      "path": "pages/history/history",
+      "style": {
+        "navigationBarTitleText": "投票历史记录"
+      }
     }
   ],
   "globalStyle": {
