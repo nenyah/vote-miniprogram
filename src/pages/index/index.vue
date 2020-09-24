@@ -105,7 +105,7 @@ import { activities, items } from "@/mock/store"
 import moment from "moment"
 import { Iactivity, IglobalData } from "@/common/interface"
 import * as _ from "lodash"
-
+import { isLogin } from "@/utils/check"
 moment().locale("zh-cn")
 
 interface Query {
@@ -133,7 +133,13 @@ export default Vue.extend({
   },
   async onLoad(query) {
     // 判断是否登录
-    await this._isLogin()
+    let isLogined = await isLogin()
+    if (!isLogined) {
+      uni.redirectTo({
+        url: "../login/login",
+      })
+      return
+    }
     // 1. 服务器接口获取活动信息
     this.activities = await this._getActivities()
     // 2. 活动信息存入globaldata
@@ -167,23 +173,6 @@ export default Vue.extend({
       } catch (error) {
         return activities
       }
-    },
-    async _isLogin() {
-      // 判断是否登录
-      // 1. 检查是否有缓存,有登录进入对应页面
-      // 2. 没有就进入登录授权页面
-      uni.getStorage({
-        key: "userInfo",
-        success: async (res) => {
-          console.log("缓存数据用户信息", res)
-        },
-        fail: (err) => {
-          console.error("微信登录错误信息", err)
-          uni.redirectTo({
-            url: "../login/login",
-          })
-        },
-      })
     },
     async toIndex(e: any) {
       console.log("e:", e.currentTarget.dataset.id)

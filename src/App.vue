@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-08-26 16:08:15
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-21 14:51:51
+ * @LastEditTime: 2020-09-24 16:55:05
 -->
 <script lang="ts">
 import Vue from "vue"
@@ -25,7 +25,9 @@ export default Vue.extend({
     currentActId: -1,
     items: [],
     currentItemId: -1,
-    openid:"",
+    openid: "",
+    token: "",
+    unionid: "",
   },
 })
 </script>

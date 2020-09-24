@@ -24,13 +24,14 @@ export default Vue.extend({
           // 获取openid
           let {
             data
-          } = await login({
-            code: loginRes.code
-          })
+          } = await login(loginRes.code)
           console.log("远程登录返回信息", data)
           // 存入全局
           let globaldata = app.globalData as IglobalData
           globaldata.openid = data.openId
+          globaldata.token = data.token
+          globaldata.unionid = data.unionid
+          
 
           //  成功后，获取userinfo
           uni.getUserInfo({
@@ -74,28 +75,28 @@ export default Vue.extend({
                       key: "userInfo",
                       data: userInfoData,
                     })
-                    try {
-                      // 上传用户信息
-                      await userInfo({
-                        openId: data.openId,
-                        signature: res.signature,
-                        encryptedData: res.encryptedData,
-                        iv: res.iv,
-                      })
-                    } catch (error) {
-                      console.error("上传用户信息失败", error)
-                    }
+                    // try {
+                    //   // 上传用户信息
+                    //   await userInfo({
+                    //     openId: data.openId,
+                    //     signature: res.signature,
+                    //     encryptedData: res.encryptedData,
+                    //     iv: res.iv,
+                    //   })
+                    // } catch (error) {
+                    //   console.error("上传用户信息失败", error)
+                    // }
 
                     // 成功后，跳转到活动列表页
-                    uni.reLaunch({
-                      url: "../index/index",
-                      success: (res) => {
-                        console.log("跳转成功", res)
-                      },
-                      fail: (err) => {
-                        console.log("跳转失败", err)
-                      },
-                    })
+                    // uni.reLaunch({
+                    //   url: "../index/index",
+                    //   success: (res) => {
+                    //     console.log("跳转成功", res)
+                    //   },
+                    //   fail: (err) => {
+                    //     console.log("跳转失败", err)
+                    //   },
+                    // })
                   }
                 }
                 ,

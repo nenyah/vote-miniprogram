@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-11 16:32:30
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-21 14:54:46
+ * @LastEditTime: 2020-09-24 16:54:46
  */
 
 // 属性
@@ -67,4 +67,6 @@ export interface IglobalData {
   items: Iitem[]
   currentItemId: number
   openid: string
+  token?:string
+  unionid?:string
 }

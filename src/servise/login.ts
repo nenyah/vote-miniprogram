@@ -3,15 +3,12 @@
  * @Author: Steven
  * @Date: 2020-09-14 15:04:50
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-22 14:43:10
+ * @LastEditTime: 2020-09-24 16:21:16
  */
 import request from "@/utils/request"
 import config from "@/common/config"
 
 type Code = string
-interface LoginParams {
-  code: Code
-}
 type OpenId = string
 type Signature = string
 type EncryptedData = string
@@ -29,12 +26,11 @@ interface UserParams {
  * @param params LoginParams
  *
  */
-export const login = (params: LoginParams) => {
+export const login = (params:String) => {
   return request({
     url: `${config}weixin/login`,
-    data: {
-      ...params,
-    },
+    method: "POST",
+    data: params,
   })
 }
 /**
