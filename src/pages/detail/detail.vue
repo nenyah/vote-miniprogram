@@ -79,7 +79,7 @@ import { getItems } from "@/servise/items"
 import { handleVote } from "@/servise/vote"
 import { login, uLogin } from "@/servise/login"
 import * as _ from "lodash"
-
+let app = getApp()
 export default Vue.extend({
   data() {
     return {
@@ -283,6 +283,10 @@ export default Vue.extend({
               let res = await uLogin()
               let { data } = await login(res.code)
               openid = data.openId
+              let globaldata = app.globalData as IglobalData
+              globaldata.openid = data.openId
+              globaldata.token = data.token
+              globaldata.unionid = data.unionid
               console.log(`code:${res.code}, openid:`, data.openId)
             } catch (err) {
               console.error("获取code失败", err)

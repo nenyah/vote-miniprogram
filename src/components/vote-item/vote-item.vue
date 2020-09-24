@@ -49,6 +49,7 @@ import { handleVote } from "@/servise/vote"
 import { Iactivity, IglobalData } from "@/common/interface"
 import { login, uLogin } from "@/servise/login"
 import * as _ from "lodash"
+let app = getApp()
 export default Vue.extend({
   components: {
     voteButton,
@@ -91,24 +92,32 @@ export default Vue.extend({
           let res = await uLogin()
           let { data } = await login(res.code)
           openid = data.openId
+          let globaldata = app.globalData as IglobalData
+          globaldata.openid = data.openId
+          globaldata.token = data.token
+          globaldata.unionid = data.unionid
           console.log(`code:${res.code}, openid:`, data.openId)
         } catch (err) {
           console.error("获取code失败", err)
         }
       }
-
-      try {
-        // 上传投票信息
-        let { data } = await handleVote({
-          itemId: this.item.id,
-          openId: openid,
-        })
-        console.log("上传之后", data)
-        // 上传成功后刷新页面
-        uni.$emit("update", { msg: "页面更新" })
-      } catch (err) {
-        console.error("上传投票信息失败", err)
-      }
+      uni.showModal({
+        content: `确认为${this.item.code}号投票吗？`,
+        success: async (res) => {
+          try {
+            // 上传投票信息
+            let { data } = await handleVote({
+              itemId: this.item.id,
+              openId: openid,
+            })
+            console.log("上传之后", data)
+            // 上传成功后刷新页面
+            uni.$emit("update", { msg: "页面更新" })
+          } catch (err) {
+            console.error("上传投票信息失败", err)
+          }
+        },
+      })
     },
   },
   computed: {
