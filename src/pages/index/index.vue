@@ -164,7 +164,7 @@ export default Vue.extend({
     // 获取活动信息
     async _getActivities() {
       try {
-        let { data }: any = await getActivities(1)
+        let { data }: any = await getActivities()
         return data.data
       } catch (error) {
         return activities
@@ -175,16 +175,12 @@ export default Vue.extend({
       let globaldata = getApp().globalData as IglobalData
       globaldata.currentActId = e.currentTarget.dataset.id
       this.actId = e.currentTarget.dataset.id
-      // 增加访问量
+      // 1. 增加访问量
       try {
         await putVisits(e.currentTarget.dataset.id)
       } catch (error) {
         console.error("增加访问量失败", error)
       }
-      /**
-       * 1. 下载活动信息
-       * 2. 下载选手信息
-       */
       // 2. 下载活动信息
       await this._getActivity()
       // 设置标题
@@ -193,11 +189,10 @@ export default Vue.extend({
       })
       // 3. 下载选手信息
       await this._getItems()
-      // 4. 存入当前活动id
-      // let globalData: any = getApp().globalData
-      // globalData.currentActId = +query?.id
-      // 5. 计算时间
-      // 获取活动时间
+      // 4. 判断活动状态
+      this.setTime()
+    },
+    setTime() {
       let { startTime, endTime, status }: any = this.activity
       //  获取当前时间
       let now = moment()
@@ -214,8 +209,8 @@ export default Vue.extend({
         duration = moment.duration(endTime.diff(now))
         this.setCountDown(duration)
       }
-      console.log(`now:${now}, startTime:${startTime}, endTime:${endTime}`)
     },
+
     setCountDown: function(duration: moment.Duration) {
       if (duration.days() > 0) {
         this.showDay = true
@@ -306,3 +301,11 @@ export default Vue.extend({
   background-repeat: no-repeat;
 }
 </style>
+
+function newFunction() { let { startTime,endTime,status }: any=this.activity //
+获取当前时间 let now=moment() startTime=moment(startTime)
+endTime=moment(endTime) let duration=moment.duration(startTime.diff(now)) //
+根据状态显示不同内容 if(status==="ISCOMING") { this.msg="活动开始还有"
+this.setCountDown(duration) } else if(status==="ONGOING") {
+this.msg="活动结束还有" duration=moment.duration(endTime.diff(now))
+this.setCountDown(duration) } }

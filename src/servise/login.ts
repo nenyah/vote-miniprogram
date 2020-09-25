@@ -3,11 +3,11 @@
  * @Author: Steven
  * @Date: 2020-09-14 15:04:50
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-25 11:09:15
+ * @LastEditTime: 2020-09-25 13:01:19
  */
 import request from "@/utils/request"
 import config from "@/common/config"
-import { IglobalData } from '@/common/interface'
+import { IglobalData } from "@/common/interface"
 
 type Code = string
 type OpenId = string
@@ -36,7 +36,6 @@ export const getCode = () => {
 
 /**
  * 登录换取openid,uniondid,token
- * 文档： [https://www2.huadongbio.com:9004/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config#/WeixinLogin/weixinLogin](https://www2.huadongbio.com:9004/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config#/WeixinLogin/weixinLogin)
  * @param params LoginParams
  *
  */
@@ -52,6 +51,8 @@ export const login = async () => {
   let app = getApp()
   // 获取code
   let code = (await getCode()) as string
+  console.log("获取到code", code)
+
   // 获取openid
   let { data } = await checkUser(code)
   // 存入全局
@@ -73,5 +74,3 @@ export const userInfo = (params: UserParams) => {
     },
   })
 }
-
-

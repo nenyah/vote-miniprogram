@@ -1,10 +1,3 @@
-/*
- * @Description:
- * @Author: Steven
- * @Date: 2020-09-11 08:52:11
- * @LastEditors: Steven
- * @LastEditTime: 2020-09-24 16:56:45
- */
 import { IglobalData } from "@/common/interface"
 
 interface IParams {
