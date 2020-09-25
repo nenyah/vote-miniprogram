@@ -84,8 +84,16 @@ export default Vue.extend({
         return
       }
 
-      let { openid, activities, currentActId } = getApp()
+      let { openid, activities, currentActId, unionid } = getApp()
         .globalData as IglobalData
+      // 判断是否关注了公众号
+      if (_.isEmpty(unionid)) {
+        uni.showToast({
+          title: "请先关注公众号《YVOIRE伊婉》再投票哦！",
+          icon: "none",
+        })
+        return
+      }
       let { status } = activities.filter((el) => el.id == currentActId)[0]
       // 判断是否是进行中的活动，不是就直接返回
       if (!(status == "ONGOING")) {
@@ -106,15 +114,29 @@ export default Vue.extend({
       uni.showModal({
         content: `确认为${this.item.code}号投票吗？`,
         success: async (res) => {
+          // 取消按钮
+          if (res.cancel == true) {
+            return
+          }
           try {
             // 上传投票信息
-            let { data } = await handleVote({
-              itemId: this.item.id,
-              openId: openid,
-            })
+            let { data } = await handleVote(this.item.id)
             console.log("上传之后", data)
-            // 上传成功后刷新页面
-            uni.$emit("update", { msg: "页面更新" })
+            if (!(data.succes == "true")) {
+              uni.showToast({
+                title: data.errorMsg,
+                icon: "none",
+              })
+              return
+            }
+            uni.showToast({
+              title: "投票成功！",
+              icon: "success",
+            })
+            setTimeout(() => {
+              // 上传成功后刷新页面
+              uni.$emit("update", { msg: "页面更新" })
+            }, 2000)
           } catch (err) {
             console.error("上传投票信息失败", err)
           }

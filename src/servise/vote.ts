@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-14 15:04:50
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-25 15:10:59
+ * @LastEditTime: 2020-09-25 15:57:56
  */
 import request from "@/utils/request"
 import config from "@/common/config"
@@ -12,19 +12,16 @@ type ItemId = number
 type OpenId = string
 interface Iparams {
   itemId: ItemId
-  openId: OpenId
 }
 /**
  *
- * @param params Iparams
+ * @param itemId string
  */
-export const handleVote = (params: Iparams) => {
+export const handleVote = (itemId: string) => {
   return request({
     url: `${config}weixin/vote`,
     method: "POST",
-    data: {
-      ...params,
-    },
+    data: itemId,
   })
 }
 interface StatParams {

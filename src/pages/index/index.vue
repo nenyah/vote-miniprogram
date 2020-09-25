@@ -77,8 +77,15 @@
       <search-bar @updateItem="handleInput"></search-bar>
       <!-- 项目列表区域 -->
       <vote-list :items="items" :itemType="itemType"></vote-list>
-      <!-- 脚注区域 -->
       <vote-footer :content="activity.name"></vote-footer>
+      <view>
+        <!-- uni-app未封装，但可直接使用微信原生的official-account组件-->
+        <!-- #ifdef MP-WEIXIN -->
+        <official-account></official-account>
+        <!-- #endif -->
+      </view>
+      <!-- 脚注区域 -->
+
       <view
         class="text-gray-900 bg-gray-200 rounded-full flex justify-center items-center"
         @click="back"
@@ -122,6 +129,7 @@ export default Vue.extend({
       activity: {} as Iactivity,
       code: "",
       dbouncedGetItems: () => {},
+      dbouncedGetActivity: () => {},
       day: 0,
       hour: 0,
       min: 1,
@@ -141,14 +149,15 @@ export default Vue.extend({
     // 2. 活动信息存入globaldata
     let globalData: any = getApp().globalData
     globalData.activities = this.activities
+    // 添加防抖
+    this.dbouncedGetItems = _.debounce(this._getItems, 500)
+    this.dbouncedGetActivity = _.debounce(this._getActivity, 500)
     // 添加事件监听
     uni.$on("update", (data) => {
       console.log("监听到事件来自 update ，携带参数 msg 为：" + data.msg)
-      this._getActivity()
-      this._getItems()
+      this.dbouncedGetItems()
+      this.dbouncedGetActivity()
     })
-    // 添加防抖
-    this.dbouncedGetItems = _.debounce(this._getItems, 500)
   },
   onUnload() {
     uni.$off("update", function(data) {
