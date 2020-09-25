@@ -47,9 +47,9 @@ import Vue from "vue"
 import voteButton from "@/components/vote-button/vote-button.vue"
 import { handleVote } from "@/servise/vote"
 import { Iactivity, IglobalData } from "@/common/interface"
-import { login, uLogin } from "@/servise/login"
+import { login } from "@/servise/login"
 import * as _ from "lodash"
-import { isLogin } from "@/utils/check"
+import { isAuthorize } from "@/utils/check"
 let app = getApp()
 export default Vue.extend({
   components: {
@@ -75,14 +75,14 @@ export default Vue.extend({
        * 3. 判断是否超出限制 服务器判断
        *
        */
-      // 判断是否登录
-    let isLogined = await isLogin()
-    if (!isLogined) {
-      uni.redirectTo({
-        url: "../login/login",
-      })
-      return
-    }
+      // 判断是否授权
+      let isLogined = await isAuthorize()
+      if (!isLogined) {
+        uni.redirectTo({
+          url: "../login/login",
+        })
+        return
+      }
 
       let { openid, activities, currentActId } = getApp()
         .globalData as IglobalData
@@ -98,14 +98,7 @@ export default Vue.extend({
       // 没有openid
       if (_.isEmpty(openid)) {
         try {
-          let res = await uLogin()
-          let { data } = await login(res.code)
-          openid = data.openId
-          let globaldata = app.globalData as IglobalData
-          globaldata.openid = data.openId
-          globaldata.token = data.token
-          globaldata.unionid = data.unionid
-          console.log(`code:${res.code}, openid:`, data.openId)
+          await login()
         } catch (err) {
           console.error("获取code失败", err)
         }

@@ -1,3 +1,10 @@
+<!--
+ * @Description: 
+ * @Author: Steven
+ * @Date: 2020-09-17 10:02:11
+ * @LastEditors: Steven
+ * @LastEditTime: 2020-09-25 11:03:42
+-->
 <template>
   <view class="flex flex-col justify-center items-center content-center h-full">
     婉美投票
@@ -20,89 +27,73 @@ let app = getApp()
 export default Vue.extend({
   methods: {
     getuserinfo() {
-      uni.login({
+      //  成功后，获取userinfo
+      uni.getUserInfo({
         provider: "weixin",
-        success: async (loginRes) => {
-          // 获取openid
-          let { data } = await login(loginRes.code)
-          // 存入全局
-          let globaldata = app.globalData as IglobalData
-          globaldata.openid = data.openId
-          globaldata.token = data.token
-          globaldata.unionid = data.unionid
-
-          //  成功后，获取userinfo
-          uni.getUserInfo({
-            provider: "weixin",
+        success: async (res) => {
+          let userInfoData = res.userInfo
+          //判断是否授权
+          uni.getSetting({
             success: async (res) => {
-              let userInfoData = res.userInfo
-              //判断是否授权
-              uni.getSetting({
-                success: async (res) => {
-                  if (!res.authSetting["scope.userInfo"]) {
-                    //这里调用授权
-                    console.log("当前未授权")
-                    uni.authorize({
-                      scope: "scope.userInfo",
-                      success: async (res) => {
-                        console.log("授权成功", res)
-                      },
-                      fail: (err) => {
-                        console.error("授权失败", err)
-                        uni.showToast({
-                          title: "为了更好的为你服务，请同意授权",
-                          icon: "none",
-                        })
-                      },
+              if (!res.authSetting["scope.userInfo"]) {
+                //这里调用授权
+                console.log("当前未授权")
+                uni.authorize({
+                  scope: "scope.userInfo",
+                  success: async (res) => {
+                    console.log("授权成功", res)
+                  },
+                  fail: (err) => {
+                    console.error("授权失败", err)
+                    uni.showToast({
+                      title: "为了更好的为你服务，请同意授权",
+                      icon: "none",
                     })
-                  } else {
-                    //用户已经授权过了
-                    console.log("当前已授权")
-                    // 弹出正在登录的弹框
-                    uni.showLoading({
-                      mask: true,
-                      title: "正在登录···",
-                      complete: () => {},
-                    })
-                    // 获取成功存入缓存
-                    uni.setStorage({
-                      key: "userInfo",
-                      data: userInfoData,
-                    })
-                    try {
-                      // 上传用户信息
-                      await userInfo({
-                        openId: data.openId,
-                        signature: res.signature,
-                        encryptedData: res.encryptedData,
-                        iv: res.iv,
-                      })
-                    } catch (error) {
-                      console.error("上传用户信息失败", error)
-                    }
+                  },
+                })
+              } else {
+                //用户已经授权过了
+                console.log("当前已授权")
+                // 弹出正在登录的弹框
+                uni.showLoading({
+                  mask: true,
+                  title: "正在登录···",
+                  complete: () => {},
+                })
+                // 获取成功存入缓存
+                uni.setStorage({
+                  key: "userInfo",
+                  data: userInfoData,
+                })
+                try {
+                  // 上传用户信息
+                  await userInfo({
+                    openId: app.globalData?.openId,
+                    signature: res.signature,
+                    encryptedData: res.encryptedData,
+                    iv: res.iv,
+                  })
+                } catch (error) {
+                  console.error("上传用户信息失败", error)
+                }
 
-                    // 成功后，跳转到活动列表页
-                    uni.reLaunch({
-                      url: "../index/index",
-                      success: (res) => {
-                        console.log("跳转成功", res)
-                      },
-                      fail: (err) => {
-                        console.log("跳转失败", err)
-                      },
-                    })
-                  }
-                },
-                fail: function(res) {},
-              })
+                // 成功后，跳转到活动列表页
+                uni.reLaunch({
+                  url: "../index/index",
+                  success: (res) => {
+                    console.log("跳转成功", res)
+                  },
+                  fail: (err) => {
+                    console.log("跳转失败", err)
+                  },
+                })
+              }
             },
-            fail: (err) => {
-              console.error("获取用户信息失败", err)
-            },
+            fail: function(res) {},
           })
         },
         fail: (err) => {
-          console.error("登录失败", err)
+          console.error("获取用户信息失败", err)
         },
       })
     },

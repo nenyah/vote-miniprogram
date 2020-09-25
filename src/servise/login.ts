@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-14 15:04:50
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-25 10:59:02
+ * @LastEditTime: 2020-09-25 11:09:15
  */
 import request from "@/utils/request"
 import config from "@/common/config"
@@ -74,14 +74,4 @@ export const userInfo = (params: UserParams) => {
   })
 }
 
-export const uLogin = () => {
-  return new Promise(
-    (resolve: (value: any) => void, reject: (value: any) => void) => {
-      uni.login({
-        provider: "weixin",
-        success: (res) => resolve(res),
-        fail: (err) => reject(err),
-      })
-    }
-  )
-}
+
