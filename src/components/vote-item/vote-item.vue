@@ -56,7 +56,9 @@ export default Vue.extend({
     voteButton,
   },
   data() {
-    return {}
+    return {
+      actId: -1 as number,
+    }
   },
   props: {
     item: Object,
@@ -75,17 +77,18 @@ export default Vue.extend({
        * 3. 判断是否超出限制 服务器判断
        *
        */
+      let { openid, activities, currentActId, unionid } = getApp()
+        .globalData as IglobalData
+      this.actId = currentActId
       // 判断是否授权
       let isLogined = await isAuthorize()
       if (!isLogined) {
         uni.redirectTo({
-          url: "../login/login",
+          url: `../login/login?page=index&id=${this.actId}`,
         })
         return
       }
 
-      let { openid, activities, currentActId, unionid } = getApp()
-        .globalData as IglobalData
       // 判断是否关注了公众号
       if (_.isEmpty(unionid)) {
         uni.showToast({
