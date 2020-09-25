@@ -49,6 +49,7 @@ import { handleVote } from "@/servise/vote"
 import { Iactivity, IglobalData } from "@/common/interface"
 import { login, uLogin } from "@/servise/login"
 import * as _ from "lodash"
+import { isLogin } from "@/utils/check"
 let app = getApp()
 export default Vue.extend({
   components: {
@@ -74,6 +75,14 @@ export default Vue.extend({
        * 3. 判断是否超出限制 服务器判断
        *
        */
+      // 判断是否登录
+    let isLogined = await isLogin()
+    if (!isLogined) {
+      uni.redirectTo({
+        url: "../login/login",
+      })
+      return
+    }
 
       let { openid, activities, currentActId } = getApp()
         .globalData as IglobalData

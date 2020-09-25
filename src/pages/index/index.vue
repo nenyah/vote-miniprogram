@@ -105,13 +105,14 @@ import { activities, items } from "@/mock/store"
 import moment from "moment"
 import { Iactivity, IglobalData } from "@/common/interface"
 import * as _ from "lodash"
-import { isLogin } from "@/utils/check"
+import { getCode, login } from "@/servise/login"
+
 moment().locale("zh-cn")
 
 interface Query {
   id: number
 }
-
+let app = getApp()
 export default Vue.extend({
   data() {
     return {
@@ -132,14 +133,9 @@ export default Vue.extend({
     }
   },
   async onLoad(query) {
-    // 判断是否登录
-    let isLogined = await isLogin()
-    if (!isLogined) {
-      uni.redirectTo({
-        url: "../login/login",
-      })
-      return
-    }
+    // 后端登录
+    await login()
+
     // 1. 服务器接口获取活动信息
     this.activities = await this._getActivities()
     // 2. 活动信息存入globaldata
