@@ -7,30 +7,33 @@
       <view
         class="flex border-gray-300 border-solid border border-t-0 border-r-0 border-l-0 p-4"
       >
-        <view v-if="showUserInfo">
+        <view v-if="showUserInfo" class="flex items-center">
           <image
             :src="userinfo.avatarUrl"
             class="rounded-full w-16 h-16 border border-gray-300 border-solid"
           ></image>
           <view class="mx-5">
             <view class="text-gray-900 font-bold">{{ userinfo.nickName }}</view>
-            <view>{{ userinfo.city }}</view>
-            <view>{{ userinfo.province }}</view>
+            <view>{{ userphone.mobile }}</view>
           </view>
         </view>
         <view v-else class="mx-auto">
-          <navigator url="../login/login?page=profile" class=" bg-purple-300 text-gray-100 py-2 px-6 rounded-full">登录/注册</navigator>
+          <navigator
+            url="../login/login?page=profile"
+            class=" bg-purple-300 text-gray-100 py-2 px-6 rounded-full"
+            >登录/注册</navigator
+          >
         </view>
       </view>
       <view class="flex p-2">
         <view
           class="flex-1 text-center border-l-0 border-t-0 border-b-0 border-gray-300 border-solid border-r"
         >
-          <view>{{actNum}}</view>
+          <view>{{ actNum }}</view>
           <view>参与活动</view>
         </view>
         <view class="flex-1 text-center">
-          <view>{{totalVoteNum}}</view>
+          <view>{{ totalVoteNum }}</view>
           <view>总投票数</view>
         </view>
       </view>
@@ -51,22 +54,60 @@
 import Vue from "vue"
 import Component from "vue-class-component"
 import { login } from "@/servise/login"
+import { getUserInfo, getStorage } from "@/utils/utils"
+import { getVoteStat } from "@/servise/vote"
+import * as _ from "lodash"
 @Component({})
 export default class profile extends Vue {
   private userinfo: Object = () => {}
+  private userphone: Object = () => {}
   showUserInfo: Boolean = false
   actNum: number = 0
   totalVoteNum: number = 0
   async onLoad() {
     await login()
-    await this.getUserInfo()
+    await this._getUserInfo()
+    await this._getUserPhone()
+    if (_.isEmpty(this.userinfo) && _.isEmpty(this.userphone)) {
+      return
+    }
+    this.showUserInfo = true
+    await this._getStats()
   }
 
-  private async getUserInfo() {
+  private async _getUserInfo() {
     try {
-      let res = uni.getUserInfo({})
+      // 获取缓存中的用户信息
+      let res = (await getStorage("userInfo")) as any
+      this.userinfo = res.data
+      console.log("获取用户信息", res)
     } catch (err) {
-      console.error("获取用户")
+      console.error("获取用户失败")
+    }
+  }
+  private async _getStats() {
+    if (!this.showUserInfo) {
+      return
+    }
+    try {
+      let res = await getVoteStat()
+      this.totalVoteNum = res.data.reduce((acc: any, cur: any) => {
+        return acc?.voteCount || 0 + +cur?.voteCount
+      }, 0)
+      this.actNum = res.data.length
+      console.log("获取统计数据", res)
+    } catch (err) {
+      console.error("获取统计数据失败", err)
+    }
+  }
+  private async _getUserPhone() {
+    try {
+      // 获取缓存中的用户信息
+      let res = (await getStorage("userPhone")) as any
+      this.userphone = res.data
+      console.log("获取用户手机信息", res)
+    } catch (err) {
+      console.error("获取用户手机信息")
     }
   }
   private async toHistory() {

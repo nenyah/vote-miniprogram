@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-14 15:04:50
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-25 13:01:19
+ * @LastEditTime: 2020-09-25 14:06:47
  */
 import request from "@/utils/request"
 import config from "@/common/config"
@@ -14,8 +14,7 @@ type OpenId = string
 type Signature = string
 type EncryptedData = string
 type IV = string
-interface UserParams {
-  openId: OpenId
+export interface UserParams {
   signature: Signature
   encryptedData: EncryptedData
   iv: IV
@@ -33,13 +32,12 @@ export const getCode = () => {
     })
   })
 }
-
 /**
  * 登录换取openid,uniondid,token
  * @param params LoginParams
  *
  */
-export const checkUser = (params: String) => {
+export const checkUser = (params: Code) => {
   return request({
     url: `${config}weixin/login`,
     method: "POST",

@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-14 15:04:50
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-21 14:41:14
+ * @LastEditTime: 2020-09-25 14:46:09
  */
 import request from "@/utils/request"
 import config from "@/common/config"
@@ -25,5 +25,32 @@ export const handleVote = (params: Iparams) => {
     data: {
       ...params,
     },
+  })
+}
+interface StatParams {
+  pageNo: number
+  pageSize: number
+  activityId: number
+  startDate: string
+  endDate: string
+}
+/**
+ * 历史投票数据明细
+ * @param params StatParams
+ */
+export const getVoteHistory = (params: StatParams) => {
+  return request({
+    url: `${config}weixin/vote/history`,
+    data: {
+      ...params,
+    },
+  })
+}
+/**
+ * 当前人投票统计数据
+ */
+export const getVoteStat = () => {
+  return request({
+    url: `${config}weixin/vote/stat`,
   })
 }

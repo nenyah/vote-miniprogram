@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-17 10:02:11
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-25 13:38:43
+ * @LastEditTime: 2020-09-25 14:29:11
 -->
 <template>
   <view>
@@ -34,11 +34,9 @@
 
 <script lang="ts">
 import Vue from "vue"
-import { login, userInfo } from "@/servise/login"
+import { checkUser, login, userInfo, UserParams } from "@/servise/login"
 import { IglobalData } from "@/common/interface"
-import { getUserInfo } from "@/utils/utils"
-
-let app = getApp()
+import { getUserInfo, setStorage } from "@/utils/utils"
 export default Vue.extend({
   data() {
     return {
@@ -80,6 +78,14 @@ export default Vue.extend({
         return
       }
       this.AuthorizedPhone = true
+      let postParams = e.detail as UserParams
+      let res = await userInfo({
+        signature: postParams.signature,
+        encryptedData: postParams.encryptedData,
+        iv: postParams.iv,
+      })
+      await setStorage("userPhone", res.data)
+      console.log("解密信息", res)
     },
     async getuserinfo(e: any) {
       console.log("获取用户信息触发", e.detail)
@@ -89,6 +95,14 @@ export default Vue.extend({
         return
       }
       this.AuthorizedUserInfo = true
+      let postParams = e.detail as UserParams
+      let res = await userInfo({
+        signature: postParams.signature,
+        encryptedData: postParams.encryptedData,
+        iv: postParams.iv,
+      })
+      await setStorage("userInfo", res.data)
+      console.log("解密信息", res)
     },
   },
 })
