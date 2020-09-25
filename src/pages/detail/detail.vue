@@ -287,10 +287,7 @@ export default Vue.extend({
           }
           try {
             // 上传投票信息
-            let { data } = await handleVote({
-              itemId: this.item.id,
-              openId: openid,
-            })
+            let { data } = await handleVote(this.item.id.toString())
             console.log("上传之后", data)
             if (data.success) {
               // 成功后显示投票成功并刷新数据

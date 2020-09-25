@@ -111,6 +111,9 @@ export default class profile extends Vue {
     }
   }
   private async toHistory() {
+    if (!this.showUserInfo) {
+      return
+    }
     uni.navigateTo({
       url: `../history/history`,
     })
