@@ -141,6 +141,7 @@ export default Vue.extend({
     }
   },
   async onLoad(query) {
+    this.actId = query?.actId || -1
     // 后端登录
     await login()
 

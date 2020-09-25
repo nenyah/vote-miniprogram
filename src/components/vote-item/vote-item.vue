@@ -80,46 +80,55 @@ export default Vue.extend({
       let { openid, activities, currentActId, unionid } = getApp()
         .globalData as IglobalData
       this.actId = currentActId
-      // 判断是否授权
-      let isLogined = await isAuthorize()
-      if (!isLogined) {
-        uni.redirectTo({
-          url: `../login/login?page=index&id=${this.actId}`,
-        })
-        return
-      }
 
-      // 判断是否关注了公众号
-      if (_.isEmpty(unionid)) {
-        uni.showToast({
-          title: "请先关注公众号《YVOIRE伊婉》再投票哦！",
-          icon: "none",
-        })
-        return
-      }
-      let { status } = activities.filter((el) => el.id == currentActId)[0]
-      // 判断是否是进行中的活动，不是就直接返回
-      if (!(status == "ONGOING")) {
-        uni.showToast({
-          title: "现在不是投票时间哦！",
-          icon: "none",
-        })
-        return
-      }
-      // 没有openid
-      if (_.isEmpty(openid)) {
-        try {
-          await login()
-        } catch (err) {
-          console.error("获取code失败", err)
-        }
-      }
       uni.showModal({
         content: `确认为${this.item.code}号投票吗？`,
         success: async (res) => {
           // 取消按钮
           if (res.cancel == true) {
             return
+          }
+          // 判断是否授权
+          let isLogined = await isAuthorize()
+          if (!isLogined) {
+            uni.showModal({
+              content: "请先登录",
+              showCancel: false,
+              success: async (res) => {
+                console.log("登录同意后信息", res)
+                uni.navigateTo({
+                  url: `../login/login`,
+                })
+              },
+            })
+
+            return
+          }
+
+          // 判断是否关注了公众号
+          if (_.isEmpty(unionid)) {
+            uni.showToast({
+              title: "请先关注公众号《YVOIRE伊婉》再投票哦！",
+              icon: "none",
+            })
+            return
+          }
+          let { status } = activities.filter((el) => el.id == currentActId)[0]
+          // 判断是否是进行中的活动，不是就直接返回
+          if (!(status == "ONGOING")) {
+            uni.showToast({
+              title: "现在不是投票时间哦！",
+              icon: "none",
+            })
+            return
+          }
+          // 没有openid
+          if (_.isEmpty(openid)) {
+            try {
+              await login()
+            } catch (err) {
+              console.error("获取code失败", err)
+            }
           }
           try {
             // 上传投票信息

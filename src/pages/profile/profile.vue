@@ -19,7 +19,7 @@
         </view>
         <view v-else class="mx-auto">
           <navigator
-            url="../login/login?page=profile"
+            url="../login/login"
             class=" bg-purple-300 text-gray-100 py-2 px-6 rounded-full"
             >登录/注册</navigator
           >
@@ -64,8 +64,7 @@ export default class profile extends Vue {
   showUserInfo: Boolean = false
   actNum: number = 0
   totalVoteNum: number = 0
-  async onLoad() {
-    // await login()
+  async onShow() {
     await this._getUserInfo()
     await this._getUserPhone()
     if (_.isEmpty(this.userinfo) && _.isEmpty(this.userphone)) {

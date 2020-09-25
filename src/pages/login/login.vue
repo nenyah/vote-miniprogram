@@ -42,22 +42,11 @@ export default Vue.extend({
     return {
       AuthorizedUserInfo: false as boolean,
       AuthorizedPhone: false as boolean,
-      page: "",
     }
-  },
-  onLoad(query: any) {
-    console.log("传入参数", query)
-    this.page = query.page
   },
   watch: {
     AuthorizedPhone(newValue, oldValue) {
-      console.log(`newValue, oldValue`, newValue, oldValue)
-      uni.reLaunch({
-        url: `../${this.page}/${this.page}`,
-        fail: (err) => {
-          console.error("跳转失败", err)
-        },
-      })
+      uni.navigateBack({})
     },
   },
   methods: {
