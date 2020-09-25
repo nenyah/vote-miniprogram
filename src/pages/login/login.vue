@@ -3,18 +3,26 @@
  * @Author: Steven
  * @Date: 2020-09-17 10:02:11
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-25 11:03:42
+ * @LastEditTime: 2020-09-25 11:26:28
 -->
 <template>
-  <view class="flex flex-col justify-center items-center content-center h-full">
-    婉美投票
-    <button
-      class="text-gray-100 bg-green-500 p-2 mt-5 w-4--5 rounded-full border-none border-0"
-      open-type="getUserInfo"
-      @getuserinfo="getuserinfo"
+  <view>
+    <view
+      v-if="!AuthorizedUserInfo"
+      class=" h-full flex flex-col items-center"
     >
-      授权使用微信头像、昵称
-    </button>
+      <view
+        class="w-32 h-32 rounded-full bg-red-500 text-gray-100 flex justify-center items-center text-lg mt-20"
+        >婉美投票</view
+      >
+      <button
+        class="text-gray-100 bg-green-500 p-2 mt-5 w-10--12 rounded-full border-none border-0 border-gray-100"
+        open-type="getUserInfo"
+        @getuserinfo="getuserinfo"
+      >
+        授权使用微信头像、昵称
+      </button>
+    </view>
   </view>
 </template>
 
@@ -25,6 +33,12 @@ import { IglobalData } from "@/common/interface"
 
 let app = getApp()
 export default Vue.extend({
+  data() {
+    return {
+      AuthorizedUserInfo: false as boolean,
+      AuthorizedPhone: false as boolean,
+    }
+  },
   methods: {
     getuserinfo() {
       //  成功后，获取userinfo
