@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-14 15:04:50
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-25 14:46:09
+ * @LastEditTime: 2020-09-25 15:10:59
  */
 import request from "@/utils/request"
 import config from "@/common/config"
@@ -29,10 +29,10 @@ export const handleVote = (params: Iparams) => {
 }
 interface StatParams {
   pageNo: number
-  pageSize: number
-  activityId: number
-  startDate: string
-  endDate: string
+  pageSize?: number
+  activityId?: number
+  startDate?: string
+  endDate?: string
 }
 /**
  * 历史投票数据明细

@@ -1,61 +1,53 @@
 <template>
-  <view class="bg-gray-300 h-full">
+  <view class="bg-gray-300">
     <view class="p-2 text-gray-700 text-sm bg-gray-100">名称/时间</view>
-    <view v-for="record in records" :key="record.id" class="flex bg-gray-100 mx-auto mt-1 mb-2 items-center p-2">
-      <view
-        class=" bg-blue-400 rounded-full w-28 h-28 p-2 border border-solid border-blue-400"
-      >
-        <view class="fa fa-heart text-red-500 text-3xl"></view>
-      </view>
+    <view
+      v-for="record in records"
+      :key="record.id"
+      class="flex bg-gray-100 mx-auto mt-1 mb-2 items-center p-2"
+    >
+      <image
+        :src="record.img"
+        class="w-12 h-12 rounded-full border border-solid border-gray-500"
+        mode="top"
+      ></image>
       <view class="mx-2 text-gray-600">
-        <view class="text-lg text-gray-900">评选“伊婉最美明星脸”活动</view>
-        <view class="text-xs">投给001号选手迪力热巴1票</view>
-        <view class="text-xs">2020-09-24 15:23</view>
+        <view class="text-lg text-gray-900"
+          >评选“{{ record.activityName }}”活动</view
+        >
+        <view class="text-xs"
+          >投给{{ record.code }}号选手{{ record.name }}1票</view
+        >
+        <view class="text-xs">{{ formatTime(record.voteTime) }}</view>
       </view>
     </view>
   </view>
 </template>
 
 <script lang="ts">
+import { getVoteHistory } from "@/servise/vote"
 import Vue from "vue"
 import Component from "vue-class-component"
-
+import * as _ from "lodash"
 @Component({})
 export default class history extends Vue {
-    records: Array<any> = [
-        {
-            id:0,
-            avarta:"",
-            actName:"伊婉最美明星脸",
-            code:"001",
-            itemName:"迪力热巴",
-            voteTime:"2020-09-24 15:23"
-        },
-        {
-            id:1,
-            avarta:"",
-            actName:"伊婉最美明星脸",
-            code:"002",
-            itemName:"迪力热巴",
-            voteTime:"2020-09-24 15:23"
-        },
-        {
-            id:2,
-            avarta:"",
-            actName:"伊婉最美明星脸",
-            code:"003",
-            itemName:"迪力热巴",
-            voteTime:"2020-09-24 15:23"
-        },
-        {
-            id:3,
-            avarta:"",
-            actName:"伊婉最美明星脸",
-            code:"004",
-            itemName:"迪力热巴",
-            voteTime:"2020-09-24 15:23"
-        }
-    ];
+  records: Array<any> = []
+  onLoad() {
+    this._getHistory()
+  }
+  private async _getHistory() {
+    let res = await getVoteHistory({ pageNo: 1 })
+    let records = res.data.data.map((el: any) => {
+      return el.records
+    })
+    this.records = _.flatten(records)
+    console.log("获取历史信息", _.flatten(records))
+  }
+  get formatTime() {
+    return (param: string) => {
+      return param.substr(0, 16).replace("T", " ")
+    }
+  }
 }
 </script>
 
