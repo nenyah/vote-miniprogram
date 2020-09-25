@@ -7,25 +7,30 @@
       <view
         class="flex border-gray-300 border-solid border border-t-0 border-r-0 border-l-0 p-4"
       >
-        <image
-          :src="userinfo.avatarUrl"
-          class="rounded-full w-16 h-16 border border-gray-300 border-solid"
-        ></image>
-        <view class="mx-5">
-          <view class="text-gray-900 font-bold">{{ userinfo.nickName }}</view>
-          <view>{{ userinfo.city }}</view>
-          <view>{{ userinfo.province }}</view>
+        <view v-if="showUserInfo">
+          <image
+            :src="userinfo.avatarUrl"
+            class="rounded-full w-16 h-16 border border-gray-300 border-solid"
+          ></image>
+          <view class="mx-5">
+            <view class="text-gray-900 font-bold">{{ userinfo.nickName }}</view>
+            <view>{{ userinfo.city }}</view>
+            <view>{{ userinfo.province }}</view>
+          </view>
+        </view>
+        <view v-else class="mx-auto">
+          <navigator url="../login/login?page=profile" class=" bg-purple-300 text-gray-100 py-2 px-6 rounded-full">登录/注册</navigator>
         </view>
       </view>
       <view class="flex p-2">
         <view
           class="flex-1 text-center border-l-0 border-t-0 border-b-0 border-gray-300 border-solid border-r"
         >
-          <view>2</view>
+          <view>{{actNum}}</view>
           <view>参与活动</view>
         </view>
         <view class="flex-1 text-center">
-          <view>100</view>
+          <view>{{totalVoteNum}}</view>
           <view>总投票数</view>
         </view>
       </view>
@@ -45,24 +50,23 @@
 <script lang="ts">
 import Vue from "vue"
 import Component from "vue-class-component"
-
+import { login } from "@/servise/login"
 @Component({})
 export default class profile extends Vue {
   private userinfo: Object = () => {}
-
+  showUserInfo: Boolean = false
+  actNum: number = 0
+  totalVoteNum: number = 0
   async onLoad() {
+    await login()
     await this.getUserInfo()
   }
 
   private async getUserInfo() {
-    let userinfo
     try {
-      let res = (await uni.getStorage({ key: "userInfo" })) as any
-      userinfo = res.length > 0 ? res[1].data : undefined
-      this.userinfo = userinfo
-      console.log("userinfo", userinfo)
+      let res = uni.getUserInfo({})
     } catch (err) {
-      console.error("获取缓存用户信息失败", err)
+      console.error("获取用户")
     }
   }
   private async toHistory() {
