@@ -48,6 +48,7 @@ export default class history extends Vue {
       return param.substr(0, 16).replace("T", " ")
     }
   }
+  // todo 下拉刷新
 }
 </script>
 

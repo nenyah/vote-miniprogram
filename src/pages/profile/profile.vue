@@ -65,7 +65,7 @@ export default class profile extends Vue {
   actNum: number = 0
   totalVoteNum: number = 0
   async onLoad() {
-    await login()
+    // await login()
     await this._getUserInfo()
     await this._getUserPhone()
     if (_.isEmpty(this.userinfo) && _.isEmpty(this.userphone)) {
