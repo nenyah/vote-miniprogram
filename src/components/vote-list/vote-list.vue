@@ -26,11 +26,16 @@
         ></vote-item>
       </block>
     </scroll-view>
-    <view v-else>
+    <scroll-view
+      v-else
+      scroll-y="true"
+      @scrolltolower="lower"
+      style="height:900rpx;"
+    >
       <block v-for="(item, index) in items" :key="item.id">
         <rank-item :item="item" :index="index"></rank-item>
       </block>
-    </view>
+    </scroll-view>
   </view>
 </template>
 

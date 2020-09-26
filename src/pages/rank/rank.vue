@@ -5,7 +5,11 @@
     >
     <view v-else>
       <title :content="activity.name"></title>
-      <vote-list :items="sortItems" :pageType="pageType"></vote-list>
+      <vote-list
+        :items="sortItems"
+        :pageType="pageType"
+        @tolower="tolower"
+      ></vote-list>
       <vote-footer :content="activity.name"></vote-footer>
     </view>
   </view>
@@ -19,6 +23,7 @@ import voteFooter from "@/components/footer/footer.vue"
 import { getItems } from "@/servise/items"
 import { Iactivity, Iitem, IglobalData } from "@/common/interface"
 import { items } from "@/mock/store"
+import * as _ from "lodash"
 
 interface Query {
   id: number
@@ -28,26 +33,30 @@ let app = getApp()
 export default Vue.extend({
   data() {
     return {
-      items,
+      items: [] as Array<Iitem>,
       actId: -1,
       activity: {} as Iactivity,
       pageType: "rank",
+      dbouncedGetItems: () => {},
     }
   },
   async onLoad() {
     this.init()
+    this.dbouncedGetItems = _.debounce(this._getItems, 500)
   },
   async onShow() {
     this.init()
   },
-  // TODOS: 下拉加载更多
   methods: {
+    tolower() {
+      this.dbouncedGetItems()
+    },
     init() {
-      const { activities, currentActId }: any = getApp().globalData
+      const { activities, currentActId } = app.globalData as IglobalData
 
       this.actId = currentActId
       if (currentActId > -1) {
-        this._getItems()
+        this.dbouncedGetItems()
       }
     },
     async _getItems() {
@@ -55,19 +64,16 @@ export default Vue.extend({
       let { currentActId, activities } = app.globalData as IglobalData
       // 获取活动
       this.activity = activities.filter((el) => el.id == currentActId)[0]
-      console.log("下载项目")
-      try {
-        // 下载选手信息
-        let { data } = await getItems({ activityId: currentActId })
-        console.log("获取选手信息", data.data)
-
-        this.items = data.data
-      } catch (error) {
-        uni.showToast({
-          title: `${error}`,
-        })
-        this.items = items
+      // 判断是否还有新的内容
+      if (this.items.length % 20 !== 0) {
+        return
       }
+      let { data } = await getItems({
+        activityId: this.actId,
+      })
+      console.log("返回数据", data.data)
+
+      this.items = [...this.items, ...data.data]
     },
   },
   computed: {
