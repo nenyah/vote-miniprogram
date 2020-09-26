@@ -4,15 +4,12 @@
     <title :content="activity.name"></title>
     <!-- 统计票数 -->
     <stats :content="item.stats" :isDetail="true">
-      <button
+      <view
         class="text-2xl text-gray-100 font-bold w-full text-center mt-4"
-        open-type="getUserInfo"
-        @getuserinfo="getuserinfo"
-        withCredentials="true"
-        hover-class="none"
+        @click="vote"
       >
         投票
-      </button>
+      </view>
     </stats>
     <!-- 选手详情 -->
     <sub-title :content="title1"></sub-title>
@@ -47,8 +44,8 @@
 
     <!-- 返回 -->
     <navigator
-      :url="'/pages/index/index?id=' + actId"
-      open-type="reLaunch"
+      url="pages/index/index"
+      open-type="navigateBack"
       hover-class="other-navigator-hover"
     >
       <view class="text-center">
@@ -79,6 +76,7 @@ import { getItems } from "@/servise/items"
 import { handleVote } from "@/servise/vote"
 import { login } from "@/servise/login"
 import * as _ from "lodash"
+import { isAuthorize } from "@/utils/check"
 let app = getApp()
 export default Vue.extend({
   data() {
@@ -193,6 +191,91 @@ export default Vue.extend({
     mosoweCanvasImage,
   },
   methods: {
+    async vote() {
+      /**
+       * 1. 判断是否关注公众号
+       * 2. 判断是否在投票时间 本地判断
+       * 3. 判断是否超出限制 服务器判断
+       *
+       */
+      let { openid, activities, currentActId, unionid } = getApp()
+        .globalData as IglobalData
+      this.actId = currentActId
+      let { status } = activities.filter((el) => el.id == currentActId)[0]
+      // 判断是否是进行中的活动，不是就直接返回
+      if (!(status == "ONGOING")) {
+        uni.showToast({
+          title: "现在不是投票时间哦！",
+          icon: "none",
+        })
+        return
+      }
+      uni.showModal({
+        content: `确认为${this.item.code}号投票吗？`,
+        success: async (res) => {
+          // 取消按钮
+          if (res.cancel == true) {
+            return
+          }
+          // 判断是否授权
+          let isLogined = await isAuthorize()
+          if (!isLogined) {
+            uni.showModal({
+              content: "请先登录",
+              showCancel: false,
+              success: async (res) => {
+                console.log("登录同意后信息", res)
+                uni.navigateTo({
+                  url: `../login/login`,
+                })
+              },
+            })
+
+            return
+          }
+
+          // 判断是否关注了公众号
+          if (_.isEmpty(unionid)) {
+            uni.showModal({
+              content: "请先关注公众号《YVOIRE伊婉》再投票哦！",
+              showCancel: false,
+            })
+            return
+          }
+
+          // 没有openid
+          if (_.isEmpty(openid)) {
+            try {
+              await login()
+            } catch (err) {
+              console.error("获取code失败", err)
+            }
+          }
+          try {
+            // 上传投票信息
+            let { data } = await handleVote(this.item.id.toString())
+            console.log("上传之后", data)
+            if (data.success !== true) {
+              uni.showModal({
+                content: data.errorMsg,
+                showCancel: false,
+              })
+              return
+            }
+            uni.showModal({
+              content: "投票成功！",
+              showCancel: false,
+              success: (res) => {
+                // 上传成功后刷新页面
+                uni.$emit("update", { msg: "页面更新" })
+              },
+            })
+          } catch (err) {
+            console.error("上传投票信息失败", err)
+          }
+        },
+      })
+    },
     // 获取选手信息
     async _getItem() {
       let activityId = this.actId,
@@ -256,58 +339,6 @@ export default Vue.extend({
       console.log("帮我拉票")
       let child: any = this.$refs.mosoweCanvasComponents
       child.createCanvas()
-    },
-    getuserinfo() {
-      let id = this.item.id
-      console.log("ID:", id)
-
-      // 获取用户信息
-      uni.getStorage({
-        key: "userInfo",
-        success: async (res) => {
-          let { openid, activities, currentActId } = getApp()
-            .globalData as IglobalData
-          let { status } = activities.filter((el) => el.id == currentActId)[0]
-          console.log("openid:", openid, "status:", status)
-          // 判断是否是进行中的活动，不是就直接返回
-          if (!(status == "ONGOING")) {
-            uni.showToast({
-              title: "现在不是投票时间哦！",
-              icon: "none",
-            })
-            return
-          }
-          // 没有openid
-          if (_.isEmpty(openid)) {
-            try {
-              await login()
-            } catch (err) {
-              console.error("获取code失败", err)
-            }
-          }
-          try {
-            // 上传投票信息
-            let { data } = await handleVote(this.item.id.toString())
-            console.log("上传之后", data)
-            if (data.success) {
-              // 成功后显示投票成功并刷新数据
-              uni.showToast({
-                title: "投票成功！",
-                icon: "success",
-              })
-              this._getItem()
-            } else {
-              // 失败后显示原因
-              uni.showToast({
-                title: data.errorMsg,
-                icon: "none",
-              })
-            }
-          } catch (err) {
-            console.error("上传投票信息失败", err)
-          }
-        },
-      })
     },
   },
 })
