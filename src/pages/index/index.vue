@@ -89,13 +89,21 @@
         <!-- #endif -->
       </view>
       <!-- 脚注区域 -->
+      <view
+        class="text-gray-100 bg-orange-500 rounded-full flex justify-center items-center"
+        @click="batchVote"
+        style="width: 3rem;height: 3rem;position: fixed;bottom: 6rem;right: 0.5rem;z-index: 9999;"
+      >
+        {{ total }}
+      </view>
 
       <view
         class="text-gray-900 bg-gray-200 rounded-full flex justify-center items-center"
         @click="back"
         style="width: 3rem;height: 3rem;position: fixed;bottom: 2rem;right: 0.5rem;z-index: 9999;"
-        >返回</view
       >
+        返回
+      </view>
     </view>
   </view>
 </template>
@@ -117,6 +125,8 @@ import moment from "moment"
 import { Iactivity, IglobalData, Iitem } from "@/common/interface"
 import * as _ from "lodash"
 import { getCode, login } from "@/servise/login"
+import { isLogin } from "@/utils/check"
+import { handleVote } from "@/servise/vote"
 
 moment().locale("zh-cn")
 
@@ -128,6 +138,7 @@ export default Vue.extend({
   data() {
     return {
       items: [] as Array<Iitem>,
+      itemids: [] as Array<Number>,
       actId: -1,
       activities: [] as Iactivity[],
       activity: {} as Iactivity,
@@ -142,6 +153,9 @@ export default Vue.extend({
       display: false,
       showDay: false,
       msg: "活动已经结束",
+      pageNo: 0,
+      pageSize: 10,
+      total: "0/0",
     }
   },
   async onLoad(query) {
@@ -162,6 +176,15 @@ export default Vue.extend({
       this.dbouncedGetItems()
       this.dbouncedGetActivity()
     })
+    uni.$on("add", (data) => {
+      console.log("监听事件来自add,携带参数itemid为", data.itemid)
+      this.itemids.push(data.itemid)
+    })
+    uni.$on("sub", (data) => {
+      const startIndex = this.itemids.indexOf(data.itemid)
+      this.itemids.splice(startIndex, 1)
+      console.log("监听事件来自sub,携带参数itemid为", data.itemid, startIndex)
+    })
   },
   onUnload() {
     uni.$off("update", function(data) {
@@ -169,6 +192,48 @@ export default Vue.extend({
     })
   },
   methods: {
+    async batchVote() {
+      console.log("批量投票")
+      if (this.itemids.length == 0) {
+        uni.showToast({
+          title: "请选择选手！",
+          icon: "none",
+        })
+        return
+      }
+      // 没有openid
+      if (isLogin()) {
+        try {
+          await login()
+        } catch (err) {
+          console.error("获取code失败", err)
+        }
+      }
+      try {
+        // 上传投票信息
+        let res = await Promise.all(
+          this.itemids.map((el) => handleVote(el.toString()))
+        )
+        console.log("上传之后", res)
+        if (res[0].data.success !== true) {
+          uni.showModal({
+            content: res[0].data.errorMsg,
+            showCancel: false,
+          })
+          return
+        }
+        uni.showModal({
+          content: "投票成功！",
+          showCancel: false,
+          success: (res) => {
+            // 上传成功后刷新页面
+            uni.$emit("update", { msg: "页面更新" })
+          },
+        })
+      } catch (err) {
+        console.error("上传投票信息失败", err)
+      }
+    },
     tolower() {
       this.dbouncedGetItems()
     },
@@ -187,7 +252,6 @@ export default Vue.extend({
       }
     },
     async toIndex(e: any) {
-      console.log("e:", e.currentTarget.dataset.id)
       this.actId = e.currentTarget.dataset.id
       let globaldata = getApp().globalData as IglobalData
       globaldata.currentActId = e.currentTarget.dataset.id
@@ -209,6 +273,7 @@ export default Vue.extend({
       await this._getItems()
       // 4. 判断活动状态
       this.setTime()
+      this.total = `0/${this.activity.rule[0].value}`
     },
     setTime() {
       let { startTime, endTime, status }: any = this.activity
@@ -229,7 +294,7 @@ export default Vue.extend({
       }
     },
 
-    setCountDown: function(duration: moment.Duration) {
+    setCountDown(duration: moment.Duration) {
       if (duration.days() > 0) {
         this.showDay = true
         this.day = duration.days()
@@ -255,10 +320,12 @@ export default Vue.extend({
     },
     async _getItems() {
       // 判断是否还有新的内容
-      if (this.items.length % 20 !== 0) {
+      if (this.items.length % this.pageSize !== 0) {
         return
       }
+      this.pageNo = this.pageNo + 1
       let { data } = await getItems({
+        pageNo: this.pageNo,
         activityId: this.actId,
         code: this.code,
       })
@@ -275,6 +342,18 @@ export default Vue.extend({
     formatTime() {
       return (params: string) => {
         return params.substr(0, 16).replace("T", " ")
+      }
+    },
+  },
+  watch: {
+    itemids(newValue, oldValue) {
+      console.log("有变化", newValue, oldValue)
+      const selectedItemNum = this.itemids.length
+      const totalNum = this.activity.rule[0].value
+      if (selectedItemNum < totalNum) {
+        this.total = `${selectedItemNum}/${this.activity.rule[0].value}`
+      } else {
+        this.total = "投票"
       }
     },
   },

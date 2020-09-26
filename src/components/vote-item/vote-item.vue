@@ -3,6 +3,13 @@
     class="flex flex-col flex-1 text-center justify-center border border-solid border-gray-600 bg-purple-100 m-2 p-2 border-img"
     :class="customWidth"
   >
+    <view
+      class="fa  self-end"
+      :class="
+        mark ? 'fa-check-square-o text-orange-500' : 'fa-square-o text-gray-100'
+      "
+      @click="markItem"
+    ></view>
     <view class="text-gray-500 my-1">{{ item.code }} 号</view>
     <navigator v-if="index" :url="toUrl">
       <image
@@ -49,8 +56,8 @@ import { handleVote } from "@/servise/vote"
 import { Iactivity, IglobalData } from "@/common/interface"
 import { login } from "@/servise/login"
 import * as _ from "lodash"
-import { isAuthorize } from "@/utils/check"
-let app = getApp()
+import { isAuthorize, isFollower, isValidTime, isLogin } from "@/utils/check"
+
 export default Vue.extend({
   components: {
     voteButton,
@@ -58,6 +65,7 @@ export default Vue.extend({
   data() {
     return {
       actId: -1 as number,
+      mark: false,
     }
   },
   props: {
@@ -68,8 +76,48 @@ export default Vue.extend({
       default: 1,
     },
   },
-  onLoad() {},
+  mounted() {},
   methods: {
+    async markItem() {
+      if (!isValidTime()) {
+        uni.showToast({
+          title: "现在不是投票时间哦！",
+          icon: "none",
+        })
+        return
+      }
+
+      // 判断是否授权
+      let isLogined = await isAuthorize()
+      if (!isLogined) {
+        uni.showModal({
+          content: "请先登录",
+          showCancel: false,
+          success: async (res) => {
+            console.log("登录同意后信息", res)
+            uni.navigateTo({
+              url: `../login/login`,
+            })
+          },
+        })
+
+        return
+      }
+      // 判断是否关注了公众号
+      if (!isFollower()) {
+        uni.showModal({
+          content: "请先关注公众号《YVOIRE伊婉》再投票哦！",
+          showCancel: false,
+        })
+        return
+      }
+      this.mark = !this.mark
+      if (this.mark) {
+        uni.$emit("add", { itemid: this.item.id })
+      } else {
+        uni.$emit("sub", { itemid: this.item.id })
+      }
+    },
     async vote() {
       /**
        * 1. 判断是否关注公众号
@@ -77,12 +125,8 @@ export default Vue.extend({
        * 3. 判断是否超出限制 服务器判断
        *
        */
-      let { openid, activities, currentActId, unionid } = getApp()
-        .globalData as IglobalData
-      this.actId = currentActId
-      let { status } = activities.filter((el) => el.id == currentActId)[0]
       // 判断是否是进行中的活动，不是就直接返回
-      if (!(status == "ONGOING")) {
+      if (!isValidTime()) {
         uni.showToast({
           title: "现在不是投票时间哦！",
           icon: "none",
@@ -114,7 +158,7 @@ export default Vue.extend({
           }
 
           // 判断是否关注了公众号
-          if (_.isEmpty(unionid)) {
+          if (!isFollower()) {
             uni.showModal({
               content: "请先关注公众号《YVOIRE伊婉》再投票哦！",
               showCancel: false,
@@ -123,7 +167,7 @@ export default Vue.extend({
           }
 
           // 没有openid
-          if (_.isEmpty(openid)) {
+          if (isLogin()) {
             try {
               await login()
             } catch (err) {
