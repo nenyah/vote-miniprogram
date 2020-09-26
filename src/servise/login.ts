@@ -57,7 +57,7 @@ export const login = async () => {
   let globaldata = app.globalData as IglobalData
   globaldata.openid = data.openId
   globaldata.token = data.token
-  globaldata.unionid = data.unionid
+  globaldata.unionid = data.unionId
 }
 
 /**

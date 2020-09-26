@@ -134,21 +134,21 @@ export default Vue.extend({
             // 上传投票信息
             let { data } = await handleVote(this.item.id)
             console.log("上传之后", data)
-            if (!(data.succes == "true")) {
-              uni.showToast({
-                title: data.errorMsg,
-                icon: "none",
+            if (data.success !== true) {
+              uni.showModal({
+                content: data.errorMsg,
+                showCancel: false,
               })
               return
             }
-            uni.showToast({
-              title: "投票成功！",
-              icon: "success",
+            uni.showModal({
+              content: "投票成功！",
+              showCancel: false,
+              success: (res) => {
+                // 上传成功后刷新页面
+                uni.$emit("update", { msg: "页面更新" })
+              },
             })
-            setTimeout(() => {
-              // 上传成功后刷新页面
-              uni.$emit("update", { msg: "页面更新" })
-            }, 2000)
           } catch (err) {
             console.error("上传投票信息失败", err)
           }
