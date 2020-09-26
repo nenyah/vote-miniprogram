@@ -80,7 +80,15 @@ export default Vue.extend({
       let { openid, activities, currentActId, unionid } = getApp()
         .globalData as IglobalData
       this.actId = currentActId
-
+      let { status } = activities.filter((el) => el.id == currentActId)[0]
+      // 判断是否是进行中的活动，不是就直接返回
+      if (!(status == "ONGOING")) {
+        uni.showToast({
+          title: "现在不是投票时间哦！",
+          icon: "none",
+        })
+        return
+      }
       uni.showModal({
         content: `确认为${this.item.code}号投票吗？`,
         success: async (res) => {
@@ -107,21 +115,13 @@ export default Vue.extend({
 
           // 判断是否关注了公众号
           if (_.isEmpty(unionid)) {
-            uni.showToast({
-              title: "请先关注公众号《YVOIRE伊婉》再投票哦！",
-              icon: "none",
+            uni.showModal({
+              content: "请先关注公众号《YVOIRE伊婉》再投票哦！",
+              showCancel: false,
             })
             return
           }
-          let { status } = activities.filter((el) => el.id == currentActId)[0]
-          // 判断是否是进行中的活动，不是就直接返回
-          if (!(status == "ONGOING")) {
-            uni.showToast({
-              title: "现在不是投票时间哦！",
-              icon: "none",
-            })
-            return
-          }
+
           // 没有openid
           if (_.isEmpty(openid)) {
             try {

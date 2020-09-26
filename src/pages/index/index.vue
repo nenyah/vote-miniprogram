@@ -76,7 +76,11 @@
       <!-- 搜索区域 -->
       <search-bar @updateItem="handleInput"></search-bar>
       <!-- 项目列表区域 -->
-      <vote-list :items="items" :itemType="itemType"></vote-list>
+      <vote-list
+        :items="items"
+        :itemType="itemType"
+        @tolower="tolower"
+      ></vote-list>
       <vote-footer :content="activity.name"></vote-footer>
       <view>
         <!-- uni-app未封装，但可直接使用微信原生的official-account组件-->
@@ -110,7 +114,7 @@ import { getItems } from "@/servise/items"
 import { getActivities, putVisits } from "@/servise/activates"
 import { activities, items } from "@/mock/store"
 import moment from "moment"
-import { Iactivity, IglobalData } from "@/common/interface"
+import { Iactivity, IglobalData, Iitem } from "@/common/interface"
 import * as _ from "lodash"
 import { getCode, login } from "@/servise/login"
 
@@ -123,7 +127,7 @@ let app = getApp()
 export default Vue.extend({
   data() {
     return {
-      items,
+      items: [] as Array<Iitem>,
       actId: -1,
       activities: [] as Iactivity[],
       activity: {} as Iactivity,
@@ -141,7 +145,6 @@ export default Vue.extend({
     }
   },
   async onLoad(query) {
-    this.actId = query?.actId || -1
     // 后端登录
     await login()
 
@@ -166,6 +169,9 @@ export default Vue.extend({
     })
   },
   methods: {
+    tolower() {
+      this.dbouncedGetItems()
+    },
     back() {
       this.actId = -1
       let globaldata = getApp().globalData as IglobalData
@@ -182,15 +188,17 @@ export default Vue.extend({
     },
     async toIndex(e: any) {
       console.log("e:", e.currentTarget.dataset.id)
+      this.actId = e.currentTarget.dataset.id
       let globaldata = getApp().globalData as IglobalData
       globaldata.currentActId = e.currentTarget.dataset.id
-      this.actId = e.currentTarget.dataset.id
       // 1. 增加访问量
-      try {
-        await putVisits(e.currentTarget.dataset.id)
-      } catch (error) {
-        console.error("增加访问量失败", error)
-      }
+      putVisits(e.currentTarget.dataset.id)
+        .then((res) => {
+          console.log("增加访问量成功", res)
+        })
+        .catch((err) => {
+          console.error("增加访问量失败", err)
+        })
       // 2. 下载活动信息
       await this._getActivity()
       // 设置标题
@@ -240,34 +248,22 @@ export default Vue.extend({
     },
     // 获取活动信息
     async _getActivity() {
-      try {
-        // 下载最新活动信息
-        let { data }: any = await getActivities(1)
-        // 根据actId筛选
-        this.activity = data.data.filter(
-          (el: Iactivity) => el.id == this.actId
-        )[0]
-      } catch (error) {
-        console.error("下载活动信息出错", error)
-        uni.showToast({
-          title: `${error}`,
-        })
-        this.activity = activities.filter(
-          (el: Iactivity) => el.id === this.actId
-        )[0]
-      }
+      // 根据actId筛选
+      this.activity = this.activities.filter(
+        (el: Iactivity) => el.id == this.actId
+      )[0]
     },
     async _getItems() {
-      try {
-        let { data } = await getItems({
-          activityId: this.actId,
-          code: this.code,
-        })
-        this.items = data.data
-      } catch (error) {
-        this.items = items
-        console.error("获取选手信息出错", error)
+      // 判断是否还有新的内容
+      if (this.items.length % 20 !== 0) {
+        return
       }
+      let { data } = await getItems({
+        activityId: this.actId,
+        code: this.code,
+      })
+
+      this.items = [...this.items, ...data.data]
     },
   },
   computed: {

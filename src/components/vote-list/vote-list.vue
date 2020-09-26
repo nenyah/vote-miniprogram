@@ -9,9 +9,13 @@
       </view>
     </view>
 
-    <view
+    <scroll-view
       class="flex flex-row flex-wrap w-full justify-around content-center"
+      style="height:900rpx;"
       v-if="isVoteItem"
+      scroll-y="true"
+      @scrolltolower="lower"
+      enable-flex
     >
       <block v-for="item in items" :key="item.id">
         <vote-item
@@ -21,7 +25,7 @@
           @plusVote="handlePlusVote"
         ></vote-item>
       </block>
-    </view>
+    </scroll-view>
     <view v-else>
       <block v-for="(item, index) in items" :key="item.id">
         <rank-item :item="item" :index="index"></rank-item>
@@ -44,7 +48,11 @@ export default Vue.extend({
     itemType: String,
   },
   onLoad() {},
-  methods: {},
+  methods: {
+    lower() {
+      this.$emit("tolower")
+    },
+  },
   components: {
     voteItem,
   },
