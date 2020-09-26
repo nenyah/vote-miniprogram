@@ -31,7 +31,7 @@ export default Vue.extend({
     this.init()
     // 设置标题
     uni.setNavigationBarTitle({
-      title: `详情-${this.activity?.name}`,
+      title: `详情${this.activity?.name ? "-" + this.activity.name : ""}`,
     })
   },
   onShow() {
