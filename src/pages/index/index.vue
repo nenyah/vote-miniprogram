@@ -246,6 +246,8 @@ export default Vue.extend({
     async _getActivities() {
       try {
         let { data }: any = await getActivities()
+        console.log("打印解析data", data)
+
         return data.data
       } catch (error) {
         return activities

@@ -1,3 +1,10 @@
+<!--
+ * @Description: 
+ * @Author: Steven
+ * @Date: 2020-09-07 16:59:44
+ * @LastEditors: Steven
+ * @LastEditTime: 2020-09-27 10:00:19
+-->
 <template>
   <view class="bg-purple h-full pt-2 px-2">
     <view v-if="actId < 0" class="text-gray-100 text-center"
@@ -38,6 +45,7 @@ export default Vue.extend({
       activity: {} as Iactivity,
       pageType: "rank",
       dbouncedGetItems: () => {},
+      pageNo: 0,
     }
   },
   async onLoad() {
@@ -65,10 +73,12 @@ export default Vue.extend({
       // 获取活动
       this.activity = activities.filter((el) => el.id == currentActId)[0]
       // 判断是否还有新的内容
-      if (this.items.length % 20 !== 0) {
+      if (this.items.length % 10 !== 0) {
         return
       }
+      this.pageNo = this.pageNo + 1
       let { data } = await getItems({
+        pageNo: this.pageNo,
         activityId: this.actId,
       })
       console.log("返回数据", data.data)
