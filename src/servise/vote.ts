@@ -3,21 +3,17 @@
  * @Author: Steven
  * @Date: 2020-09-14 15:04:50
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-25 15:57:56
+ * @LastEditTime: 2020-09-27 10:27:15
  */
 import request from "@/utils/request"
 import config from "@/common/config"
 
-type ItemId = number
 type OpenId = string
-interface Iparams {
-  itemId: ItemId
-}
 /**
  *
- * @param itemId string
+ * @param itemId number
  */
-export const handleVote = (itemId: string) => {
+export const handleVote = (itemId: number) => {
   return request({
     url: `${config}weixin/vote`,
     method: "POST",

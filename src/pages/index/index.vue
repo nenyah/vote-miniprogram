@@ -74,7 +74,7 @@
         </view>
       </view>
       <!-- 搜索区域 -->
-      <search-bar @updateItem="handleInput"></search-bar>
+      <search-bar @updateItem="handleInput" @clear="handleClear"></search-bar>
       <!-- 项目列表区域 -->
       <vote-list
         :items="items"
@@ -190,6 +190,15 @@ export default Vue.extend({
     uni.$off("update", function(data) {
       console.log("监听到事件来自 update ，携带参数 msg 为：" + data.msg)
     })
+    uni.$off("add", (data) => {
+      console.log("监听事件来自add,携带参数itemid为", data.itemid)
+      this.itemids.push(data.itemid)
+    })
+    uni.$off("sub", (data) => {
+      const startIndex = this.itemids.indexOf(data.itemid)
+      this.itemids.splice(startIndex, 1)
+      console.log("监听事件来自sub,携带参数itemid为", data.itemid, startIndex)
+    })
   },
   methods: {
     async batchVote() {
@@ -212,7 +221,7 @@ export default Vue.extend({
       try {
         // 上传投票信息
         let res = await Promise.all(
-          this.itemids.map((el) => handleVote(el.toString()))
+          this.itemids.map((el: any) => handleVote(el))
         )
         console.log("上传之后", res)
         if (res[0].data.success !== true) {
@@ -309,6 +318,12 @@ export default Vue.extend({
         this.sec = duration.seconds()
       }
     },
+    handleClear() {
+      this.pageNo = 0
+      this.items = []
+      this.code = ""
+      this.dbouncedGetItems()
+    },
     handleInput(e: any) {
       this.code = e
       this.dbouncedGetItems()
@@ -321,8 +336,19 @@ export default Vue.extend({
       )[0]
     },
     async _getItems() {
+
       // 判断是否还有新的内容
       if (this.items.length % this.pageSize !== 0) {
+        return
+      }
+
+      if (this.code.length > 0) {
+        let { data } = await getItems({
+          activityId: this.actId,
+          code: this.code,
+        })
+
+        this.items = data.data
         return
       }
       this.pageNo = this.pageNo + 1

@@ -32,13 +32,14 @@
       >
         帮我拉票
       </view>
-      <image :src="canvasUrl" mode="widthFix"></image>
+      <image :src="canvasUrl" mode="widthFix" style="width:0;height:0;"></image>
       <mosowe-canvas-image
         ref="mosoweCanvasComponents"
         @canvasImage="_canvasImage"
         :lists="lists"
-        height="400"
-        width="300"
+        :height="400"
+        :width="300"
+        :showPreview="true"
       />
     </view>
 
@@ -85,11 +86,13 @@ export default Vue.extend({
       code: "",
       actId: 0,
       activity: {} as Iactivity,
+      width: 0,
+      height: 0,
       item: <Iitem>{},
       title1: "选手详情",
       title2: "选手风采",
       title3: "选手简介",
-      canvasUrl: {} as any,
+      canvasUrl: "",
       lists: [
         {
           type: "image",
@@ -253,7 +256,7 @@ export default Vue.extend({
           }
           try {
             // 上传投票信息
-            let { data } = await handleVote(this.item.id.toString())
+            let { data } = await handleVote(this.item.id)
             console.log("上传之后", data)
             if (data.success !== true) {
               uni.showModal({
@@ -289,10 +292,6 @@ export default Vue.extend({
 
         this.item = items.filter((el) => el.code == code)[0]
       }
-    },
-    beginCanvas() {
-      let child: any = this.$refs.mosoweCanvasComponents
-      child.createCanvas()
     },
     _canvasImage(e: string) {
       this.canvasUrl = e
