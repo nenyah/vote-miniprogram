@@ -33,7 +33,6 @@ export const isLogin = () => {
 export const isValidTime = () => {
   let { activities, currentActId } = getApp().globalData as IglobalData
   let { status } = activities.filter((el) => el.id == currentActId)[0]
-  console.log("status", status)
 
   return status == "ONGOING"
 }

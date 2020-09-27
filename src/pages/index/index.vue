@@ -347,7 +347,6 @@ export default Vue.extend({
   },
   watch: {
     itemids(newValue, oldValue) {
-      console.log("有变化", newValue, oldValue)
       const selectedItemNum = this.itemids.length
       const totalNum = this.activity.rule[0].value
       if (selectedItemNum < totalNum) {
