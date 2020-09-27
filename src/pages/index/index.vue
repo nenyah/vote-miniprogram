@@ -104,6 +104,12 @@
       >
         返回
       </view>
+      <modal
+        v-show="showModal"
+        @cancel="cancel"
+        @confirm="confirm"
+        :voteItem="selectedItems"
+      ></modal>
     </view>
   </view>
 </template>
@@ -118,6 +124,7 @@ import searchBar from "@/components/search-bar/search-bar.vue"
 import voteList from "@/components/vote-list/vote-list.vue"
 import voteFooter from "@/components/footer/footer.vue"
 import uniCountdown from "@/components/uni-countdown/uni-countdown.vue"
+import modal from "@/components/modal/modal.vue"
 import { getItems } from "@/servise/items"
 import { getActivities, putVisits } from "@/servise/activates"
 import { activities, items } from "@/mock/store"
@@ -138,7 +145,7 @@ export default Vue.extend({
   data() {
     return {
       items: [] as Array<Iitem>,
-      itemids: [] as Array<Number>,
+      selectedItems: [] as Array<any>,
       actId: -1,
       activities: [] as Iactivity[],
       activity: {} as Iactivity,
@@ -156,6 +163,7 @@ export default Vue.extend({
       pageNo: 0,
       pageSize: 10,
       total: "0/0",
+      showModal: false,
     }
   },
   async onLoad(query) {
@@ -177,13 +185,20 @@ export default Vue.extend({
       this.dbouncedGetActivity()
     })
     uni.$on("add", (data) => {
-      console.log("监听事件来自add,携带参数itemid为", data.itemid)
-      this.itemids.push(data.itemid)
+      console.log("监听事件来自add,携带参数itemid为", data.item)
+      if (this.selectedItems.length >= this.activity.rule[0].value) {
+        uni.showToast({
+          title: `已经超出${this.activity.rule[0].value}个`,
+          icon: "none",
+        })
+        return
+      }
+      this.selectedItems.push(data.item)
     })
     uni.$on("sub", (data) => {
-      const startIndex = this.itemids.indexOf(data.itemid)
-      this.itemids.splice(startIndex, 1)
-      console.log("监听事件来自sub,携带参数itemid为", data.itemid, startIndex)
+      const startIndex = this.selectedItems.indexOf(data.item)
+      this.selectedItems.splice(startIndex, 1)
+      console.log("监听事件来自sub,携带参数itemid为", data.item, startIndex)
     })
   },
   onUnload() {
@@ -192,18 +207,20 @@ export default Vue.extend({
     })
     uni.$off("add", (data) => {
       console.log("监听事件来自add,携带参数itemid为", data.itemid)
-      this.itemids.push(data.itemid)
+      this.selectedItems.push(data.itemid)
     })
     uni.$off("sub", (data) => {
-      const startIndex = this.itemids.indexOf(data.itemid)
-      this.itemids.splice(startIndex, 1)
+      const startIndex = this.selectedItems.indexOf(data.itemid)
+      this.selectedItems.splice(startIndex, 1)
       console.log("监听事件来自sub,携带参数itemid为", data.itemid, startIndex)
     })
   },
   methods: {
     async batchVote() {
+      this.showModal = !this.showModal
+      return
       console.log("批量投票")
-      if (this.itemids.length == 0) {
+      if (this.selectedItems.length == 0) {
         uni.showToast({
           title: "请选择选手！",
           icon: "none",
@@ -221,7 +238,7 @@ export default Vue.extend({
       try {
         // 上传投票信息
         let res = await Promise.all(
-          this.itemids.map((el: any) => handleVote(el))
+          this.selectedItems.map((el: any) => handleVote(el))
         )
         console.log("上传之后", res)
         if (res[0].data.success !== true) {
@@ -336,7 +353,6 @@ export default Vue.extend({
       )[0]
     },
     async _getItems() {
-
       // 判断是否还有新的内容
       if (this.items.length % this.pageSize !== 0) {
         return
@@ -360,6 +376,14 @@ export default Vue.extend({
 
       this.items = [...this.items, ...data.data]
     },
+    cancel() {
+      console.log("触发取消")
+      this.showModal = !this.showModal
+    },
+    confirm() {
+      console.log("触发确认")
+      this.showModal = !this.showModal
+    },
   },
   computed: {
     formatUrl() {
@@ -374,8 +398,8 @@ export default Vue.extend({
     },
   },
   watch: {
-    itemids(newValue, oldValue) {
-      const selectedItemNum = this.itemids.length
+    selectedItems(newValue, oldValue) {
+      const selectedItemNum = this.selectedItems.length
       const totalNum = this.activity.rule[0].value
       if (selectedItemNum < totalNum) {
         this.total = `${selectedItemNum}/${this.activity.rule[0].value}`
@@ -393,6 +417,7 @@ export default Vue.extend({
     voteList,
     voteFooter,
     uniCountdown,
+    modal,
   },
 })
 </script>

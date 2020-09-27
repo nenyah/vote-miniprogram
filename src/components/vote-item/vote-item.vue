@@ -113,9 +113,9 @@ export default Vue.extend({
       }
       this.mark = !this.mark
       if (this.mark) {
-        uni.$emit("add", { itemid: this.item.id })
+        uni.$emit("add", { item: this.item })
       } else {
-        uni.$emit("sub", { itemid: this.item.id })
+        uni.$emit("sub", { item: this.item })
       }
     },
     async vote() {
