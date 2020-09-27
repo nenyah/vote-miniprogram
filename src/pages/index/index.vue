@@ -127,6 +127,7 @@ import uniCountdown from "@/components/uni-countdown/uni-countdown.vue"
 import modal from "@/components/modal/modal.vue"
 import { getItems } from "@/servise/items"
 import { getActivities, putVisits } from "@/servise/activates"
+import { getCate } from "@/servise/category"
 import { activities, items } from "@/mock/store"
 import moment from "moment"
 import { Iactivity, IglobalData, Iitem } from "@/common/interface"
@@ -272,17 +273,7 @@ export default Vue.extend({
       let globaldata = getApp().globalData as IglobalData
       globaldata.currentActId = -1
     },
-    // 获取活动信息
-    async _getActivities() {
-      try {
-        let { data }: any = await getActivities()
-        console.log("打印解析data", data)
 
-        return data.data
-      } catch (error) {
-        return activities
-      }
-    },
     async toIndex(e: any) {
       this.actId = e.currentTarget.dataset.id
       let globaldata = getApp().globalData as IglobalData
@@ -306,6 +297,8 @@ export default Vue.extend({
       // 4. 判断活动状态
       this.setTime()
       this.total = `0/${this.activity.rule[0].value}`
+      // 5. 类目信息
+      await this._getCate()
     },
     setTime() {
       let { startTime, endTime, status }: any = this.activity
@@ -349,6 +342,31 @@ export default Vue.extend({
       this.code = e
       this.dbouncedGetItems()
     },
+    cancel() {
+      console.log("触发取消")
+      this.showModal = false
+    },
+    confirm() {
+      console.log("触发确认")
+      this.showModal = false
+      this.submit = true
+      this.batchVote()
+    },
+    async _getCate() {
+      let res = await getCate({ activityId: this.actId })
+      console.log("类目信息", res)
+    },
+    // 获取活动信息
+    async _getActivities() {
+      try {
+        let { data }: any = await getActivities()
+        console.log("打印解析data", data)
+
+        return data.data
+      } catch (error) {
+        return activities
+      }
+    },
     // 获取活动信息
     async _getActivity() {
       // 根据actId筛选
@@ -379,16 +397,6 @@ export default Vue.extend({
       })
 
       this.items = [...this.items, ...data.data]
-    },
-    cancel() {
-      console.log("触发取消")
-      this.showModal = false
-    },
-    confirm() {
-      console.log("触发确认")
-      this.showModal = false
-      this.submit = true
-      this.batchVote()
     },
   },
   computed: {
