@@ -1,13 +1,13 @@
 <template>
   <view class="modal-backdrop">
-    <view class="modal" :style="mainStyles">
+    <view class="modal">
       <view class="modal-header">
         <view>确定为以下人员投票吗？</view>
       </view>
-      <view class="modal-body">
-        <text>001号</text>
-        <text>小美1</text>
-        <text>276票</text>
+      <view class="modal-body flex justify-center items-center" v-for="item in voteItems" :key="item.id">
+        <text class="flex-1">{{ item.code }}号</text>
+        <text class="flex-1">{{ item.name }}</text>
+        <text class="flex-1">{{ item.stats[0].value }}票</text>
       </view>
       <view class="modal-footer">
         <button type="button" class="btn-close" @click="cancel">取消</button>
@@ -21,7 +21,7 @@
 import { Component, Vue, Prop } from "vue-property-decorator"
 @Component({})
 export default class modal extends Vue {
-  @Prop() private voteItem!: []
+  @Prop() private voteItems!: []
 
   private cancel() {
     this.$emit("cancel")
@@ -51,7 +51,7 @@ export default class modal extends Vue {
   display: flex;
   flex-direction: column;
   border-radius: 16px;
-  width: 700px;
+  width: 600rpx;
 }
 .modal-header {
   border-bottom: 1px solid #eee;

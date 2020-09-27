@@ -1,10 +1,10 @@
 <template>
   <view
-    class="flex flex-col flex-1 text-center justify-center border border-solid border-gray-600 bg-purple-100 m-2 p-2 border-img"
+    class="flex flex-col flex-1 text-center justify-center border border-solid border-gray-600 bg-purple-100 m-2 p-2"
     :class="customWidth"
   >
     <view
-      class="fa  self-end"
+      class="fa self-end"
       :class="
         mark ? 'fa-check-square-o text-orange-500' : 'fa-square-o text-gray-100'
       "

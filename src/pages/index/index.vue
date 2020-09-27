@@ -108,7 +108,7 @@
         v-show="showModal"
         @cancel="cancel"
         @confirm="confirm"
-        :voteItem="selectedItems"
+        :voteItems="selectedItems"
       ></modal>
     </view>
   </view>
