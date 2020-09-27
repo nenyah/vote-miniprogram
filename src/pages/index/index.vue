@@ -164,6 +164,7 @@ export default Vue.extend({
       pageSize: 10,
       total: "0/0",
       showModal: false,
+      submit: false,
     }
   },
   async onLoad(query) {
@@ -217,9 +218,6 @@ export default Vue.extend({
   },
   methods: {
     async batchVote() {
-      this.showModal = !this.showModal
-      return
-      console.log("批量投票")
       if (this.selectedItems.length == 0) {
         uni.showToast({
           title: "请选择选手！",
@@ -227,6 +225,11 @@ export default Vue.extend({
         })
         return
       }
+      if (!this.submit) {
+        this.showModal = !this.showModal
+        return
+      }
+      console.log("批量投票")
       // 没有openid
       if (isLogin()) {
         try {
@@ -238,7 +241,7 @@ export default Vue.extend({
       try {
         // 上传投票信息
         let res = await Promise.all(
-          this.selectedItems.map((el: any) => handleVote(el))
+          this.selectedItems.map((el: any) => handleVote(el.id))
         )
         console.log("上传之后", res)
         if (res[0].data.success !== true) {
@@ -252,6 +255,7 @@ export default Vue.extend({
           content: "投票成功！",
           showCancel: false,
           success: (res) => {
+            this.selectedItems = []
             // 上传成功后刷新页面
             uni.$emit("update", { msg: "页面更新" })
           },
@@ -378,11 +382,13 @@ export default Vue.extend({
     },
     cancel() {
       console.log("触发取消")
-      this.showModal = !this.showModal
+      this.showModal = false
     },
     confirm() {
       console.log("触发确认")
-      this.showModal = !this.showModal
+      this.showModal = false
+      this.submit = true
+      this.batchVote()
     },
   },
   computed: {
