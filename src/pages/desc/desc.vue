@@ -57,7 +57,3 @@ export default Vue.extend({
 </script>
 
 <style></style>
-
-function newFunction() { const { activities,currentActId }:
-any=getApp().globalData this.actId=currentActId this.activity=activities.filter(
-(el: Iactivity) => el.id==currentActId )[0] }

@@ -452,11 +452,3 @@ export default Vue.extend({
   background-repeat: no-repeat;
 }
 </style>
-
-function newFunction() { let { startTime,endTime,status }: any=this.activity //
-获取当前时间 let now=moment() startTime=moment(startTime)
-endTime=moment(endTime) let duration=moment.duration(startTime.diff(now)) //
-根据状态显示不同内容 if(status==="ISCOMING") { this.msg="活动开始还有"
-this.setCountDown(duration) } else if(status==="ONGOING") {
-this.msg="活动结束还有" duration=moment.duration(endTime.diff(now))
-this.setCountDown(duration) } }

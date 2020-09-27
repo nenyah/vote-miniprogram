@@ -103,6 +103,3 @@ export default Vue.extend({
 </script>
 
 <style></style>
-
-function newFunction() { const { activities,currentActId }:
-any=getApp().globalData this.actId=currentActId this._getItems() }
