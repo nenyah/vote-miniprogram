@@ -150,7 +150,6 @@ export default Vue.extend({
   data() {
     return {
       items: [] as Array<Iitem>,
-      selectedItems: [] as Array<any>,
       actId: -1,
       activities: [] as Iactivity[],
       activity: {} as Iactivity,
@@ -189,8 +188,8 @@ export default Vue.extend({
     // 添加事件监听
     uni.$on("update", (data) => {
       console.log("监听到事件来自 update ，携带参数 msg 为：" + data.msg)
-      this.dbouncedGetItems()
       this.dbouncedGetActivity()
+      this.dbouncedGetItems()
     })
   },
   onUnload() {
