@@ -75,6 +75,18 @@
       </view>
       <!-- 搜索区域 -->
       <search-bar @updateItem="handleInput" @clear="handleClear"></search-bar>
+	  <uni-segmented-control :current="current" :values="categories" @clickItem="onClickItem" style-type="button" active-color="#4cd964"></uni-segmented-control>
+	  <view class="content">
+		  <view v-if="current === 0">
+			  选项卡1的内容
+		  </view>
+		  <view v-if="current === 1">
+			  选项卡2的内容
+		  </view>
+		  <view v-if="current === 2">
+			  选项卡3的内容
+		  </view>
+	  </view>
       <!-- 项目列表区域 -->
       <vote-list
         :items="items"
@@ -124,6 +136,8 @@ import searchBar from "@/components/search-bar/search-bar.vue"
 import voteList from "@/components/vote-list/vote-list.vue"
 import voteFooter from "@/components/footer/footer.vue"
 import uniCountdown from "@/components/uni-countdown/uni-countdown.vue"
+import uniSegmentedControl from "@/components/uni-segmented-control/uni-segmented-control.vue"
+
 import modal from "@/components/modal/modal.vue"
 import { getItems } from "@/servise/items"
 import { getActivities, putVisits } from "@/servise/activates"
@@ -166,6 +180,8 @@ export default Vue.extend({
       total: "0/0",
       showModal: false,
       submit: false,
+	  categories:[],
+	  current:0,
     }
   },
   async onLoad(query) {
@@ -343,28 +359,35 @@ export default Vue.extend({
       this.dbouncedGetItems()
     },
     cancel() {
-      console.log("触发取消")
       this.showModal = false
     },
     confirm() {
-      console.log("触发确认")
       this.showModal = false
       this.submit = true
       this.batchVote()
     },
     async _getCate() {
-      let res = await getCate({ activityId: this.actId })
-      console.log("类目信息", res)
+	try {
+		let res = await getCate({ activityId: this.actId })
+		this.categories=res.data
+		console.log("类目信息", res)
+	} catch {
+		uni.showToast({
+			title:"获取类目信息错误",
+			icon:"none"
+		})
+	}
     },
     // 获取活动信息
     async _getActivities() {
       try {
         let { data }: any = await getActivities()
-        console.log("打印解析data", data)
-
         return data.data
       } catch (error) {
-        return activities
+        uni.showToast({
+			title:"获取活动信息错误",
+			icon:"none"
+		})
       }
     },
     // 获取活动信息
