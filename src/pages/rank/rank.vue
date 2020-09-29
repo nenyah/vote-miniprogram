@@ -3,15 +3,24 @@
  * @Author: Steven
  * @Date: 2020-09-07 16:59:44
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-27 10:00:19
+ * @LastEditTime: 2020-09-29 16:22:11
 -->
 <template>
-  <view class="bg-purple h-full pt-2 px-2">
+  <view class="bg-purple min-h-full pt-2 px-2">
     <view v-if="actId < 0" class="text-gray-100 text-center"
       >还没有选择活动哦</view
     >
     <view v-else>
       <title :content="activity.name"></title>
+      <view class="text-gray-100">
+        <uni-segmented-control
+          :current="current"
+          :values="cateItem"
+          @clickItem="onClickItem"
+          style-type="text"
+          active-color="#68b1f9"
+        ></uni-segmented-control>
+      </view>
       <vote-list
         :items="sortItems"
         :pageType="pageType"
@@ -27,10 +36,12 @@ import Vue from "vue"
 import title from "@/components/title/title.vue"
 import voteList from "@/components/vote-list/vote-list.vue"
 import voteFooter from "@/components/footer/footer.vue"
+import uniSegmentedControl from "@/components/uni-segmented-control/uni-segmented-control.vue"
 import { getItems } from "@/servise/items"
 import { Iactivity, Iitem, IglobalData } from "@/common/interface"
 import { items } from "@/mock/store"
 import * as _ from "lodash"
+import { getCate } from "@/servise/category"
 
 interface Query {
   id: number
@@ -46,6 +57,10 @@ export default Vue.extend({
       pageType: "rank",
       dbouncedGetItems: () => {},
       pageNo: 0,
+      current: 0,
+      categories: [] as any,
+      cateItem: [] as any,
+      categoryId: undefined,
     }
   },
   async onLoad() {
@@ -56,15 +71,42 @@ export default Vue.extend({
     this.init()
   },
   methods: {
+    onClickItem(e: any) {
+      console.log("点击item", e)
+
+      if (this.current !== e.currentIndex) {
+        this.current = e.currentIndex
+      }
+      this.categoryId = this.categories[e.currentIndex].id
+      this.pageNo = 0
+      this.items = []
+      this.dbouncedGetItems()
+    },
     tolower() {
       this.dbouncedGetItems()
     },
-    init() {
+    async init() {
       const { activities, currentActId } = app.globalData as IglobalData
 
       this.actId = currentActId
+      if (this.cateItem.length == 0) {
+        await this._getCate()
+      }
       if (currentActId > -1) {
         this.dbouncedGetItems()
+      }
+    },
+    async _getCate() {
+      try {
+        let res = await getCate({ activityId: this.actId })
+        this.categories = res.data
+        this.cateItem = res.data.map((el: any) => el.name)
+        this.categoryId = res.data[this.current].id
+      } catch {
+        uni.showToast({
+          title: "获取类目信息错误",
+          icon: "none",
+        })
       }
     },
     async _getItems() {
@@ -80,8 +122,8 @@ export default Vue.extend({
       let { data } = await getItems({
         pageNo: this.pageNo,
         activityId: this.actId,
+        categoryId: this.categoryId,
       })
-      console.log("返回数据", data.data)
 
       this.items = [...this.items, ...data.data]
     },

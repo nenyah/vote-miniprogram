@@ -292,7 +292,6 @@ export default Vue.extend({
         this.categories = res.data
         this.cateItem = res.data.map((el: any) => el.name)
         this.categoryId = res.data[this.current].id
-        console.log("类目信息", res)
       } catch {
         uni.showToast({
           title: "获取类目信息错误",

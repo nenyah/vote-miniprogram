@@ -19,8 +19,8 @@
     </view>
 
     <!-- 风采展示 -->
-    <sub-title v-if="item.show !== undefined" :content="title2"></sub-title>
-    <detail-video></detail-video>
+    <sub-title v-if="item.paly !== undefined" :content="title2"></sub-title>
+    <detail-video :src="item.play"></detail-video>
     <!-- 选手简介 -->
     <sub-title :content="title3"></sub-title>
     <view class="text-gray-100 p-4 text-center">{{ item.description }}</view>
