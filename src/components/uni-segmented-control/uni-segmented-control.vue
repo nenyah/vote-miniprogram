@@ -12,7 +12,7 @@
               ? activeColor
               : '#fff'
             : styleType === 'text'
-              ? '#000'
+              ? 'text-gray-100'
               : activeColor}"
 			 class="segmented-control__text">{{ item }}</text>
 		</view>

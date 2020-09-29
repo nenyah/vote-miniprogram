@@ -10,7 +10,7 @@
     </view>
 
     <scroll-view
-      class="flex flex-row flex-wrap w-full justify-around items-center"
+      class="flex flex-row flex-wrap w-full justify-around"
       style="height:900rpx;"
       v-if="isVoteItem"
       scroll-y="true"

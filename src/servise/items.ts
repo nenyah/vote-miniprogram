@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-14 15:04:50
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-21 12:20:56
+ * @LastEditTime: 2020-09-29 15:18:06
  */
 import request from "@/utils/request"
 import config from "@/common/config"
@@ -13,7 +13,7 @@ type PageSize = number
 type Code = string
 type Name = string
 type ActivityId = number
-type CategoryId = number
+type CategoryId = number | undefined
 interface Iparams {
   pageNo?: PageNo
   pageSize?: PageSize
@@ -23,7 +23,7 @@ interface Iparams {
   categoryId?: CategoryId
 }
 /**
- * 
+ *
  * @param params Iparams
  */
 export const getItems = (params: Iparams) => {

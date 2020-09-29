@@ -1,15 +1,8 @@
 <template>
   <view
-    class="flex flex-col flex-1 text-center justify-center border border-solid border-gray-600 bg-purple-100 m-2 p-2"
+    class="flex flex-col flex-1 text-center justify-center border border-solid border-gray-600 bg-purple-100 m-2 p-2 border-img"
     :class="customWidth"
   >
-    <view
-      class="fa self-end"
-      :class="
-        mark ? 'fa-check-square-o text-orange-500' : 'fa-square-o text-gray-100'
-      "
-      @click="markItem"
-    ></view>
     <view class="text-gray-500 my-1">{{ item.code }} 号</view>
     <navigator v-if="index" :url="toUrl">
       <image
@@ -18,7 +11,8 @@
         style="width: 100%; height:20vh; background-color: #eeeeee;"
       ></image>
       <view class="text-gray-100 text-lg font-bold mt-1">{{ item.name }}</view>
-      <view class="text-gray-500 my-1">{{ item.group }}</view>
+      <view class="text-gray-500 my-1">{{ item.category.name }}</view>
+      <view class="text-gray-500 my-1">{{ item.company }}</view>
     </navigator>
     <view v-else>
       <image
@@ -28,7 +22,8 @@
       ></image>
 
       <view class="text-gray-100 text-lg font-bold mt-1">{{ item.name }}</view>
-      <view class="text-gray-500 my-1">{{ item.group }}</view>
+      <view class="text-gray-500 my-1">{{ item.category.name }}</view>
+      <view class="text-gray-500 my-1">{{ item.company }}</view>
     </view>
     <view v-if="index">
       <view class="flex w-full">
@@ -78,46 +73,6 @@ export default Vue.extend({
   },
   mounted() {},
   methods: {
-    async markItem() {
-      if (!isValidTime()) {
-        uni.showToast({
-          title: "现在不是投票时间哦！",
-          icon: "none",
-        })
-        return
-      }
-
-      // 判断是否授权
-      let isLogined = await isAuthorize()
-      if (!isLogined) {
-        uni.showModal({
-          content: "请先登录",
-          showCancel: false,
-          success: async (res) => {
-            console.log("登录同意后信息", res)
-            uni.navigateTo({
-              url: `../login/login`,
-            })
-          },
-        })
-
-        return
-      }
-      // 判断是否关注了公众号
-      if (!isFollower()) {
-        uni.showModal({
-          content: "请先关注公众号《YVOIRE伊婉》再投票哦！",
-          showCancel: false,
-        })
-        return
-      }
-      this.mark = !this.mark
-      if (this.mark) {
-        uni.$emit("add", { item: this.item })
-      } else {
-        uni.$emit("sub", { item: this.item })
-      }
-    },
     async vote() {
       /**
        * 1. 判断是否关注公众号

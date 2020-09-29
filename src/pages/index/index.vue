@@ -75,18 +75,15 @@
       </view>
       <!-- 搜索区域 -->
       <search-bar @updateItem="handleInput" @clear="handleClear"></search-bar>
-	  <uni-segmented-control :current="current" :values="categories" @clickItem="onClickItem" style-type="button" active-color="#4cd964"></uni-segmented-control>
-	  <view class="content">
-		  <view v-if="current === 0">
-			  选项卡1的内容
-		  </view>
-		  <view v-if="current === 1">
-			  选项卡2的内容
-		  </view>
-		  <view v-if="current === 2">
-			  选项卡3的内容
-		  </view>
-	  </view>
+      <view class="text-gray-100">
+        <uni-segmented-control
+          :current="current"
+          :values="cateItem"
+          @clickItem="onClickItem"
+          style-type="text"
+          active-color="#68b1f9"
+        ></uni-segmented-control>
+      </view>
       <!-- 项目列表区域 -->
       <vote-list
         :items="items"
@@ -101,13 +98,6 @@
         <!-- #endif -->
       </view>
       <!-- 脚注区域 -->
-      <view
-        class="text-gray-100 bg-orange-500 rounded-full flex justify-center items-center"
-        @click="batchVote"
-        style="width: 3rem;height: 3rem;position: fixed;bottom: 6rem;right: 0.5rem;z-index: 9999;"
-      >
-        {{ total }}
-      </view>
 
       <view
         class="text-gray-900 bg-gray-200 rounded-full flex justify-center items-center"
@@ -177,11 +167,11 @@ export default Vue.extend({
       msg: "活动已经结束",
       pageNo: 0,
       pageSize: 10,
-      total: "0/0",
       showModal: false,
-      submit: false,
-	  categories:[],
-	  current:0,
+      categories: [] as any,
+      cateItem: [] as Array<string>,
+      current: 0,
+      categoryId: undefined,
     }
   },
   async onLoad(query) {
@@ -202,84 +192,23 @@ export default Vue.extend({
       this.dbouncedGetItems()
       this.dbouncedGetActivity()
     })
-    uni.$on("add", (data) => {
-      console.log("监听事件来自add,携带参数itemid为", data.item)
-      if (this.selectedItems.length >= this.activity.rule[0].value) {
-        uni.showToast({
-          title: `已经超出${this.activity.rule[0].value}个`,
-          icon: "none",
-        })
-        return
-      }
-      this.selectedItems.push(data.item)
-    })
-    uni.$on("sub", (data) => {
-      const startIndex = this.selectedItems.indexOf(data.item)
-      this.selectedItems.splice(startIndex, 1)
-      console.log("监听事件来自sub,携带参数itemid为", data.item, startIndex)
-    })
   },
   onUnload() {
     uni.$off("update", function(data) {
       console.log("监听到事件来自 update ，携带参数 msg 为：" + data.msg)
     })
-    uni.$off("add", (data) => {
-      console.log("监听事件来自add,携带参数itemid为", data.itemid)
-      this.selectedItems.push(data.itemid)
-    })
-    uni.$off("sub", (data) => {
-      const startIndex = this.selectedItems.indexOf(data.itemid)
-      this.selectedItems.splice(startIndex, 1)
-      console.log("监听事件来自sub,携带参数itemid为", data.itemid, startIndex)
-    })
   },
   methods: {
-    async batchVote() {
-      if (this.selectedItems.length == 0) {
-        uni.showToast({
-          title: "请选择选手！",
-          icon: "none",
-        })
-        return
+    onClickItem(e: any) {
+      console.log("点击item", e)
+
+      if (this.current !== e.currentIndex) {
+        this.current = e.currentIndex
       }
-      if (!this.submit) {
-        this.showModal = !this.showModal
-        return
-      }
-      console.log("批量投票")
-      // 没有openid
-      if (isLogin()) {
-        try {
-          await login()
-        } catch (err) {
-          console.error("获取code失败", err)
-        }
-      }
-      try {
-        // 上传投票信息
-        let res = await Promise.all(
-          this.selectedItems.map((el: any) => handleVote(el.id))
-        )
-        console.log("上传之后", res)
-        if (res[0].data.success !== true) {
-          uni.showModal({
-            content: res[0].data.errorMsg,
-            showCancel: false,
-          })
-          return
-        }
-        uni.showModal({
-          content: "投票成功！",
-          showCancel: false,
-          success: (res) => {
-            this.selectedItems = []
-            // 上传成功后刷新页面
-            uni.$emit("update", { msg: "页面更新" })
-          },
-        })
-      } catch (err) {
-        console.error("上传投票信息失败", err)
-      }
+      this.categoryId = this.categories[e.currentIndex].id
+      this.pageNo = 0
+      this.items = []
+      this.dbouncedGetItems()
     },
     tolower() {
       this.dbouncedGetItems()
@@ -308,13 +237,12 @@ export default Vue.extend({
       uni.setNavigationBarTitle({
         title: this.activity?.name,
       })
-      // 3. 下载选手信息
-      await this._getItems()
-      // 4. 判断活动状态
+      // 3. 判断活动状态
       this.setTime()
-      this.total = `0/${this.activity.rule[0].value}`
-      // 5. 类目信息
+      // 4. 类目信息
       await this._getCate()
+      // 5. 下载选手信息
+      await this._getItems()
     },
     setTime() {
       let { startTime, endTime, status }: any = this.activity
@@ -358,25 +286,19 @@ export default Vue.extend({
       this.code = e
       this.dbouncedGetItems()
     },
-    cancel() {
-      this.showModal = false
-    },
-    confirm() {
-      this.showModal = false
-      this.submit = true
-      this.batchVote()
-    },
     async _getCate() {
-	try {
-		let res = await getCate({ activityId: this.actId })
-		this.categories=res.data
-		console.log("类目信息", res)
-	} catch {
-		uni.showToast({
-			title:"获取类目信息错误",
-			icon:"none"
-		})
-	}
+      try {
+        let res = await getCate({ activityId: this.actId })
+        this.categories = res.data
+        this.cateItem = res.data.map((el: any) => el.name)
+        this.categoryId = res.data[this.current].id
+        console.log("类目信息", res)
+      } catch {
+        uni.showToast({
+          title: "获取类目信息错误",
+          icon: "none",
+        })
+      }
     },
     // 获取活动信息
     async _getActivities() {
@@ -385,9 +307,9 @@ export default Vue.extend({
         return data.data
       } catch (error) {
         uni.showToast({
-			title:"获取活动信息错误",
-			icon:"none"
-		})
+          title: "获取活动信息错误",
+          icon: "none",
+        })
       }
     },
     // 获取活动信息
@@ -417,6 +339,7 @@ export default Vue.extend({
         pageNo: this.pageNo,
         activityId: this.actId,
         code: this.code,
+        categoryId: this.categoryId,
       })
 
       this.items = [...this.items, ...data.data]
@@ -434,17 +357,6 @@ export default Vue.extend({
       }
     },
   },
-  watch: {
-    selectedItems(newValue, oldValue) {
-      const selectedItemNum = this.selectedItems.length
-      const totalNum = this.activity.rule[0].value
-      if (selectedItemNum < totalNum) {
-        this.total = `${selectedItemNum}/${this.activity.rule[0].value}`
-      } else {
-        this.total = "投票"
-      }
-    },
-  },
   components: {
     banner,
     title,
@@ -454,7 +366,6 @@ export default Vue.extend({
     voteList,
     voteFooter,
     uniCountdown,
-    modal,
   },
 })
 </script>
