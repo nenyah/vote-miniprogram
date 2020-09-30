@@ -14,23 +14,26 @@ type Code = string
 type Name = string
 type ActivityId = number
 type CategoryId = number | undefined
+
 interface Iparams {
-  pageNo?: PageNo
-  pageSize?: PageSize
-  code?: Code
-  name?: Name
-  activityId: ActivityId
-  categoryId?: CategoryId
+    pageNo?: PageNo
+    pageSize?: PageSize
+    code?: Code
+    id?: number
+    name?: Name
+    activityId: ActivityId
+    categoryId?: CategoryId
 }
+
 /**
  *
  * @param params Iparams
  */
 export const getItems = (params: Iparams) => {
-  return request({
-    url: `${config}weixin/item`,
-    data: {
-      ...params,
-    },
-  })
+    return request({
+        url: `${config}weixin/item`,
+        data: {
+            ...params,
+        },
+    })
 }

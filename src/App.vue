@@ -1,10 +1,3 @@
-<!--
- * @Description: 
- * @Author: Steven
- * @Date: 2020-08-26 16:08:15
- * @LastEditors: Steven
- * @LastEditTime: 2020-09-27 16:11:19
--->
 <script lang="ts">
 import Vue from "vue"
 

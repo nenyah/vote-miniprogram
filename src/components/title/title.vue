@@ -11,12 +11,6 @@ export default Vue.extend({
       default: "2020伊人如梦*婉美如你 | 伊婉明星脸 全国100强投票",
     },
   },
-  data() {
-    return {}
-  },
-  onLoad() {},
-  methods: {},
 })
 </script>
 
-<style></style>

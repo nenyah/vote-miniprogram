@@ -157,7 +157,7 @@ export default Vue.extend({
   },
   computed: {
     toUrl(): string {
-      return `/pages/detail/detail?code=${this.item.code}`
+      return `/pages/detail/detail?id=${this.item.id}`
     },
     customWidth(): string {
       return `w-${64 / this.col}`

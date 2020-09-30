@@ -2,15 +2,15 @@
   <view>
     <view v-if="actId < 0" class="text-gray-900 py-2 p-5">
       <view
-        v-for="activity in activities"
-        :key="activity.id"
-        class="my-4 text-center text-gray-500 rounded-lg shadow-lg"
+          v-for="activity in activities"
+          :key="activity.id"
+          class="my-4 text-center text-gray-500 rounded-lg shadow-lg"
       >
         <view :data-id="activity.id" @click="toIndex">
           <image
-            :src="formatUrl(activity)"
-            mode="aspectFill"
-            class="rounded rounded-b-none w-full h-24"
+              :src="formatUrl(activity)"
+              mode="aspectFill"
+              class="rounded rounded-b-none w-full h-24"
           ></image>
           <view class="p-2 text-left">
             <view class="text-gray-900">{{ activity.name }}</view>
@@ -21,7 +21,7 @@
             </view>
             <view class="flex items-center">
               <view class="fa fa-clock-o mr-1 text-red-300 text-center"></view>
-              <view> {{ formatTime(activity.endTime) }} 结束 </view>
+              <view> {{ formatTime(activity.endTime) }} 结束</view>
             </view>
           </view>
         </view>
@@ -35,19 +35,19 @@
       <!-- 统计区域 -->
       <stats :content="activity.stats">
         <view
-          class="mt-2 p-2 text-gray-100 text-center diff-time-box flex justify-center"
+            class="mt-2 p-2 text-gray-100 text-center diff-time-box flex justify-center"
         >
           <view v-if="!(activity.status === 'ENDED')">
             {{ msg }}
             <uni-countdown
-              color="#fff"
-              background-color=""
-              splitorColor="#fff"
-              :day="day"
-              :hour="hour"
-              :minute="min"
-              :second="sec"
-              :showDay="showDay"
+                color="#fff"
+                background-color=""
+                splitorColor="#fff"
+                :day="day"
+                :hour="hour"
+                :minute="min"
+                :second="sec"
+                :showDay="showDay"
             ></uni-countdown>
           </view>
           <view v-else>{{ msg }}</view>
@@ -77,18 +77,18 @@
       <search-bar @updateItem="handleInput" @clear="handleClear"></search-bar>
       <view class="text-gray-100">
         <uni-segmented-control
-          :current="current"
-          :values="cateItem"
-          @clickItem="onClickItem"
-          style-type="text"
-          active-color="#68b1f9"
+            :current="current"
+            :values="cateItem"
+            @clickItem="onClickItem"
+            style-type="text"
+            active-color="#68b1f9"
         ></uni-segmented-control>
       </view>
       <!-- 项目列表区域 -->
       <vote-list
-        :items="items"
-        :itemType="itemType"
-        @tolower="tolower"
+          :items="items"
+          :itemType="itemType"
+          @tolower="tolower"
       ></vote-list>
       <vote-footer :content="activity.name"></vote-footer>
       <view>
@@ -100,17 +100,17 @@
       <!-- 脚注区域 -->
 
       <view
-        class="text-gray-900 bg-gray-200 rounded-full flex justify-center items-center"
-        @click="back"
-        style="width: 3rem;height: 3rem;position: fixed;bottom: 2rem;right: 0.5rem;z-index: 9999;"
+          class="text-gray-900 bg-gray-200 rounded-full flex justify-center items-center"
+          @click="back"
+          style="width: 3rem;height: 3rem;position: fixed;bottom: 2rem;right: 0.5rem;z-index: 9999;"
       >
         返回
       </view>
       <modal
-        v-show="showModal"
-        @cancel="cancel"
-        @confirm="confirm"
-        :voteItems="selectedItems"
+          v-show="showModal"
+          @cancel="cancel"
+          @confirm="confirm"
+          :voteItems="selectedItems"
       ></modal>
     </view>
   </view>
@@ -128,23 +128,20 @@ import voteFooter from "@/components/footer/footer.vue"
 import uniCountdown from "@/components/uni-countdown/uni-countdown.vue"
 import uniSegmentedControl from "@/components/uni-segmented-control/uni-segmented-control.vue"
 
-import modal from "@/components/modal/modal.vue"
-import { getItems } from "@/servise/items"
-import { getActivities, putVisits } from "@/servise/activates"
-import { getCate } from "@/servise/category"
-import { activities, items } from "@/mock/store"
+import {getItems} from "@/servise/items"
+import {getActivities, putVisits} from "@/servise/activates"
+import {getCate} from "@/servise/category"
 import moment from "moment"
-import { Iactivity, IglobalData, Iitem } from "@/common/interface"
+import {Iactivity, IglobalData, Iitem} from "@/common/interface"
 import * as _ from "lodash"
-import { getCode, login } from "@/servise/login"
-import { isLogin } from "@/utils/check"
-import { handleVote } from "@/servise/vote"
+import {login} from "@/servise/login"
 
 moment().locale("zh-cn")
 
 interface Query {
   id: number
 }
+
 let app = getApp()
 export default Vue.extend({
   data() {
@@ -154,8 +151,10 @@ export default Vue.extend({
       activities: [] as Iactivity[],
       activity: {} as Iactivity,
       code: "",
-      dbouncedGetItems: () => {},
-      dbouncedGetActivity: () => {},
+      dbouncedGetItems: () => {
+      },
+      dbouncedGetActivity: () => {
+      },
       day: 0,
       hour: 0,
       min: 0,
@@ -193,7 +192,7 @@ export default Vue.extend({
     })
   },
   onUnload() {
-    uni.$off("update", function(data) {
+    uni.$off("update", function (data) {
       console.log("监听到事件来自 update ，携带参数 msg 为：" + data.msg)
     })
   },
@@ -224,12 +223,12 @@ export default Vue.extend({
       globaldata.currentActId = e.currentTarget.dataset.id
       // 1. 增加访问量
       putVisits(e.currentTarget.dataset.id)
-        .then((res) => {
-          console.log("增加访问量成功", res)
-        })
-        .catch((err) => {
-          console.error("增加访问量失败", err)
-        })
+          .then((res) => {
+            console.log("增加访问量成功", res)
+          })
+          .catch((err) => {
+            console.error("增加访问量失败", err)
+          })
       // 2. 下载活动信息
       await this._getActivity()
       // 设置标题
@@ -244,7 +243,7 @@ export default Vue.extend({
       await this._getItems()
     },
     setTime() {
-      let { startTime, endTime, status }: any = this.activity
+      let {startTime, endTime, status}: any = this.activity
       //  获取当前时间
       let now = moment()
       startTime = moment(startTime)
@@ -287,7 +286,7 @@ export default Vue.extend({
     },
     async _getCate() {
       try {
-        let res = await getCate({ activityId: this.actId })
+        let res = await getCate({activityId: this.actId})
         this.categories = res.data
         this.cateItem = res.data.map((el: any) => el.name)
         this.categoryId = res.data[this.current].id
@@ -301,7 +300,7 @@ export default Vue.extend({
     // 获取活动信息
     async _getActivities() {
       try {
-        let { data }: any = await getActivities()
+        let {data}: any = await getActivities()
         return data.data
       } catch (error) {
         uni.showToast({
@@ -314,7 +313,7 @@ export default Vue.extend({
     async _getActivity() {
       // 根据actId筛选
       this.activity = this.activities.filter(
-        (el: Iactivity) => el.id == this.actId
+          (el: Iactivity) => el.id == this.actId
       )[0]
     },
     async _getItems() {
@@ -324,7 +323,7 @@ export default Vue.extend({
       }
 
       if (this.code.length > 0) {
-        let { data } = await getItems({
+        let {data} = await getItems({
           activityId: this.actId,
           code: this.code,
         })
@@ -333,7 +332,7 @@ export default Vue.extend({
         return
       }
       this.pageNo = this.pageNo + 1
-      let { data } = await getItems({
+      let {data} = await getItems({
         pageNo: this.pageNo,
         activityId: this.actId,
         code: this.code,
@@ -364,6 +363,7 @@ export default Vue.extend({
     voteList,
     voteFooter,
     uniCountdown,
+    uniSegmentedControl,
   },
 })
 </script>

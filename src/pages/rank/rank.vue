@@ -8,23 +8,24 @@
 <template>
   <view class="bg-purple min-h-full pt-2 px-2">
     <view v-if="actId < 0" class="text-gray-100 text-center"
-      >还没有选择活动哦</view
+    >还没有选择活动哦
+    </view
     >
     <view v-else>
       <title :content="activity.name"></title>
       <view class="text-gray-100">
         <uni-segmented-control
-          :current="current"
-          :values="cateItem"
-          @clickItem="onClickItem"
-          style-type="text"
-          active-color="#68b1f9"
+            :current="current"
+            :values="cateItem"
+            @clickItem="onClickItem"
+            style-type="text"
+            active-color="#68b1f9"
         ></uni-segmented-control>
       </view>
       <vote-list
-        :items="sortItems"
-        :pageType="pageType"
-        @tolower="tolower"
+          :items="sortItems"
+          :pageType="pageType"
+          @tolower="tolower"
       ></vote-list>
       <vote-footer :content="activity.name"></vote-footer>
     </view>
@@ -36,12 +37,10 @@ import Vue from "vue"
 import title from "@/components/title/title.vue"
 import voteList from "@/components/vote-list/vote-list.vue"
 import voteFooter from "@/components/footer/footer.vue"
-import uniSegmentedControl from "@/components/uni-segmented-control/uni-segmented-control.vue"
-import { getItems } from "@/servise/items"
-import { Iactivity, Iitem, IglobalData } from "@/common/interface"
-import { items } from "@/mock/store"
+import {getItems} from "@/servise/items"
+import {Iactivity, IglobalData, Iitem} from "@/common/interface"
 import * as _ from "lodash"
-import { getCate } from "@/servise/category"
+import {getCate} from "@/servise/category"
 
 interface Query {
   id: number
@@ -55,7 +54,8 @@ export default Vue.extend({
       actId: -1,
       activity: {} as Iactivity,
       pageType: "rank",
-      dbouncedGetItems: () => {},
+      dbouncedGetItems: () => {
+      },
       pageNo: 0,
       current: 0,
       categories: [] as any,
@@ -86,19 +86,19 @@ export default Vue.extend({
       this.dbouncedGetItems()
     },
     async init() {
-      const { activities, currentActId } = app.globalData as IglobalData
+      const {activities, currentActId} = app.globalData as IglobalData
 
       this.actId = currentActId
-      if (this.cateItem.length == 0) {
-        await this._getCate()
-      }
       if (currentActId > -1) {
+        if (this.cateItem.length == 0) {
+          await this._getCate()
+        }
         this.dbouncedGetItems()
       }
     },
     async _getCate() {
       try {
-        let res = await getCate({ activityId: this.actId })
+        let res = await getCate({activityId: this.actId})
         this.categories = res.data
         this.cateItem = res.data.map((el: any) => el.name)
         this.categoryId = res.data[this.current].id
@@ -111,7 +111,7 @@ export default Vue.extend({
     },
     async _getItems() {
       // 获取全局数据
-      let { currentActId, activities } = app.globalData as IglobalData
+      let {currentActId, activities} = app.globalData as IglobalData
       // 获取活动
       this.activity = activities.filter((el) => el.id == currentActId)[0]
       // 判断是否还有新的内容
@@ -119,7 +119,7 @@ export default Vue.extend({
         return
       }
       this.pageNo = this.pageNo + 1
-      let { data } = await getItems({
+      let {data} = await getItems({
         pageNo: this.pageNo,
         activityId: this.actId,
         categoryId: this.categoryId,
@@ -131,8 +131,8 @@ export default Vue.extend({
   computed: {
     sortItems(): Array<Iitem> {
       return this.items.sort(
-        (a: Iitem, b: Iitem) =>
-          <number>b?.stats[0].value - <number>a?.stats[0].value
+          (a: Iitem, b: Iitem) =>
+              <number>b?.stats[0].value - <number>a?.stats[0].value
       )
     },
   },

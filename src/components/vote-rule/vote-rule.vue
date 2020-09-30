@@ -46,8 +46,6 @@ export default Vue.extend({
       title: "活动规则",
     }
   },
-  mounted() {},
-  methods: {},
   computed: {
     formatTime() {
       return (params: string) => {

@@ -20,15 +20,10 @@
 import Vue from "vue"
 import title from "@/components/title/title.vue"
 export default Vue.extend({
-  data() {
-    return {}
-  },
   props: {
     content: Array,
     isDetail: Boolean,
   },
-  onLoad() {},
-  methods: {},
   components: {
     title,
   },

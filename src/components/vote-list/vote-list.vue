@@ -10,27 +10,27 @@
     </view>
 
     <scroll-view
-      class="flex flex-row flex-wrap w-full justify-around"
-      style="height:900rpx;"
-      v-if="isVoteItem"
-      scroll-y="true"
-      @scrolltolower="lower"
-      enable-flex
+        class="flex flex-row flex-wrap w-full justify-around"
+        style="height:900rpx;"
+        v-if="isVoteItem"
+        scroll-y="true"
+        @scrolltolower="lower"
+        enable-flex
     >
       <block v-for="item in items" :key="item.id">
         <vote-item
-          :item="item"
-          :index="true"
-          :col="2"
-          @plusVote="handlePlusVote"
+            :item="item"
+            :index="true"
+            :col="2"
+            @plusVote="handlePlusVote"
         ></vote-item>
       </block>
     </scroll-view>
     <scroll-view
-      v-else
-      scroll-y="true"
-      @scrolltolower="lower"
-      style="height:900rpx;"
+        v-else
+        scroll-y="true"
+        @scrolltolower="lower"
+        style="height:900rpx;"
     >
       <block v-for="(item, index) in items" :key="item.id">
         <rank-item :item="item" :index="index"></rank-item>
@@ -42,12 +42,8 @@
 <script lang="ts">
 import Vue from "vue"
 import voteItem from "@/components/vote-item/vote-item.vue"
-import rankItem from "@/components/rank-item/rank-item.vue"
 
 export default Vue.extend({
-  data() {
-    return {}
-  },
   props: {
     items: Array,
     itemType: String,
@@ -68,4 +64,3 @@ export default Vue.extend({
 })
 </script>
 
-<style></style>

@@ -16,7 +16,7 @@ export default (params: IParams) => {
     (resolve: (value: any) => void, reject: (value: any) => void) => {
       console.log(`正在请求：${params.url}`)
       let defaultParams = {
-        timeout: 6000,
+        timeout: 10000,
         ...params,
       }
       uni.request({

@@ -43,7 +43,7 @@ export default Vue.extend({
       return this.index % 2 === 0
     },
     toUrl(): string {
-      return `/pages/detail/detail?code=${this.item.code}`
+      return `/pages/detail/detail?id=${this.item.id}`
     },
   },
 })

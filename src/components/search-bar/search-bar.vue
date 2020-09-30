@@ -3,10 +3,10 @@
     <view class="w-full" style="padding:0;">
       <view class="input-group flex">
         <input
-          type="text"
-          class="keyword form-control pl-2"
-          :placeholder="placeholder"
-          v-model="code"
+            type="text"
+            class="keyword form-control pl-2"
+            :placeholder="placeholder"
+            v-model="code"
         />
         <view class="flex items-center" style="background:#3945ad;">
           <view class="fa fa-search text-orange-500 pr-2"></view>
@@ -19,28 +19,26 @@
 <script lang="ts">
 import Vue from "vue"
 import * as _ from "lodash"
+
 export default Vue.extend({
   props: {
-    placeholder: { type: String, default: "搜索编号、项目名称" },
+    placeholder: {type: String, default: "搜索编号、项目名称"},
   },
   data() {
     return {
       code: "",
     }
   },
-  onLoad() {},
   watch: {
     code(newCode, oldCode) {
       console.log("触发", newCode, oldCode)
       if (_.isEmpty(newCode)) {
-        console.log("新值为空")
         this.$emit("clear")
       } else {
         this.$emit("updateItem", newCode)
       }
     },
   },
-  methods: {},
 })
 </script>
 
