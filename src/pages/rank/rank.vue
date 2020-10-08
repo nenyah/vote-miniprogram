@@ -6,7 +6,7 @@
  * @LastEditTime: 2020-09-29 16:22:11
 -->
 <template>
-  <view class="bg-purple min-h-full pt-2 px-2">
+  <view class="bg-theme-p-1 min-h-full pt-2 px-2">
     <view v-if="actId < 0" class="text-gray-100 text-center"
     >还没有选择活动哦
     </view
@@ -19,7 +19,7 @@
             :values="cateItem"
             @clickItem="onClickItem"
             style-type="text"
-            active-color="#68b1f9"
+            active-color="#e271a6"
         ></uni-segmented-control>
       </view>
       <vote-list

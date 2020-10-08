@@ -1,34 +1,34 @@
 <template>
   <view
-    class="flex flex-col flex-1 text-center justify-center border border-solid border-gray-600 bg-purple-100 m-2 p-2 border-img"
-    :class="customWidth"
+      class="flex flex-col flex-1 text-center justify-center border border-solid border-gray-600 bg-theme-gradient m-2 p-2 border-img"
+      :class="customWidth"
   >
-    <view class="text-gray-500 my-1">{{ item.code }} 号</view>
+    <view class="text-blue-900 my-1">{{ item.code }} 号</view>
     <navigator v-if="index" :url="toUrl">
       <image
-        :src="item.img"
-        mode="scaleToFill"
-        style="width: 100%; height:20vh; background-color: #eeeeee;"
+          :src="item.img"
+          mode="scaleToFill"
+          style="width: 100%; height:20vh; background-color: #eeeeee;"
       ></image>
       <view class="text-gray-100 text-lg font-bold mt-1">{{ item.name }}</view>
-      <view class="text-gray-500 my-1">{{ item.category.name }}</view>
-      <view class="text-gray-500 my-1">{{ item.company }}</view>
+      <view class="text-blue-900 my-1">{{ item.category.name }}</view>
+      <view class="text-blue-900 my-1">{{ item.company }}</view>
     </navigator>
     <view v-else>
       <image
-        :src="item.img"
-        mode="widthFix"
-        style="width: 100%; background-color: #eeeeee;"
+          :src="item.img"
+          mode="widthFix"
+          style="width: 100%; background-color: #eeeeee;"
       ></image>
 
       <view class="text-gray-100 text-lg font-bold mt-1">{{ item.name }}</view>
-      <view class="text-gray-500 my-1">{{ item.category.name }}</view>
-      <view class="text-gray-500 my-1">{{ item.company }}</view>
+      <view class="text-blue-900 my-1">{{ item.category.name }}</view>
+      <view class="text-blue-900 my-1">{{ item.company }}</view>
     </view>
     <view v-if="index">
       <view class="flex w-full">
         <view
-          class="flex-1 border border-solid border-gray-500 bg-purple-300 text-white p-2"
+            class="flex-1 border border-solid border-gray-500 bg-theme-300 text-white p-2"
           >{{ item.stats[0].value }}</view
         >
         <vote-button>
@@ -47,11 +47,9 @@
 <script lang="ts">
 import Vue from "vue"
 import voteButton from "@/components/vote-button/vote-button.vue"
-import { handleVote } from "@/servise/vote"
-import { Iactivity, IglobalData } from "@/common/interface"
-import { login } from "@/servise/login"
-import * as _ from "lodash"
-import { isAuthorize, isFollower, isValidTime, isLogin } from "@/utils/check"
+import {handleVote} from "@/servise/vote"
+import {login} from "@/servise/login"
+import {isAuthorize, isFollower, isLogin, isValidTime} from "@/utils/check"
 
 export default Vue.extend({
   components: {
@@ -195,5 +193,9 @@ export default Vue.extend({
   background-repeat: no-repeat;
   background-size: 100% 100%;
   z-index: 10;
+}
+
+.bg-theme-gradient {
+  background: linear-gradient(to bottom right, #aee5e8, #86c6cf);
 }
 </style>

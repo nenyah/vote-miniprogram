@@ -9,8 +9,7 @@
     {
       "path": "pages/desc/desc",
       "style": {
-        "navigationBarTitleText": "详情-活动名称",
-        "backgroundColor": "#0d134d"
+        "navigationBarTitleText": "详情-活动名称"
       }
     },
     {
@@ -53,14 +52,14 @@
   "globalStyle": {
     "navigationBarTextStyle": "#cfcfcf",
     "navigationBarTitleText": "投票小程序",
-    "navigationBarBackgroundColor": "#000",
+    "navigationBarBackgroundColor": "#e24270",
     "backgroundColor": "#0d134d"
   },
   "tabBar": {
     "color": "#8a8a8a",
     "selectedColor": "#ffffff",
     "borderStyle": "black",
-    "backgroundColor": "#283079",
+    "backgroundColor": "#e24270",
     "height": "50px",
     "fontSize": "10px",
     "iconWidth": "24px",

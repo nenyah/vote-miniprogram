@@ -1,12 +1,17 @@
 <template>
-  <view class="bg-purple pt-2 h-full min-h-full">
+  <view class="bg-theme-p-1">
+    <brand-show></brand-show>
     <view v-if="actId < 0" class="text-gray-100 text-center">
       还没有选择活动哦
     </view>
-    <view v-else>
+    <view v-else class="flex flex-col justify-center items-center">
       <title :content="activity.name"></title>
-      <vote-rule :activity="activity"></vote-rule>
-      <vote-detail :activity="activity"></vote-detail>
+      <view class="pt-4 my-2 bg-gray-100 w-11--12 rounded">
+        <vote-rule :activity="activity"></vote-rule>
+      </view>
+      <view class="pt-4 my-2 bg-gray-100 w-11--12 rounded">
+        <vote-detail :activity="activity"></vote-detail>
+      </view>
       <vote-footer :content="activity.name"></vote-footer>
     </view>
   </view>
@@ -18,7 +23,8 @@ import title from "@/components/title/title.vue"
 import voteRule from "@/components/vote-rule/vote-rule.vue"
 import voteDetail from "@/components/vote-detail/vote-detail.vue"
 import voteFooter from "@/components/footer/footer.vue"
-import { Iactivity } from "@/common/interface"
+import brandShow from "@/components/brand-show/brand-show.vue"
+import {Iactivity} from "@/common/interface"
 
 export default Vue.extend({
   data() {
@@ -39,11 +45,11 @@ export default Vue.extend({
   },
   methods: {
     init() {
-      const { activities, currentActId }: any = getApp().globalData
+      const {activities, currentActId}: any = getApp().globalData
 
       this.actId = currentActId
       this.activity = activities.filter(
-        (el: Iactivity) => el.id == currentActId
+          (el: Iactivity) => el.id == currentActId
       )[0]
     },
   },
@@ -52,6 +58,7 @@ export default Vue.extend({
     voteRule,
     voteDetail,
     voteFooter,
+    brandShow,
   },
 })
 </script>

@@ -19,6 +19,7 @@
 <script lang="ts">
 import Vue from "vue"
 import title from "@/components/title/title.vue"
+
 export default Vue.extend({
   props: {
     content: Array,
@@ -34,22 +35,23 @@ export default Vue.extend({
 .stat-border {
   padding: 3px;
   border-radius: 0;
-  border-top: 1px solid #4e5789;
+  border-top: 1px solid #000000;
   border-left: 1px solid;
   border-right: 1px solid;
   border-bottom: none;
-  border-image: linear-gradient(to top, #0d164a, #4e5789);
+  border-image: linear-gradient(to top, #42384e, #000);
   border-image-slice: 10;
+
   .stat-content {
     margin: 0 auto;
     padding: 5px 15px;
-    border-top: 1px solid #283164;
+    border-top: 1px solid #000000;
     border-left: 1px solid;
     border-right: 1px solid;
     border-bottom: none;
-    border-image: linear-gradient(to top, #0d164a, #283164);
+    border-image: linear-gradient(to top, #42384e, #000);
     border-image-slice: 10;
-    background: #0d144d;
+    background: #d2b3f9;
   }
 }
 </style>

@@ -1,10 +1,3 @@
-/*
- * @Description:
- * @Author: Steven
- * @Date: 2020-08-26 16:08:15
- * @LastEditors: Steven
- * @LastEditTime: 2020-09-09 09:20:43
- */
 const path = require("path")
 module.exports = {
   parser: require("postcss-comment"),

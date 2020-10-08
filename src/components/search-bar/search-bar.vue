@@ -1,15 +1,15 @@
 <template>
-  <view class="flex search-box border-img my-2">
-    <view class="w-full" style="padding:0;">
-      <view class="input-group flex">
+  <view class="border-img my-2 bg-theme-p-3 py-4" style="width: 756rpx;">
+    <view class="w-full border border-r-0 border-l-0 border-t-0 border-solid border-white" style="padding:0;">
+      <view class="flex">
         <input
             type="text"
-            class="keyword form-control pl-2"
+            class=" flex-grow pl-2"
             :placeholder="placeholder"
             v-model="code"
         />
-        <view class="flex items-center" style="background:#3945ad;">
-          <view class="fa fa-search text-orange-500 pr-2"></view>
+        <view class="flex-1 flex items-center justify-center">
+          <view class="fa fa-search text-gray-100 pr-2"></view>
         </view>
       </view>
     </view>

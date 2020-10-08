@@ -1,30 +1,30 @@
 <template>
-  <view class="mt-5 pt-8 z-20 mb-2 px-4 text-gray-200 -t-10">
+  <view class="mt-5 py-2 z-20 mb-2 px-4 text-red-300 -t-10">
     <main-title :title="title"></main-title>
     <view class="flex">
       <view class="w-18">
-        <view class="fa fa-clock-o text-orange-500 mr-2"></view>
+        <view class="fa fa-clock-o text-red-300 mr-2"></view>
         活动开始：
       </view>
-      <view class="flex-none text-gray-500 text-left">
+      <view class="flex-none text-gray-600 text-left">
         {{ formatTime(activity.startTime) }}
       </view>
     </view>
     <view class="flex">
       <view class="w-18">
-        <view class="fa fa-clock-o text-orange-500 mr-2"></view>
+        <view class="fa fa-clock-o text-red-300 mr-2"></view>
         活动结束：
       </view>
-      <view class="flex-none text-gray-500 text-left">
+      <view class="flex-none text-gray-600 text-left">
         {{ formatTime(activity.endTime) }}
       </view>
     </view>
     <view class="flex">
       <view class="w-18">
-        <view class="fa fa-clock-o text-orange-500 mr-2"></view>
+        <view class="fa fa-clock-o text-red-300 mr-2"></view>
         活动规则：
       </view>
-      <view class="flex-1 text-gray-500 text-left">
+      <view class="flex-1 text-gray-600 text-left">
         每个微信号每天可以投{{ activity.rule[0].value }}票（每天可为同一选手投{{
           activity.rule[1].value
         }}票）。
@@ -36,6 +36,7 @@
 <script lang="ts">
 import Vue from "vue"
 import mainTitle from "@/components/main-title/main-title.vue"
+
 export default Vue.extend({
   props: ["activity"],
   components: {

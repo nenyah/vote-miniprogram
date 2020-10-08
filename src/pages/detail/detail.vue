@@ -1,5 +1,5 @@
 <template>
-  <view class="bg-purple">
+  <view class="bg-theme-p-1">
     <!-- 标题 -->
     <title :content="activity.name"></title>
     <!-- 统计票数 -->

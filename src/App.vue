@@ -29,4 +29,19 @@ export default Vue.extend({
 <style lang="scss">
 @import "assets/css/tailwind.css";
 /*每个页面公共css */
+.bg-theme-p-1 {
+  background-color: #fdbbdf;
+}
+
+.bg-theme-p-2 {
+  background-color: #f996c5;
+}
+
+.bg-theme-p-3 {
+  background-color: #ec7db0;
+}
+
+.bg-theme-p-4 {
+  background-color: #83c7d2;
+}
 </style>

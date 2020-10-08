@@ -1,8 +1,8 @@
 
 <template>
   <view
-    class="flex w-4-5 my-2 py-2 text-center"
-    :class="{ 'bg-purple-light': isActive }"
+      :class="{ 'bg-theme-p-3': isActive }"
+      class="flex w-4-5 my-2 py-2 text-center rounded"
   >
     <view class="flex justify-center flex-1 text-center">
       <view :class="top3">{{ index + 1 }}</view>
@@ -17,6 +17,7 @@
 
 <script lang="ts">
 import Vue from "vue"
+
 export default Vue.extend({
   data() {
     return {}
@@ -58,8 +59,5 @@ export default Vue.extend({
 }
 .bg-brone {
   background: #fea569;
-}
-.bg-purple-light {
-  background: #181c66;
 }
 </style>

@@ -27,7 +27,9 @@
         </view>
       </view>
     </view>
-    <view v-else class="bg-purple">
+    <view v-else class="bg-theme-p-1 flex flex-col items-center">
+      <!--      品牌介绍-->
+      <brand-show></brand-show>
       <!-- 广告轮播图 -->
       <banner :src="activity.bannerImg"></banner>
       <!-- 主题名称 -->
@@ -54,13 +56,13 @@
         </view>
       </stats>
       <!-- 规则区域 -->
-      <view class="bg-color pt-4">
+      <view class="pt-4 my-2 bg-gray-100 w-11--12 rounded">
         <!-- 活动规则 -->
         <vote-rule :activity="activity"></vote-rule>
         <!-- 活动详情 -->
-        <view class="text-white flex px-4">
+        <view class="text-red-300 flex px-4">
           <view class="attr">
-            <view class="fa fa-clock-o text-orange-500 mr-2"></view>
+            <view class="fa fa-clock-o text-red-300 mr-2"></view>
             活动详情：
           </view>
           <view class="flex" @click="display = !display">
@@ -69,23 +71,24 @@
           </view>
         </view>
         <!-- 详情描述 -->
-        <view v-if="display" class="my-3 text-gray-100 px-4">
+        <view v-if="display" class="my-3 text-gray-600 px-4">
           {{ activity.description }}
         </view>
       </view>
       <!-- 搜索区域 -->
       <search-bar @updateItem="handleInput" @clear="handleClear"></search-bar>
-      <view class="text-gray-100">
+      <view class="text-gray-100 w-full">
         <uni-segmented-control
             :current="current"
             :values="cateItem"
             @clickItem="onClickItem"
             style-type="text"
-            active-color="#68b1f9"
+            active-color="#e271a6"
         ></uni-segmented-control>
       </view>
       <!-- 项目列表区域 -->
       <vote-list
+          v-if="items.length>0"
           :items="items"
           :itemType="itemType"
           @tolower="tolower"
@@ -127,7 +130,7 @@ import voteList from "@/components/vote-list/vote-list.vue"
 import voteFooter from "@/components/footer/footer.vue"
 import uniCountdown from "@/components/uni-countdown/uni-countdown.vue"
 import uniSegmentedControl from "@/components/uni-segmented-control/uni-segmented-control.vue"
-
+import brandShow from "@/components/brand-show/brand-show.vue"
 import {getItems} from "@/servise/items"
 import {getActivities, putVisits} from "@/servise/activates"
 import {getCate} from "@/servise/category"
@@ -364,6 +367,7 @@ export default Vue.extend({
     voteFooter,
     uniCountdown,
     uniSegmentedControl,
+    brandShow,
   },
 })
 </script>

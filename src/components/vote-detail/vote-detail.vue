@@ -1,7 +1,7 @@
 <template>
-  <view class="pt-16 px-4 bg-color text-gray-200">
+  <view class="p-4 text-gray-200">
     <main-title :title="title"></main-title>
-    <view class="mt-2">{{ activity.description }}</view>
+    <view class="mt-2 text-gray-600">{{ activity.description }}</view>
   </view>
 </template>
 
@@ -30,9 +30,4 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-.bg-color {
-  background-image: $rule-bg-base64-code;
-  background-size: 100%;
-  background-repeat: no-repeat;
-}
 </style>

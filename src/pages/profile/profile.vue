@@ -1,6 +1,6 @@
 <template>
   <view class="bg-gray-200 h-full">
-    <view class="bg-purple-300 w-full h-40"> </view>
+    <view class="bg-theme-p-1 w-full h-40"></view>
     <view
       class="w-10--12 mx-auto -mt-32 rounded bg-gray-100 border border-gray-100 border-solid shadow"
     >
@@ -19,8 +19,8 @@
         </view>
         <view v-else class="mx-auto">
           <navigator
-            url="../login/login"
-            class=" bg-purple-300 text-gray-100 py-2 px-6 rounded-full"
+              url="../login/login"
+              class=" bg-theme-p-1 text-gray-100 py-2 px-6 rounded-full"
             >登录/注册</navigator
           >
         </view>
@@ -53,17 +53,20 @@
 <script lang="ts">
 import Vue from "vue"
 import Component from "vue-class-component"
-import { login } from "@/servise/login"
-import { getUserInfo, getStorage } from "@/utils/utils"
-import { getVoteStat } from "@/servise/vote"
+import {getStorage} from "@/utils/utils"
+import {getVoteStat} from "@/servise/vote"
 import * as _ from "lodash"
+
 @Component({})
 export default class profile extends Vue {
-  private userinfo: Object = () => {}
-  private userphone: Object = () => {}
+  private userinfo: Object = () => {
+  }
+  private userphone: Object = () => {
+  }
   showUserInfo: Boolean = false
   actNum: number = 0
   totalVoteNum: number = 0
+
   async onShow() {
     await this._getUserInfo()
     await this._getUserPhone()
