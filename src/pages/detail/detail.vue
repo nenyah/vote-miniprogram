@@ -91,11 +91,26 @@ export default Vue.extend({
     }
   },
   async onLoad(query) {
-    // 保存活动id
+
+    const scene = decodeURIComponent(query?.scene)
     const globalData = getApp().globalData as IglobalData
-    this.actId = globalData.currentActId
-    this.id = query?.id
-    this.activity = globalData.activities[this.actId]
+    if (scene == "undefined") {
+      this.id = query?.id
+      // 保存活动id
+      this.actId = globalData.currentActId
+    } else {
+      // 后端登录
+      await login()
+      this.id = Number(scene.split("&")[0].split("=")[1])
+      this.actId = Number(scene.split("&")[1].split("=")[1])
+    }
+    if (globalData.activities.length > 0) {
+      this.activity = globalData.activities.filter((activity: Iactivity) => activity.id == this.actId)[0]
+    } else {
+      const {data} = await getActivities()
+      this.activity = data.data.filter((activity: Iactivity) => activity.id == this.actId)[0]
+    }
+
     // 筛选item
     await this._getItem()
     // 设置标题
@@ -119,10 +134,9 @@ export default Vue.extend({
        * 3. 判断是否超出限制 服务器判断
        *
        */
-      let {openid, activities, currentActId, unionid} = getApp()
+      let {openid, unionid} = getApp()
           .globalData as IglobalData
-      this.actId = currentActId
-      let {status} = activities.filter((el) => el.id == currentActId)[0]
+      let {status} = this.activity
       // 判断是否是进行中的活动，不是就直接返回
       if (!(status == "ONGOING")) {
         uni.showToast({
