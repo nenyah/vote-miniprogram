@@ -2,32 +2,33 @@
   <view class="bg-gray-200 h-full">
     <view class="bg-theme-p-1 w-full h-40"></view>
     <view
-      class="w-10--12 mx-auto -mt-32 rounded bg-gray-100 border border-gray-100 border-solid shadow"
+        class="w-10--12 mx-auto -mt-32 rounded bg-gray-100 border border-gray-100 border-solid shadow"
     >
       <view
-        class="flex border-gray-300 border-solid border border-t-0 border-r-0 border-l-0 p-4"
+          class="flex border-gray-300 border-solid border border-t-0 border-r-0 border-l-0 p-4"
       >
         <view v-if="showUserInfo" class="flex items-center">
           <image
-            :src="userinfo.avatarUrl"
-            class="rounded-full w-16 h-16 border border-gray-300 border-solid"
+              :src="userinfo.avatarUrl"
+              class="rounded-full w-16 h-16 border border-gray-300 border-solid"
           ></image>
           <view class="mx-5">
             <view class="text-gray-900 font-bold">{{ userinfo.nickName }}</view>
-            <view>{{ userphone.mobile }}</view>
+            <view>{{ userphone.mobile | encMsg }}</view>
           </view>
         </view>
         <view v-else class="mx-auto">
           <navigator
               url="../login/login"
               class=" bg-theme-p-1 text-gray-100 py-2 px-6 rounded-full"
-            >登录/注册</navigator
+          >登录/注册
+          </navigator
           >
         </view>
       </view>
       <view class="flex p-2">
         <view
-          class="flex-1 text-center border-l-0 border-t-0 border-b-0 border-gray-300 border-solid border-r"
+            class="flex-1 text-center border-l-0 border-t-0 border-b-0 border-gray-300 border-solid border-r"
         >
           <view>{{ actNum }}</view>
           <view>参与活动</view>
@@ -57,7 +58,13 @@ import {getStorage} from "@/utils/utils"
 import {getVoteStat} from "@/servise/vote"
 import * as _ from "lodash"
 
-@Component({})
+@Component({
+  filters: {
+    encMsg: (msg: string) => {
+      return msg.substring(0, 3) + "****" + msg.substring(7)
+    }
+  }
+})
 export default class profile extends Vue {
   private userinfo: Object = () => {
   }
@@ -87,6 +94,7 @@ export default class profile extends Vue {
       console.error("获取用户失败")
     }
   }
+
   private async _getStats() {
     if (!this.showUserInfo) {
       return
@@ -102,6 +110,7 @@ export default class profile extends Vue {
       console.error("获取统计数据失败", err)
     }
   }
+
   private async _getUserPhone() {
     try {
       // 获取缓存中的用户信息
@@ -112,6 +121,7 @@ export default class profile extends Vue {
       console.error("获取用户手机信息")
     }
   }
+
   private async toHistory() {
     if (!this.showUserInfo) {
       return

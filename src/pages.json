@@ -52,14 +52,14 @@
   "globalStyle": {
     "navigationBarTextStyle": "#cfcfcf",
     "navigationBarTitleText": "投票小程序",
-    "navigationBarBackgroundColor": "#e24270",
+    "navigationBarBackgroundColor": "#ec7db0",
     "backgroundColor": "#0d134d"
   },
   "tabBar": {
     "color": "#8a8a8a",
     "selectedColor": "#ffffff",
     "borderStyle": "black",
-    "backgroundColor": "#e24270",
+    "backgroundColor": "#ec7db0",
     "height": "50px",
     "fontSize": "10px",
     "iconWidth": "24px",
