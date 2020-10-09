@@ -1,10 +1,6 @@
 <template>
-  <view>
-    <view class="uni-padding-wrap uni-common-mt">
-      <view>
-        <video id="myVideo" :src="src" controls></video>
-      </view>
-    </view>
+  <view class="px-4">
+    <video id="myVideo" :src="src" controls class="w-full h-64"></video>
   </view>
 </template>
 

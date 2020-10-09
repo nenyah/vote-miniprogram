@@ -3,7 +3,7 @@
       class="flex flex-col flex-1 text-center justify-center border border-solid border-gray-600 bg-theme-gradient m-2 p-2 border-img"
       :class="customWidth"
   >
-    <view class="text-blue-900 my-1">{{ item.code }} 号</view>
+    <view class="text-theme-1 my-1">{{ item.code }} 号</view>
     <navigator v-if="index" :url="toUrl">
       <image
           :src="item.img"
@@ -11,8 +11,8 @@
           style="width: 100%; height:20vh; background-color: #eeeeee;"
       ></image>
       <view class="text-gray-100 text-lg font-bold mt-1">{{ item.name }}</view>
-      <view class="text-blue-900 my-1">{{ item.category.name }}</view>
-      <view class="text-blue-900 my-1">{{ item.company }}</view>
+      <view class="text-theme-1 my-1">{{ item.category.name }}</view>
+      <view class="text-theme-1 my-1">{{ item.company }}</view>
     </navigator>
     <view v-else>
       <image
@@ -22,23 +22,22 @@
       ></image>
 
       <view class="text-gray-100 text-lg font-bold mt-1">{{ item.name }}</view>
-      <view class="text-blue-900 my-1">{{ item.category.name }}</view>
-      <view class="text-blue-900 my-1">{{ item.company }}</view>
+      <view class="text-theme-1 my-1">{{ item.category.name }}</view>
+      <view class="text-theme-1 my-1">{{ item.company }}</view>
     </view>
     <view v-if="index">
       <view class="flex w-full">
         <view
-            class="flex-1 border border-solid border-gray-500 bg-theme-300 text-white p-2"
-          >{{ item.stats[0].value }}</view
+            class="flex-1 border border-solid border-gray-500 bg-theme-p-5 text-white p-2"
+        >{{ item.stats[0].value }}
+        </view
         >
-        <vote-button>
-          <view
+        <view
             class="flex-1 border border-solid border-orange-500 bg-orange-500 text-white p-2"
             @click="vote"
-          >
-            投票
-          </view>
-        </vote-button>
+        >
+          投票
+        </view>
       </view>
     </view>
   </view>
@@ -69,7 +68,8 @@ export default Vue.extend({
       default: 1,
     },
   },
-  mounted() {},
+  mounted() {
+  },
   methods: {
     async vote() {
       /**
@@ -129,7 +129,7 @@ export default Vue.extend({
           }
           try {
             // 上传投票信息
-            let { data } = await handleVote(this.item.id)
+            let {data} = await handleVote(this.item.id)
             console.log("上传之后", data)
             if (data.success !== true) {
               uni.showModal({
@@ -143,7 +143,7 @@ export default Vue.extend({
               showCancel: false,
               success: (res) => {
                 // 上传成功后刷新页面
-                uni.$emit("update", { msg: "页面更新" })
+                uni.$emit("update", {msg: "页面更新"})
               },
             })
           } catch (err) {

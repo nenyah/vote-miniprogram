@@ -19,7 +19,7 @@
     </view>
 
     <!-- 风采展示 -->
-    <sub-title v-if="item.paly !== undefined" :content="title2"></sub-title>
+    <sub-title v-if="item.play !== undefined" :content="title2"></sub-title>
     <detail-video :src="item.play"></detail-video>
     <!-- 选手简介 -->
     <sub-title :content="title3"></sub-title>

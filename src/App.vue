@@ -44,4 +44,11 @@ export default Vue.extend({
 .bg-theme-p-4 {
   background-color: #83c7d2;
 }
+
+.bg-theme-p-5 {
+  background-color: #74c8d2;
+}
+.text-theme-1 {
+  color: #269ba6;
+}
 </style>

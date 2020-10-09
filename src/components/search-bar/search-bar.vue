@@ -1,11 +1,12 @@
 <template>
   <view class="border-img my-2 bg-theme-p-3 py-4" style="width: 756rpx;">
-    <view class="w-full border border-r-0 border-l-0 border-t-0 border-solid border-white" style="padding:0;">
+    <view class="w-full border border-r-0 border-l-0 border-t-0 border-solid border-white py-2" style="padding:0;">
       <view class="flex">
         <input
             type="text"
-            class=" flex-grow pl-2"
+            class="flex-grow pl-2"
             :placeholder="placeholder"
+            placeholder-class="text-gray-100"
             v-model="code"
         />
         <view class="flex-1 flex items-center justify-center">
@@ -22,7 +23,7 @@ import * as _ from "lodash"
 
 export default Vue.extend({
   props: {
-    placeholder: {type: String, default: "搜索编号、项目名称"},
+    placeholder: {type: String, default: "搜索编号查询"},
   },
   data() {
     return {
@@ -43,43 +44,6 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-.search-box {
-  position: relative;
-  overflow: hidden;
-
-  .input-group {
-    position: relative;
-    width: 100%;
-  }
-
-  .input-group::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 10px;
-    width: 100%;
-    height: 1px;
-    border: 1px solid #6b76d1;
-    z-index: 10;
-  }
-
-  .keyword {
-    width: 100%;
-    height: 50px;
-    line-height: 50px;
-    color: #b6bdf3;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    background: #3945ad;
-    outline: none;
-    box-shadow: none;
-    border: none;
-  }
-
-  .keyword::placeholder {
-    color: #b6bdf3;
-  }
-}
 
 .border-img {
   position: relative;

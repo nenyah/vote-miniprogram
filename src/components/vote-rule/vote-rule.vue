@@ -1,5 +1,5 @@
 <template>
-  <view class="mt-5 py-2 z-20 mb-2 px-4 text-red-300 -t-10">
+  <view class="py-2 z-20 mb-2 px-4 text-red-300 -t-10">
     <main-title :title="title"></main-title>
     <view class="flex">
       <view class="w-18">
