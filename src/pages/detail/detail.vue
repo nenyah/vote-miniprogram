@@ -70,6 +70,7 @@ import {login} from "@/servise/login"
 import * as _ from "lodash"
 import {isAuthorize} from "@/utils/check"
 import {getPoster} from "@/servise/share"
+import {getActivities} from "@/servise/activates"
 
 let app = getApp()
 export default Vue.extend({
@@ -99,9 +100,7 @@ export default Vue.extend({
     await this._getItem()
     // 设置标题
     uni.setNavigationBarTitle({
-      title: `我是${this.item.code}号，${this.item?.name}, 正在参加${
-          globalData.activities[this.actId].name
-      }`,
+      title: `我是${this.item.code}号，${this.item?.name}, 正在参加${this.activity.name}`,
     })
   },
   components: {
@@ -223,7 +222,7 @@ export default Vue.extend({
         let res = await getPoster({
           itemId: this.item.id,
           page: "pages/detail/detail",
-          scene: `code=${this.item.code}`
+          scene: `id=${this.item.id}&actId=${this.actId}`
         })
         console.log("res:::", res)
         //  成功后，预览
