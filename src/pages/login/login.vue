@@ -8,10 +8,12 @@
 <template>
   <view>
     <view class=" h-full flex flex-col items-center">
-      <view
+      <image
         class="w-32 h-32 rounded-full bg-red-500 text-gray-100 flex justify-center items-center text-lg mt-20"
-        >婉美投票</view
+        src="@/static/logo.jpg"
+      ></image
       >
+      <view>婉美投票</view>
       <button
         v-if="!AuthorizedUserInfo"
         class="text-gray-100 bg-green-500 p-2 mt-5 w-10--12 rounded-full border-none border-0 border-gray-100"
@@ -34,9 +36,9 @@
 
 <script lang="ts">
 import Vue from "vue"
-import { checkUser, login, userInfo, UserParams } from "@/servise/login"
-import { IglobalData } from "@/common/interface"
-import { getUserInfo, setStorage } from "@/utils/utils"
+import {userInfo, UserParams} from "@/servise/login"
+import {setStorage} from "@/utils/utils"
+
 export default Vue.extend({
   data() {
     return {

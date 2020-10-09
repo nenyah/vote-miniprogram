@@ -8,8 +8,8 @@
     </view>
 
     <scroll-view
-        class="flex flex-row flex-wrap w-11--12 justify-around box-border px-2 mt-2 bg-gray-100  rounded"
-        style="height:900rpx;"
+        class="flex flex-row flex-wrap justify-around box-border px-2 mt-2 bg-gray-100  rounded"
+        style="width: 720rpx;"
         v-if="isVoteItem"
         scroll-y="true"
         @scrolltolower="lower"

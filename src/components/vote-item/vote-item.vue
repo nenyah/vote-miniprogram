@@ -1,6 +1,6 @@
 <template>
   <view
-      class="flex flex-col flex-1 text-center justify-center border border-solid border-gray-600 bg-theme-gradient m-2 p-2 border-img"
+      class="flex flex-col flex-1 text-center justify-center border border-solid border-gray-600 bg-theme-gradient m-1 p-2 border-img"
       :class="customWidth"
   >
     <view class="text-theme-1 my-1">{{ item.code }} 号</view>

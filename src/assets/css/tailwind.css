@@ -3279,6 +3279,9 @@ video {
 .min-w-0 {
     min-width: 0;
 }
+.min-w-9--10 {
+    min-width: 90%;
+}
 
 .min-w-full {
     min-width: 100%;
