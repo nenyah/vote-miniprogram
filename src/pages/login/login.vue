@@ -16,7 +16,7 @@
       <view>婉美投票</view>
       <button
         v-if="!AuthorizedUserInfo"
-        class="text-gray-100 bg-green-500 p-2 mt-5 w-10--12 rounded-full border-none border-0 border-gray-100"
+        class="text-gray-100 bg-green-500 p-2 mt-5 w-10--12 rounded-full border-none border-0 border-gray-100 overflow-hidden"
         open-type="getUserInfo"
         @getuserinfo="getuserinfo"
       >
@@ -24,7 +24,7 @@
       </button>
       <button
         v-if="AuthorizedUserInfo && !AuthorizedPhone"
-        class="text-gray-100 bg-green-500 p-2 mt-5 w-10--12 rounded-full border-none border-0 border-gray-100"
+        class="text-gray-100 bg-green-500 p-2 mt-5 w-10--12 rounded-full border-none border-0 border-gray-100 overflow-hidden"
         open-type="getPhoneNumber"
         @getphonenumber="getphonenumber"
       >
