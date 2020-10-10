@@ -1,6 +1,12 @@
 {
   "pages": [
     {
+      "path": "pages/home/home",
+      "style": {
+        "navigationBarTitleText": "婉美投票"
+      }
+    },
+    {
       "path": "pages/index/index",
       "style": {
         "navigationBarTitleText": "活动名称"
@@ -66,22 +72,10 @@
     "spacing": "3px",
     "list": [
       {
-        "pagePath": "pages/index/index",
+        "pagePath": "pages/home/home",
         "iconPath": "static/home.png",
         "selectedIconPath": "static/home_HL.png",
-        "text": "投票"
-      },
-      {
-        "pagePath": "pages/desc/desc",
-        "iconPath": "static/desc.png",
-        "selectedIconPath": "static/desc_HL.png",
-        "text": "详情"
-      },
-      {
-        "pagePath": "pages/rank/rank",
-        "iconPath": "static/rank.png",
-        "selectedIconPath": "static/rank_HL.png",
-        "text": "排名"
+        "text": "首页"
       },
       {
         "pagePath": "pages/profile/profile",

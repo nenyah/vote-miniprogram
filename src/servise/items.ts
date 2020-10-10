@@ -34,6 +34,7 @@ export const getItems = (params: Iparams) => {
         url: `${config}weixin/item`,
         data: {
             ...params,
+            pageSize: 10
         },
     })
 }

@@ -1,10 +1,10 @@
 <template>
-$END$
+  <view>汇总展示</view>
 </template>
 
 <script>
 export default {
-name: "top-show"
+  name: "top-show"
 }
 </script>
 

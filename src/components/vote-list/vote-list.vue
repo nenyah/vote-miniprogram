@@ -9,7 +9,7 @@
 
     <scroll-view
         class="flex flex-row flex-wrap justify-around box-border px-2 mt-2 bg-gray-100  rounded"
-        style="width: 720rpx;"
+        style="width: 720rpx; height:900rpx;"
         v-if="isVoteItem"
         scroll-y="true"
         @scrolltolower="lower"

@@ -1,126 +1,91 @@
 <template>
-  <view>
-    <view v-if="actId < 0" class="text-gray-900 py-2 p-5">
-      <view
-          v-for="activity in activities"
-          :key="activity.id"
-          class="my-4 text-center text-gray-500 rounded-lg shadow-lg"
-      >
-        <view :data-id="activity.id" @click="toIndex">
-          <image
-              :src="formatUrl(activity)"
-              mode="aspectFill"
-              class="rounded rounded-b-none w-full h-24"
-          ></image>
-          <view class="p-2 text-left">
-            <view class="text-gray-900">{{ activity.name }}</view>
-            <view class="flex items-center">
-              <view class="fa fa-group mr-1 text-red-300 text-center"></view>
-              <view>{{ activity.stats[1].value }}人参与，已投票：</view>
-              <view>{{ activity.stats[2].value }}</view>
-            </view>
-            <view class="flex items-center">
-              <view class="fa fa-clock-o mr-1 text-red-300 text-center"></view>
-              <view> {{ formatTime(activity.endTime) }} 结束</view>
-            </view>
-          </view>
-        </view>
-      </view>
-    </view>
-    <view v-else class="bg-theme-p-1 flex flex-col items-center">
-      <!--      品牌介绍-->
-      <brand-show></brand-show>
-      <!-- 广告轮播图 -->
-      <banner :src="activity.bannerImg"></banner>
-      <!-- 主题名称 -->
-      <title :content="activity.name"></title>
-      <!-- 统计区域 -->
-      <stats :content="activity.stats">
-        <view
-            class="mt-2 p-2 text-gray-100 text-center diff-time-box flex justify-center"
-        >
-          <view v-if="!(activity.status === 'ENDED')">
-            {{ msg }}
-            <uni-countdown
-                color="#fff"
-                background-color=""
-                splitorColor="#fff"
-                :day="day"
-                :hour="hour"
-                :minute="min"
-                :second="sec"
-                :showDay="showDay"
-            ></uni-countdown>
-          </view>
-          <view v-else>{{ msg }}</view>
-        </view>
-      </stats>
-      <!-- 规则区域 -->
-      <view class="pt-4 my-2 bg-gray-100 w-11--12 rounded">
-        <!-- 活动规则 -->
-        <vote-rule :activity="activity"></vote-rule>
-        <!-- 活动详情 -->
-        <view class="text-red-300 flex px-4">
-          <view class="attr">
-            <view class="fa fa-clock-o text-red-300 mr-2"></view>
-            活动详情：
-          </view>
-          <view class="flex" @click="display = !display">
-            {{ display ? "收起" : "展开" }}
-            <view class="text-orange-500 ml-2">></view>
-          </view>
-        </view>
-        <!-- 详情描述 -->
-        <view v-if="display" class="my-3 text-gray-600 px-4">
-          {{ activity.description }}
-        </view>
-      </view>
-      <!-- 搜索区域 -->
-      <search-bar @updateItem="handleInput" @clear="handleClear"></search-bar>
-      <view class="text-gray-100 w-full">
-        <uni-segmented-control
-            :current="current"
-            :values="cateItem"
-            @clickItem="onClickItem"
-            style-type="text"
-            active-color="#e271a6"
-        ></uni-segmented-control>
-      </view>
-      <!-- 项目列表区域 -->
-      <vote-list
-          v-if="items.length>0"
-          :items="items"
-          :itemType="itemType"
-          @tolower="tolower"
-      ></vote-list>
-      <vote-footer :content="activity.name"></vote-footer>
-      <view>
-        <!-- uni-app未封装，但可直接使用微信原生的official-account组件-->
-        <!-- #ifdef MP-WEIXIN -->
-        <official-account></official-account>
-        <!-- #endif -->
-      </view>
-      <!-- 脚注区域 -->
-
-      <view
-          class="text-gray-900 bg-gray-200 rounded-full flex justify-center items-center"
-          @click="back"
-          style="width: 3rem;height: 3rem;position: fixed;bottom: 2rem;right: 0.5rem;z-index: 9999;"
-      >
-        返回
-      </view>
-      <modal
-          v-show="showModal"
-          @cancel="cancel"
-          @confirm="confirm"
-          :voteItems="selectedItems"
-      ></modal>
-    </view>
+  <view class="bg-theme-p-1 flex flex-col items-center">
+    <!--      品牌介绍-->
+    <top-show></top-show>
+<!--    &lt;!&ndash; 广告轮播图 &ndash;&gt;-->
+<!--    <banner :src="activity.bannerImg"></banner>-->
+<!--    &lt;!&ndash; 主题名称 &ndash;&gt;-->
+<!--    <title :content="activity.name"></title>-->
+<!--    &lt;!&ndash; 统计区域 &ndash;&gt;-->
+<!--    <stats :content="activity.stats">-->
+<!--      <view-->
+<!--          class="mt-2 p-2 text-gray-100 text-center diff-time-box flex justify-center"-->
+<!--      >-->
+<!--        <view v-if="!(activity.status === 'ENDED')">-->
+<!--          {{ msg }}-->
+<!--          <uni-countdown-->
+<!--              color="#fff"-->
+<!--              background-color=""-->
+<!--              splitorColor="#fff"-->
+<!--              :day="day"-->
+<!--              :hour="hour"-->
+<!--              :minute="min"-->
+<!--              :second="sec"-->
+<!--              :showDay="showDay"-->
+<!--          ></uni-countdown>-->
+<!--        </view>-->
+<!--        <view v-else>{{ msg }}</view>-->
+<!--      </view>-->
+<!--    </stats>-->
+<!--    &lt;!&ndash; 规则区域 &ndash;&gt;-->
+<!--    <view class="pt-4 my-2 bg-gray-100 w-11&#45;&#45;12 rounded">-->
+<!--      &lt;!&ndash; 活动规则 &ndash;&gt;-->
+<!--      <vote-rule :activity="activity"></vote-rule>-->
+<!--      &lt;!&ndash; 活动详情 &ndash;&gt;-->
+<!--      <view class="text-red-300 flex px-4">-->
+<!--        <view class="attr">-->
+<!--          <view class="fa fa-clock-o text-red-300 mr-2"></view>-->
+<!--          活动详情：-->
+<!--        </view>-->
+<!--        <view class="flex" @click="display = !display">-->
+<!--          {{ display ? "收起" : "展开" }}-->
+<!--          <view class="text-orange-500 ml-2">></view>-->
+<!--        </view>-->
+<!--      </view>-->
+<!--      &lt;!&ndash; 详情描述 &ndash;&gt;-->
+<!--      <view v-if="display" class="my-3 text-gray-600 px-4">-->
+<!--        {{ activity.description }}-->
+<!--      </view>-->
+<!--    </view>-->
+<!--    &lt;!&ndash; 搜索区域 &ndash;&gt;-->
+<!--    <search-bar @updateItem="handleInput" @clear="handleClear"></search-bar>-->
+<!--    <view class="text-gray-100 w-full">-->
+<!--      <uni-segmented-control-->
+<!--          :current="current"-->
+<!--          :values="cateItem"-->
+<!--          @clickItem="onClickItem"-->
+<!--          style-type="text"-->
+<!--          active-color="#e271a6"-->
+<!--      ></uni-segmented-control>-->
+<!--    </view>-->
+<!--    &lt;!&ndash; 项目列表区域 &ndash;&gt;-->
+<!--    <vote-list-->
+<!--        v-if="items.length>0"-->
+<!--        :items="items"-->
+<!--        :itemType="itemType"-->
+<!--        @tolower="tolower"-->
+<!--    ></vote-list>-->
+<!--    <vote-footer :content="activity.name"></vote-footer>-->
+<!--    <view style="width:100%;position:relative;background:gray;">-->
+<!--      &lt;!&ndash; uni-app未封装，但可直接使用微信原生的official-account组件&ndash;&gt;-->
+<!--      &lt;!&ndash; #ifdef MP-WEIXIN &ndash;&gt;-->
+<!--      <official-account></official-account>-->
+<!--      &lt;!&ndash; #endif &ndash;&gt;-->
+<!--    </view>-->
+    <!-- 脚注区域 -->
+    <vote-tabbar></vote-tabbar>
+    <modal
+        v-show="showModal"
+        @cancel="cancel"
+        @confirm="confirm"
+        :voteItems="selectedItems"
+    ></modal>
   </view>
 </template>
 
 <script lang="ts">
 import Vue from "vue"
+import Component from "vue-class-component"
 import banner from "@/components/banner/banner.vue"
 import title from "@/components/title/title.vue"
 import stats from "@/components/stats/stats.vue"
@@ -130,239 +95,16 @@ import voteList from "@/components/vote-list/vote-list.vue"
 import voteFooter from "@/components/footer/footer.vue"
 import uniCountdown from "@/components/uni-countdown/uni-countdown.vue"
 import uniSegmentedControl from "@/components/uni-segmented-control/uni-segmented-control.vue"
-import brandShow from "@/components/brand-show/brand-show.vue"
-import {getItems} from "@/servise/items"
-import {getActivities, putVisits} from "@/servise/activates"
-import {getCate} from "@/servise/category"
-import moment from "moment"
+import topShow from "@/components/top-show/top-show.vue"
+import voteTabbar from "@/components/vote-tabbar/vote-tabbar.vue"
 import {Iactivity, IglobalData, Iitem} from "@/common/interface"
+import {getActivities, putVisits} from "@/servise/activates"
+import moment from "moment"
+import {getCate} from "@/servise/category"
+import {getItems} from "@/servise/items"
 import * as _ from "lodash"
-import {login} from "@/servise/login"
 
-moment().locale("zh-cn")
-
-interface Query {
-  id: number
-}
-
-let app = getApp()
-export default Vue.extend({
-  data() {
-    return {
-      items: [] as Array<Iitem>,
-      actId: -1,
-      activities: [] as Iactivity[],
-      activity: {} as Iactivity,
-      code: "",
-      dbouncedGetItems: () => {
-      },
-      dbouncedGetActivity: () => {
-      },
-      day: 0,
-      hour: 0,
-      min: 0,
-      sec: 0,
-      itemType: "vote",
-      display: false,
-      showDay: false,
-      msg: "活动已经结束",
-      pageNo: 0,
-      pageSize: 10,
-      showModal: false,
-      categories: [] as any,
-      cateItem: [] as Array<string>,
-      current: 0,
-      categoryId: undefined,
-    }
-  },
-  async onLoad(query) {
-    // 后端登录
-    await login()
-
-    // 1. 服务器接口获取活动信息
-    this.activities = await this._getActivities()
-    // 2. 活动信息存入globaldata
-    let globalData: any = getApp().globalData
-    globalData.activities = this.activities
-    // 添加防抖
-    this.dbouncedGetItems = _.debounce(this._getItems, 500)
-    this.dbouncedGetActivity = _.debounce(this._getActivity, 500)
-    // 添加事件监听
-    uni.$on("update", (data) => {
-      console.log("监听到事件来自 update ，携带参数 msg 为：" + data.msg)
-      this.dbouncedGetActivity()
-      this.dbouncedGetItems()
-    })
-
-  },
-  onUnload() {
-    uni.$off("update", (data) => {
-      console.log("监听到事件来自 update ，携带参数 msg 为：" + data.msg)
-      this.dbouncedGetActivity()
-      this.dbouncedGetItems()
-    })
-
-  },
-  methods: {
-    onClickItem(e: any) {
-      console.log("点击item", e)
-
-      if (this.current !== e.currentIndex) {
-        this.current = e.currentIndex
-      }
-      this.categoryId = this.categories[e.currentIndex].id
-      this.pageNo = 0
-      this.items = []
-      this.dbouncedGetItems()
-    },
-    tolower() {
-      this.dbouncedGetItems()
-    },
-    back() {
-      this.actId = -1
-      let globaldata = getApp().globalData as IglobalData
-      globaldata.currentActId = -1
-    },
-
-    async toIndex(e: any) {
-      this.actId = e.currentTarget.dataset.id
-      let globaldata = getApp().globalData as IglobalData
-      globaldata.currentActId = e.currentTarget.dataset.id
-      // 1. 增加访问量
-      putVisits(e.currentTarget.dataset.id)
-          .then((res) => {
-            console.log("增加访问量成功", res)
-          })
-          .catch((err) => {
-            console.error("增加访问量失败", err)
-          })
-      // 2. 下载活动信息
-      await this._getActivity()
-      // 设置标题
-      uni.setNavigationBarTitle({
-        title: this.activity?.name,
-      })
-      // 3. 判断活动状态
-      this.setTime()
-      // 4. 类目信息
-      await this._getCate()
-      // 5. 下载选手信息
-      await this._getItems()
-    },
-    setTime() {
-      let {startTime, endTime, status}: any = this.activity
-      //  获取当前时间
-      let now = moment()
-      startTime = moment(startTime)
-      endTime = moment(endTime)
-      let duration = moment.duration(startTime.diff(now))
-
-      // 根据状态显示不同内容
-      if (status === "ISCOMING") {
-        this.msg = "活动开始还有"
-        this.setCountDown(duration)
-      } else if (status === "ONGOING") {
-        this.msg = "活动结束还有"
-        duration = moment.duration(endTime.diff(now))
-        this.setCountDown(duration)
-      }
-    },
-
-    setCountDown(duration: moment.Duration) {
-      if (duration.days() > 0) {
-        this.showDay = true
-        this.day = duration.days()
-        this.hour = duration.hours()
-        this.min = duration.minutes()
-        this.sec = duration.seconds()
-      } else {
-        this.hour = duration.hours()
-        this.min = duration.minutes()
-        this.sec = duration.seconds()
-      }
-    },
-    handleClear() {
-      this.pageNo = 0
-      this.items = []
-      this.code = ""
-      this.dbouncedGetItems()
-    },
-    handleInput(e: any) {
-      this.code = e
-      this.dbouncedGetItems()
-    },
-    async _getCate() {
-      try {
-        let res = await getCate({activityId: this.actId})
-        this.categories = res.data
-        this.cateItem = res.data.map((el: any) => el.name)
-        this.categoryId = res.data[this.current].id
-      } catch {
-        uni.showToast({
-          title: "获取类目信息错误",
-          icon: "none",
-        })
-      }
-    },
-    // 获取活动信息
-    async _getActivities() {
-      try {
-        let {data}: any = await getActivities()
-        return data.data
-      } catch (error) {
-        uni.showToast({
-          title: "获取活动信息错误",
-          icon: "none",
-        })
-      }
-    },
-    // 获取活动信息
-    async _getActivity() {
-      // 根据actId筛选
-      this.activity = this.activities.filter(
-          (el: Iactivity) => el.id == this.actId
-      )[0]
-    },
-    async _getItems() {
-      if (this.code.length > 0) {
-        let {data} = await getItems({
-          activityId: this.actId,
-          code: this.code,
-          categoryId: this.categoryId,
-        })
-
-        this.items = data.data
-        return
-      }
-      // 判断是否还有新的内容
-      if (this.items.length % this.pageSize !== 0) {
-        return
-      }
-
-
-      this.pageNo = this.pageNo + 1
-      let {data} = await getItems({
-        pageNo: this.pageNo,
-        activityId: this.actId,
-        code: this.code,
-        categoryId: this.categoryId,
-      })
-
-      this.items = [...this.items, ...data.data]
-    },
-  },
-  computed: {
-    formatUrl() {
-      return (params: Iactivity) => {
-        return params.bannerImg[0]
-      }
-    },
-    formatTime() {
-      return (params: string) => {
-        return params.substr(0, 16).replace("T", " ")
-      }
-    },
-  },
+@Component({
   components: {
     banner,
     title,
@@ -373,24 +115,211 @@ export default Vue.extend({
     voteFooter,
     uniCountdown,
     uniSegmentedControl,
-    brandShow,
-  },
+    topShow,
+    voteTabbar,
+  }
 })
+export default class Test extends Vue {
+  private activities = [] as Iactivity[]
+  private activity = {} as Iactivity
+  private items = [] as Iitem[]
+  private code = ""
+  private day = 0
+  private hour = 0
+  private min = 0
+  private sec = 0
+  private itemType = "vote"
+  private actId = -1
+  private msg = "活动已经结束"
+  private showDay = false
+  private display = false
+  private categories = [] as any
+  private cateItem = [] as Array<string>
+  private current = 0
+  private categoryId = undefined
+  private pageNo = 0
+  private pageSize = 10
+  private dbouncedGetItems = () => {
+  }
+  private dbouncedGetActivity = () => {
+  }
+
+  async onLoad(query: { actId: number }) {
+    // 添加防抖
+    this.dbouncedGetItems = _.debounce(this._getItems, 500)
+    this.dbouncedGetActivity = _.debounce(this._getActivity, 500)
+    // 添加事件监听
+    uni.$on("update", async (data) => {
+      console.log("监听到事件来自 update ，携带参数 msg 为：" + data.msg)
+      this.items = []
+      this.pageNo = 0
+      this.activities = await this._getActivities()
+      this.dbouncedGetActivity()
+      this.dbouncedGetItems()
+    })
+    this.actId = query.actId
+    let globaldata = getApp().globalData as IglobalData
+    globaldata.currentActId = query.actId
+    this.activities = globaldata.activities.length > 0
+        ? globaldata.activities
+        : await this._getActivities()
+    // 1. 增加访问量
+    putVisits(query.actId)
+        .then((res) => {
+          console.log("增加访问量成功", res)
+        })
+        .catch((err) => {
+          console.error("增加访问量失败", err)
+        })
+    // 2. 下载活动信息
+    await this._getActivity()
+    // 设置标题
+    uni.setNavigationBarTitle({
+      title: this.activity?.name,
+    })
+    // 3. 判断活动状态
+    this.setTime()
+    // 4. 类目信息
+    await this._getCate()
+    // 5. 下载选手信息
+    await this._getItems()
+  }
+
+  onUnload() {
+    uni.$off("update", (data) => {
+      console.log("监听到事件来自 update ，携带参数 msg 为：" + data.msg)
+      this.items = []
+      this.pageNo = 0
+      this.dbouncedGetActivity()
+      this.dbouncedGetItems()
+    })
+
+  }
+
+  handleClear() {
+    this.pageNo = 0
+    this.items = []
+    this.code = ""
+    this.dbouncedGetItems()
+  }
+
+  handleInput(e: any) {
+    this.code = e
+    this.dbouncedGetItems()
+  }
+
+  tolower() {
+    this.dbouncedGetItems()
+  }
+
+  onClickItem(e: any) {
+    if (this.current !== e.currentIndex) {
+      this.current = e.currentIndex
+    }
+    this.categoryId = this.categories[e.currentIndex].id
+    this.pageNo = 0
+    this.items = []
+    this.dbouncedGetItems()
+  }
+
+// 获取活动信息
+  async _getActivities() {
+    try {
+      let {data}: any = await getActivities()
+      return data.data
+    } catch (error) {
+      uni.showToast({
+        title: "获取活动信息错误",
+        icon: "none",
+      })
+    }
+  }
+
+  // 获取活动信息
+  async _getActivity() {
+    // 根据actId筛选
+    this.activity = this.activities.filter(
+        (el: Iactivity) => el.id == this.actId
+    )[0]
+  }
+
+  setTime() {
+    let {startTime, endTime, status}: any = this.activity
+    //  获取当前时间
+    let now = moment()
+    startTime = moment(startTime)
+    endTime = moment(endTime)
+    let duration = moment.duration(startTime.diff(now))
+
+    // 根据状态显示不同内容
+    if (status === "ISCOMING") {
+      this.msg = "活动开始还有"
+      this.setCountDown(duration)
+    } else if (status === "ONGOING") {
+      this.msg = "活动结束还有"
+      duration = moment.duration(endTime.diff(now))
+      this.setCountDown(duration)
+    }
+  }
+
+  setCountDown(duration: moment.Duration) {
+    if (duration.days() > 0) {
+      this.showDay = true
+      this.day = duration.days()
+      this.hour = duration.hours()
+      this.min = duration.minutes()
+      this.sec = duration.seconds()
+    } else {
+      this.hour = duration.hours()
+      this.min = duration.minutes()
+      this.sec = duration.seconds()
+    }
+  }
+
+  async _getCate() {
+    try {
+      let res = await getCate({activityId: this.actId})
+      this.categories = res.data
+      this.cateItem = res.data.map((el: any) => el.name)
+      this.categoryId = res.data[this.current].id
+    } catch {
+      uni.showToast({
+        title: "获取类目信息错误",
+        icon: "none",
+      })
+    }
+  }
+
+  async _getItems() {
+    if (this.code.length > 0) {
+      let {data} = await getItems({
+        activityId: this.actId,
+        code: this.code,
+        categoryId: this.categoryId,
+      })
+
+      this.items = data.data
+      return
+    }
+    // 判断是否还有新的内容
+    if (this.items.length % this.pageSize !== 0) {
+      return
+    }
+
+
+    this.pageNo = this.pageNo + 1
+    let {data} = await getItems({
+      pageNo: this.pageNo,
+      activityId: this.actId,
+      code: this.code,
+      categoryId: this.categoryId,
+    })
+
+    this.items = [...this.items, ...data.data]
+  }
+};
 </script>
 
-<style lang="scss" scoped>
-.diff-time-box {
-  margin: 2px;
-  padding: 4px 0;
-  background: url("/static/diff-time.png") no-repeat;
-  background-size: 100% 100%;
-  border: none;
-  border-radius: 0;
-}
+<style scoped>
 
-.bg-color {
-  background-image: $rule-bg-base64-code;
-  background-size: 100%;
-  background-repeat: no-repeat;
-}
 </style>
