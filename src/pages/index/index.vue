@@ -193,11 +193,15 @@ export default Vue.extend({
       this.dbouncedGetActivity()
       this.dbouncedGetItems()
     })
+
   },
   onUnload() {
-    uni.$off("update", function (data) {
+    uni.$off("update", (data) => {
       console.log("监听到事件来自 update ，携带参数 msg 为：" + data.msg)
+      this.dbouncedGetActivity()
+      this.dbouncedGetItems()
     })
+
   },
   methods: {
     onClickItem(e: any) {
@@ -320,20 +324,22 @@ export default Vue.extend({
       )[0]
     },
     async _getItems() {
-      // 判断是否还有新的内容
-      if (this.items.length % this.pageSize !== 0) {
-        return
-      }
-
       if (this.code.length > 0) {
         let {data} = await getItems({
           activityId: this.actId,
           code: this.code,
+          categoryId: this.categoryId,
         })
 
         this.items = data.data
         return
       }
+      // 判断是否还有新的内容
+      if (this.items.length % this.pageSize !== 0) {
+        return
+      }
+
+
       this.pageNo = this.pageNo + 1
       let {data} = await getItems({
         pageNo: this.pageNo,

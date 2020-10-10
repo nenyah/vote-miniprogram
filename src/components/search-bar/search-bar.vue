@@ -32,7 +32,6 @@ export default Vue.extend({
   },
   watch: {
     code(newCode, oldCode) {
-      console.log("触发", newCode, oldCode)
       if (_.isEmpty(newCode)) {
         this.$emit("clear")
       } else {

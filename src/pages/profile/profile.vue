@@ -101,6 +101,7 @@ export default class profile extends Vue {
     }
     try {
       let res = await getVoteStat()
+      console.log("res:::", res)
       this.totalVoteNum = res.data.reduce((acc: any, cur: any) => {
         return acc?.voteCount || 0 + +cur?.voteCount
       }, 0)
