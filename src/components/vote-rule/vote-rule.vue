@@ -22,7 +22,7 @@
     <view class="flex">
       <view class="w-18">
         <view class="fa fa-clock-o text-red-300 mr-2"></view>
-        活动规则：
+        投票规则：
       </view>
       <view class="flex-1 text-gray-600 text-left">
         每个微信号每天可以投{{ activity.rule[0].value }}票（每天可为同一选手投{{

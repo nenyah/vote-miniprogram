@@ -28,6 +28,7 @@
           @tolower="tolower"
       ></vote-list>
       <vote-footer :content="activity.name"></vote-footer>
+      <vote-tabbar :activeIndex="activeIndex"></vote-tabbar>
     </view>
   </view>
 </template>
@@ -37,6 +38,7 @@ import Vue from "vue"
 import title from "@/components/title/title.vue"
 import voteList from "@/components/vote-list/vote-list.vue"
 import voteFooter from "@/components/footer/footer.vue"
+import voteTabbar from "@/components/vote-tabbar/vote-tabbar.vue"
 import {getItems} from "@/servise/items"
 import {Iactivity, IglobalData, Iitem} from "@/common/interface"
 import * as _ from "lodash"
@@ -61,6 +63,7 @@ export default Vue.extend({
       categories: [] as any,
       cateItem: [] as any,
       categoryId: undefined,
+      activeIndex: 2,
     }
   },
   async onLoad() {
@@ -140,6 +143,7 @@ export default Vue.extend({
     title,
     voteList,
     voteFooter,
+    voteTabbar,
   },
 })
 </script>

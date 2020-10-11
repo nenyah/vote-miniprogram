@@ -2,78 +2,77 @@
   <view class="bg-theme-p-1 flex flex-col items-center">
     <!--      品牌介绍-->
     <top-show></top-show>
-<!--    &lt;!&ndash; 广告轮播图 &ndash;&gt;-->
-<!--    <banner :src="activity.bannerImg"></banner>-->
-<!--    &lt;!&ndash; 主题名称 &ndash;&gt;-->
-<!--    <title :content="activity.name"></title>-->
-<!--    &lt;!&ndash; 统计区域 &ndash;&gt;-->
-<!--    <stats :content="activity.stats">-->
-<!--      <view-->
-<!--          class="mt-2 p-2 text-gray-100 text-center diff-time-box flex justify-center"-->
-<!--      >-->
-<!--        <view v-if="!(activity.status === 'ENDED')">-->
-<!--          {{ msg }}-->
-<!--          <uni-countdown-->
-<!--              color="#fff"-->
-<!--              background-color=""-->
-<!--              splitorColor="#fff"-->
-<!--              :day="day"-->
-<!--              :hour="hour"-->
-<!--              :minute="min"-->
-<!--              :second="sec"-->
-<!--              :showDay="showDay"-->
-<!--          ></uni-countdown>-->
-<!--        </view>-->
-<!--        <view v-else>{{ msg }}</view>-->
-<!--      </view>-->
-<!--    </stats>-->
-<!--    &lt;!&ndash; 规则区域 &ndash;&gt;-->
-<!--    <view class="pt-4 my-2 bg-gray-100 w-11&#45;&#45;12 rounded">-->
-<!--      &lt;!&ndash; 活动规则 &ndash;&gt;-->
-<!--      <vote-rule :activity="activity"></vote-rule>-->
-<!--      &lt;!&ndash; 活动详情 &ndash;&gt;-->
-<!--      <view class="text-red-300 flex px-4">-->
-<!--        <view class="attr">-->
-<!--          <view class="fa fa-clock-o text-red-300 mr-2"></view>-->
-<!--          活动详情：-->
-<!--        </view>-->
-<!--        <view class="flex" @click="display = !display">-->
-<!--          {{ display ? "收起" : "展开" }}-->
-<!--          <view class="text-orange-500 ml-2">></view>-->
-<!--        </view>-->
-<!--      </view>-->
-<!--      &lt;!&ndash; 详情描述 &ndash;&gt;-->
-<!--      <view v-if="display" class="my-3 text-gray-600 px-4">-->
-<!--        {{ activity.description }}-->
-<!--      </view>-->
-<!--    </view>-->
-<!--    &lt;!&ndash; 搜索区域 &ndash;&gt;-->
-<!--    <search-bar @updateItem="handleInput" @clear="handleClear"></search-bar>-->
-<!--    <view class="text-gray-100 w-full">-->
-<!--      <uni-segmented-control-->
-<!--          :current="current"-->
-<!--          :values="cateItem"-->
-<!--          @clickItem="onClickItem"-->
-<!--          style-type="text"-->
-<!--          active-color="#e271a6"-->
-<!--      ></uni-segmented-control>-->
-<!--    </view>-->
-<!--    &lt;!&ndash; 项目列表区域 &ndash;&gt;-->
-<!--    <vote-list-->
-<!--        v-if="items.length>0"-->
-<!--        :items="items"-->
-<!--        :itemType="itemType"-->
-<!--        @tolower="tolower"-->
-<!--    ></vote-list>-->
-<!--    <vote-footer :content="activity.name"></vote-footer>-->
-<!--    <view style="width:100%;position:relative;background:gray;">-->
-<!--      &lt;!&ndash; uni-app未封装，但可直接使用微信原生的official-account组件&ndash;&gt;-->
-<!--      &lt;!&ndash; #ifdef MP-WEIXIN &ndash;&gt;-->
-<!--      <official-account></official-account>-->
-<!--      &lt;!&ndash; #endif &ndash;&gt;-->
-<!--    </view>-->
+    <!-- 广告轮播图 -->
+    <banner :src="activity.bannerImg"></banner>
+    <!-- 主题名称 -->
+    <title :content="activity.name"></title>
+    <!-- 统计区域 -->
+    <stats :content="activity.stats">
+      <view
+          class="mt-2 p-2 text-gray-100 text-center diff-time-box flex justify-center"
+      >
+        <view v-if="!(activity.status === 'ENDED')">
+          {{ msg }}
+          <uni-countdown
+              :day="day"
+              :hour="hour"
+              :minute="min"
+              :second="sec"
+              :showDay="showDay"
+              background-color=""
+              color="#fff"
+              splitorColor="#fff"
+          ></uni-countdown>
+        </view>
+        <view v-else>{{ msg }}</view>
+      </view>
+    </stats>
+    <!-- 规则区域 -->
+    <view class="pt-4 my-2 bg-gray-100 w-11--12 rounded">
+      <!-- 活动规则 -->
+      <vote-rule :activity="activity"></vote-rule>
+      <!-- 活动详情 -->
+      <view class="text-red-300 flex px-4">
+        <view class="attr">
+          <view class="fa fa-clock-o text-red-300 mr-2"></view>
+          活动详情：
+        </view>
+        <view class="flex" @click="display = !display">
+          {{ display ? "收起" : "展开" }}
+          <view class="text-orange-500 ml-2">></view>
+        </view>
+      </view>
+      <!-- 详情描述 -->
+      <view v-if="display" class="my-3 text-gray-600 px-4">
+        {{ activity.description }}
+      </view>
+    </view>
+    <!-- 搜索区域 -->
+    <search-bar @clear="handleClear" @updateItem="handleInput"></search-bar>
+    <view class="text-gray-100 w-full">
+      <uni-segmented-control
+          :current="current"
+          :values="cateItem"
+          active-color="#e271a6"
+          style-type="text"
+          @clickItem="onClickItem"
+      ></uni-segmented-control>
+    </view>
+    <!-- 项目列表区域 -->
+    <vote-list
+        :itemType="itemType"
+        :items="items"
+        @tolower="tolower"
+    ></vote-list>
+    <vote-footer :content="activity.name"></vote-footer>
+    <view style="width:100%;position:relative;background:gray;">
+      <!-- uni-app未封装，但可直接使用微信原生的official-account组件-->
+      <!-- #ifdef MP-WEIXIN -->
+      <official-account></official-account>
+      <!-- #endif -->
+    </view>
     <!-- 脚注区域 -->
-    <vote-tabbar></vote-tabbar>
+    <vote-tabbar :activeIndex="activeIndex"></vote-tabbar>
     <modal
         v-show="showModal"
         @cancel="cancel"
@@ -139,6 +138,7 @@ export default class Test extends Vue {
   private categoryId = undefined
   private pageNo = 0
   private pageSize = 10
+  private activeIndex = 0
   private dbouncedGetItems = () => {
   }
   private dbouncedGetActivity = () => {
@@ -157,20 +157,22 @@ export default class Test extends Vue {
       this.dbouncedGetActivity()
       this.dbouncedGetItems()
     })
-    this.actId = query.actId
     let globaldata = getApp().globalData as IglobalData
-    globaldata.currentActId = query.actId
+    if (!query.actId) {
+      this.actId = globaldata.currentActId
+    } else {
+      this.actId = query.actId
+      globaldata.currentActId = query.actId
+      // 1. 增加访问量
+      try {
+        await putVisits(query.actId)
+      } catch (err) {
+        console.error("增加访客失败:::", err)
+      }
+    }
     this.activities = globaldata.activities.length > 0
         ? globaldata.activities
         : await this._getActivities()
-    // 1. 增加访问量
-    putVisits(query.actId)
-        .then((res) => {
-          console.log("增加访问量成功", res)
-        })
-        .catch((err) => {
-          console.error("增加访问量失败", err)
-        })
     // 2. 下载活动信息
     await this._getActivity()
     // 设置标题
@@ -195,6 +197,7 @@ export default class Test extends Vue {
     })
 
   }
+
 
   handleClear() {
     this.pageNo = 0

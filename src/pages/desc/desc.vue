@@ -13,6 +13,7 @@
         <vote-detail :activity="activity"></vote-detail>
       </view>
       <vote-footer :content="activity.name"></vote-footer>
+      <vote-tabbar :activeIndex="activeIndex"></vote-tabbar>
     </view>
   </view>
 </template>
@@ -24,6 +25,7 @@ import voteRule from "@/components/vote-rule/vote-rule.vue"
 import voteDetail from "@/components/vote-detail/vote-detail.vue"
 import voteFooter from "@/components/footer/footer.vue"
 import brandShow from "@/components/brand-show/brand-show.vue"
+import voteTabbar from "@/components/vote-tabbar/vote-tabbar.vue"
 import {Iactivity} from "@/common/interface"
 
 export default Vue.extend({
@@ -31,6 +33,7 @@ export default Vue.extend({
     return {
       activity: {} as Iactivity,
       actId: -1,
+      activeIndex: 1,
     }
   },
   onLoad() {
@@ -59,6 +62,7 @@ export default Vue.extend({
     voteDetail,
     voteFooter,
     brandShow,
+    voteTabbar,
   },
 })
 </script>
