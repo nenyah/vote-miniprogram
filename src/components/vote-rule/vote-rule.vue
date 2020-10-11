@@ -24,10 +24,10 @@
         <view class="fa fa-clock-o text-red-300 mr-2"></view>
         投票规则：
       </view>
-      <view class="flex-1 text-gray-600 text-left">
-        每个微信号每天可以投{{ activity.rule[0].value }}票（每天可为同一选手投{{
-          activity.rule[1].value
-        }}票）。
+      <view class="flex-1 text-gray-600 text-left flex flex-col">
+        <view v-for="(rule,index) in activity.rule"
+              :key="index">{{ rule.name }}:{{ rule.value }}票
+        </view>
       </view>
     </view>
   </view>
