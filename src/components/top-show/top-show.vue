@@ -51,6 +51,7 @@ import {Component, Prop, Vue} from "vue-property-decorator"
 export default class TopShow extends Vue {
   @Prop() private top10!: any[]
   @Prop() private top3!: any[]
+
 }
 </script>
 

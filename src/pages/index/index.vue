@@ -73,12 +73,7 @@
     </view>
     <!-- 脚注区域 -->
     <vote-tabbar :activeIndex="activeIndex"></vote-tabbar>
-    <modal
-        v-show="showModal"
-        @cancel="cancel"
-        @confirm="confirm"
-        :voteItems="selectedItems"
-    ></modal>
+    <modal v-show="showModal" :src="canvasUrl" @hide="hide"></modal>
   </view>
 </template>
 
@@ -142,8 +137,12 @@ export default class Index extends Vue {
   private activeIndex = 0
   private top10 = []
   private top3 = [] as any
-  private dbouncedGetItems = () => {
+  private canvasUrl = ""
+
+  get showModal() {
+    return this.$store.state.showModal
   }
+
   private dbouncedGetActivity = () => {
   }
 
@@ -203,6 +202,14 @@ export default class Index extends Vue {
 
   }
 
+  hide() {
+    console.log("parent receive:::")
+    this.$store.commit("toggleModal")
+  }
+
+  // private showModal = false
+  private dbouncedGetItems = () => {
+  }
 
   handleClear() {
     this.pageNo = 0

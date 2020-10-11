@@ -39,6 +39,10 @@
           投票
         </view>
       </view>
+      <view class="my-1 p-2 border border-solid"
+            @click="share"
+      >帮我拉票
+      </view>
     </view>
   </view>
 </template>
@@ -71,6 +75,11 @@ export default Vue.extend({
   mounted() {
   },
   methods: {
+    async share() {
+      console.log("share:::")
+      // this.$store.commit("toggleModal")
+      await this.$store.dispatch("share", {itemId: this.item.id, actId: this.actId})
+    },
     async vote() {
       /**
        * 1. 判断是否关注公众号
@@ -106,7 +115,6 @@ export default Vue.extend({
                 })
               },
             })
-
             return
           }
 
