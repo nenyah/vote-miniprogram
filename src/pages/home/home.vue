@@ -47,7 +47,7 @@ import {getActivities} from "@/servise/activates"
     }
   }
 })
-export default class home extends Vue {
+export default class Home extends Vue {
   private activities = {}
   private autoplay = false
   private interval = 300

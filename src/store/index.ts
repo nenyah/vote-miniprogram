@@ -22,8 +22,21 @@ export default new Vuex.Store({
                 scene: `id=${itemId}&actId=${actId}`
             })
                 .then(res => {
-                    commit("toggleModal")
-                })
+                    if (res.statusCode == 200) {
+                        commit("toggleModal")
+                    } else {
+                        uni.showToast({
+                            title: "生成海报错误",
+                            icon: "none",
+                        })
+                    }
+                }).catch(err => {
+                    uni.showToast({
+                        title: "生成海报错误",
+                        icon: "none",
+                    })
+                }
+            )
         }
     },
     modules: {}
