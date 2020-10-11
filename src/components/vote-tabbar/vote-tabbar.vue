@@ -1,19 +1,22 @@
 <template>
   <view style="background-color:#ec7db0; width: 750rpx;"
         class="flex items-center h-12 fixed bottom-0 left-0 text-gray-500 z-50">
-    <view class="flex-1 text-center box-border py-1 {{activeIndex==0?'text-gray-100':''}}"
+    <view :class="{'text-gray-100':activeIndex==0}"
+          class="flex-1 text-center box-border py-1 "
           @click="handleClick(0)"
     >
       <view class="fa fa-fire text-2xl"></view>
       <view class="text-xs">投票</view>
     </view>
-    <view class="flex-1 text-center box-border py-1 {{activeIndex==1?'text-gray-100':''}}"
+    <view :class="{'text-gray-100':activeIndex==1}"
+          class="flex-1 text-center box-border py-1"
           @click="handleClick(1)"
     >
       <view class="fa fa-info-circle text-2xl"></view>
       <view class="text-xs">详情</view>
     </view>
-    <view class="flex-1 text-center box-border py-1 {{activeIndex==2?'text-gray-100':''}}"
+    <view :class="{'text-gray-100':activeIndex==2}"
+          class="flex-1 text-center box-border py-1"
           @click="handleClick(2)"
     >
       <view class="fa fa-bar-chart text-2xl"></view>

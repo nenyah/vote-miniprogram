@@ -71,3 +71,7 @@ export interface IglobalData {
     // unionid
     unionid?: string
 }
+
+
+
+

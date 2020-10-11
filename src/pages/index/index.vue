@@ -1,7 +1,7 @@
 <template>
   <view class="bg-theme-p-1 flex flex-col items-center">
     <!--      品牌介绍-->
-    <top-show></top-show>
+    <top-show :top10="top10" :top3="top3"></top-show>
     <!-- 广告轮播图 -->
     <banner :src="activity.bannerImg"></banner>
     <!-- 主题名称 -->
@@ -102,6 +102,7 @@ import moment from "moment"
 import {getCate} from "@/servise/category"
 import {getItems} from "@/servise/items"
 import * as _ from "lodash"
+import {Datum} from "@/common/Item"
 
 @Component({
   components: {
@@ -118,7 +119,7 @@ import * as _ from "lodash"
     voteTabbar,
   }
 })
-export default class Test extends Vue {
+export default class Index extends Vue {
   private activities = [] as Iactivity[]
   private activity = {} as Iactivity
   private items = [] as Iitem[]
@@ -135,10 +136,12 @@ export default class Test extends Vue {
   private categories = [] as any
   private cateItem = [] as Array<string>
   private current = 0
-  private categoryId = undefined
+  private categoryId = -1
   private pageNo = 0
   private pageSize = 10
   private activeIndex = 0
+  private top10 = []
+  private top3 = [] as any
   private dbouncedGetItems = () => {
   }
   private dbouncedGetActivity = () => {
@@ -185,6 +188,8 @@ export default class Test extends Vue {
     await this._getCate()
     // 5. 下载选手信息
     await this._getItems()
+    await this._TOP10()
+    await this._TOP3()
   }
 
   onUnload() {
@@ -319,6 +324,40 @@ export default class Test extends Vue {
     })
 
     this.items = [...this.items, ...data.data]
+  }
+
+  async _TOP10() {
+    try {
+      const res = await getItems({
+        activityId: this.actId,
+      })
+      this.top10 = res.data.data
+      console.log("top10:::", res.data)
+    } catch (err) {
+      console.error("10强下载错误:::", err)
+    }
+  }
+
+  async _TOP3() {
+    try {
+      const res = await Promise.all(this.categories.map((el: any) => {
+        return getItems({
+          activityId: this.actId,
+          categoryId: el.id,
+          pageSize: 3,
+        })
+      }))
+      this.top3 = res.map((el: any) => {
+        const res: Datum[] = el.data.data.slice(0, 3)
+        return {
+          categoryName: res[0].category.name,
+          data: res,
+        }
+      })
+      console.log("top3:::", res)
+    } catch (e) {
+      console.error("获取各区域三强失败:::", e)
+    }
   }
 };
 </script>
