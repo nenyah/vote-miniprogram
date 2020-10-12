@@ -106,10 +106,14 @@ export default Vue.extend({
           let isLogined = await isAuthorize()
           if (!isLogined) {
             uni.showModal({
-              content: "请先登录",
-              showCancel: false,
+              content: "你还没有登录",
+              cancelText: "暂不登录",
+              confirmText: "马上登录",
               success: async (res) => {
                 console.log("登录同意后信息", res)
+                if (res.cancel === true) {
+                  return
+                }
                 uni.navigateTo({
                   url: `../login/login`,
                 })
