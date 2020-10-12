@@ -5,7 +5,7 @@
     <!-- 统计票数 -->
     <stats :content="item.stats" :isDetail="true">
       <view
-          class="text-2xl text-gray-100 font-bold w-full text-center mt-4"
+          class="text-2xl text-gray-100 font-bold text-center mt-4 border border-solid border-gray-100 p-2"
           @click="vote"
       >
         投票

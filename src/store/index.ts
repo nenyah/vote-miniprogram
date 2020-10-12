@@ -6,12 +6,16 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        showModal: false
+        showModal: false,
+        canvasUrl: ""
     },
     mutations: {
         toggleModal(state) {
             console.log("enter vuex:::")
             state.showModal = !state.showModal
+        },
+        changeUrl(state, {canvasUrl}) {
+            state.canvasUrl = canvasUrl
         }
     },
     actions: {
@@ -23,6 +27,7 @@ export default new Vuex.Store({
             })
                 .then(res => {
                     if (res.statusCode == 200) {
+                        commit("changeUrl", {canvasUrl: res.data})
                         commit("toggleModal")
                     } else {
                         uni.showToast({

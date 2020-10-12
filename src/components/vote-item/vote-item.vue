@@ -73,6 +73,8 @@ export default Vue.extend({
     },
   },
   mounted() {
+    const app = getApp()
+    this.actId = app.globalData?.currentActId as number
   },
   methods: {
     async share() {

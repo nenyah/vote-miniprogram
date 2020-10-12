@@ -136,12 +136,13 @@ export default class Index extends Vue {
   private activeIndex = 0
   private top10 = []
   private top3 = [] as any
-  private canvasUrl = ""
 
   get showModal() {
     return this.$store.state.showModal
   }
-
+  get canvasUrl(){
+    return this.$store.state.canvasUrl
+  }
   private dbouncedGetActivity = () => {
   }
 
