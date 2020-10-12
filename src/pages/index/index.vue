@@ -140,9 +140,11 @@ export default class Index extends Vue {
   get showModal() {
     return this.$store.state.showModal
   }
-  get canvasUrl(){
+
+  get canvasUrl() {
     return this.$store.state.canvasUrl
   }
+
   private dbouncedGetActivity = () => {
   }
 
@@ -156,6 +158,8 @@ export default class Index extends Vue {
       this.items = []
       this.pageNo = 0
       this.activities = await this._getActivities()
+      await this._TOP10()
+      await this._TOP3()
       this.dbouncedGetActivity()
       this.dbouncedGetItems()
     })
@@ -193,10 +197,13 @@ export default class Index extends Vue {
   }
 
   onUnload() {
-    uni.$off("update", (data) => {
+    uni.$off("update", async (data) => {
       console.log("监听到事件来自 update ，携带参数 msg 为：" + data.msg)
       this.items = []
       this.pageNo = 0
+      this.activities = await this._getActivities()
+      await this._TOP10()
+      await this._TOP3()
       this.dbouncedGetActivity()
       this.dbouncedGetItems()
     })
@@ -334,12 +341,13 @@ export default class Index extends Vue {
     this.items = [...this.items, ...data.data]
   }
 
+
   async _TOP10() {
     try {
       const res = await getItems({
         activityId: this.actId,
       })
-      this.top10 = res.data.data
+      this.top10 = res.data.data.filter((data: Datum) => +data.stats[0].value > 0)
       console.log("top10:::", res.data)
     } catch (err) {
       console.error("10强下载错误:::", err)
@@ -359,7 +367,7 @@ export default class Index extends Vue {
         const res: Datum[] = el.data.data
         return {
           categoryName: this.categories[index].name,
-          data: res,
+          data: res.filter((data: Datum) => +data.stats[0].value > 0),
         }
       })
       console.log("top3:::", res)
