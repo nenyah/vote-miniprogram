@@ -13,4 +13,9 @@ import store from "@/store"
 Vue.prototype.$request = request
 Vue.prototype.$store = store
 Vue.config.productionTip = false
-new App().$mount()
+// new App().$mount()
+const app = new Vue({
+    store,
+    ...App
+})
+app.$mount()

@@ -78,8 +78,7 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
-import Component from "vue-class-component"
+import {Component, Vue} from "vue-property-decorator"
 import banner from "@/components/banner/banner.vue"
 import title from "@/components/title/title.vue"
 import stats from "@/components/stats/stats.vue"
@@ -161,6 +160,7 @@ export default class Index extends Vue {
     })
     let globaldata = getApp().globalData as IglobalData
     if (!query.actId) {
+      console.log("query.actId:::", query.actId)
       this.actId = globaldata.currentActId
     } else {
       this.actId = query.actId
@@ -354,10 +354,10 @@ export default class Index extends Vue {
           pageSize: 3,
         })
       }))
-      this.top3 = res.map((el: any) => {
-        const res: Datum[] = el.data.data.slice(0, 3)
+      this.top3 = res.map((el: any, index: number) => {
+        const res: Datum[] = el.data.data
         return {
-          categoryName: res[0].category.name,
+          categoryName: this.categories[index].name,
           data: res,
         }
       })

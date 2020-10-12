@@ -93,12 +93,15 @@ export default Vue.extend({
   async onLoad(query) {
 
     const scene = decodeURIComponent(query?.scene)
+    console.log("scene:::",scene)
     const globalData = getApp().globalData as IglobalData
     if (scene == "undefined") {
+      console.log("enter undefined:::")
       this.id = query?.id
       // 保存活动id
       this.actId = globalData.currentActId
     } else {
+      console.log("enter scene:::")
       // 后端登录
       await login()
       this.id = Number(scene.split("&")[0].split("=")[1])
