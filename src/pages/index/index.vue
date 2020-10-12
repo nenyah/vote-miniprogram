@@ -367,7 +367,8 @@ export default class Index extends Vue {
         const res: Datum[] = el.data.data
         return {
           categoryName: this.categories[index].name,
-          data: res.filter((data: Datum) => +data.stats[0].value > 0),
+          data: res.filter((data: Datum) => +
+              data.stats[0].value > 0),
         }
       })
       console.log("top3:::", res)
