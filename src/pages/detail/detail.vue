@@ -5,7 +5,7 @@
     <!-- 统计票数 -->
     <stats :content="item.stats" :isDetail="true">
       <view
-          class="text-2xl text-gray-100 font-bold text-center mt-4 border border-solid border-gray-100 p-2"
+          class="text-2xl text-gray-100 font-bold text-center mt-4 border border-solid border-gray-200 p-2 inline-flex bg-orange-500"
           @click="vote"
       >
         投票
@@ -93,13 +93,13 @@ export default Vue.extend({
   async onLoad(query) {
 
     const scene = decodeURIComponent(query?.scene)
-    console.log("scene:::",scene)
+    console.log("scene:::", scene)
     const globalData = getApp().globalData as IglobalData
     if (scene == "undefined") {
       console.log("enter undefined:::")
       this.id = query?.id
       // 保存活动id
-      this.actId = globalData.currentActId
+      this.actId = globalData.currentActId || 14
     } else {
       console.log("enter scene:::")
       // 后端登录

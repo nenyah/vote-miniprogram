@@ -1,12 +1,12 @@
 <template>
-  <view class="flex-grow px-4 pt-2 w-11--12">
-    <view class="mt-2 p-2 stat-border">
-      <view class="flex stat-content">
-        <view class="flex-1" v-for="(item, index) in content" :key="index">
-          <view class="text-gray-100 text-center text-xl">
+  <view class="px-4 pt-2 w-11--12">
+    <view class="mt-2 p-2 stat-border flex flex-col items-center w-full">
+      <view class="flex stat-content" style="width: 600rpx;">
+        <view class="flex-1 text-center" v-for="(item, index) in content" :key="index">
+          <view class="text-gray-100  text-xl">
             {{ item.value }} {{ isDetail && index === 2 ? " 票" : "" }}
           </view>
-          <view class="text-theme-1 text-center">
+          <view class="text-theme-1">
             {{ item.name }}
           </view>
         </view>
