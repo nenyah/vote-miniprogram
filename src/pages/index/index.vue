@@ -43,8 +43,8 @@
         </view>
       </view>
       <!-- 详情描述 -->
-      <view v-if="display" class="my-3 text-gray-600 px-4">
-        {{ activity.description }}
+      <view v-if="display" v-for="msg in desc" class="my-3 text-gray-600 px-4">
+        {{ msg }}
       </view>
     </view>
     <!-- 搜索区域 -->
@@ -145,7 +145,9 @@ export default class Index extends Vue {
   get canvasUrl() {
     return this.$store.state.canvasUrl
   }
-
+  get desc() {
+    return this.activity.description.split("\n")
+  }
   private dbouncedGetActivity = () => {
   }
 
