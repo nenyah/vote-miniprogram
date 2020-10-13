@@ -3,6 +3,11 @@
     <view class="w-11--12 h-full flex flex-col justify-center items-center">
       <image :src="src" mode="aspectFit" style="width: 680rpx;height: 800rpx;"></image>
       <view class="flex text-gray-100 w-full mt-2 text-center">
+        <view class="flex-1 border border-gray-100 border-solid bg-gray-500 p-1"
+              @click="save"
+        >
+          保存
+        </view>
         <!-- #ifdef MP-WEIXIN -->
         <button class="flex-1 border border-gray-100 border-solid bg-orange-500 p-1"
                 open-type="share"

@@ -71,7 +71,7 @@
         @tolower="tolower"
     ></vote-list>
     <vote-footer :content="activity.name"></vote-footer>
-    <view style="width:100%;position:relative;background:gray;">
+    <view style="width:100%;position:relative;background:gray;margin-bottom: 40px;">
       <!-- uni-app未封装，但可直接使用微信原生的official-account组件-->
       <!-- #ifdef MP-WEIXIN -->
       <official-account></official-account>
@@ -189,7 +189,7 @@ export default class Index extends Vue {
         console.error("增加访客失败:::", err)
       }
     }
-    this.activities = globaldata.activities.length > 0
+    this.activities = globaldata.activities?.length > 0
         ? globaldata.activities
         : await this._getActivities()
     // 2. 下载活动信息

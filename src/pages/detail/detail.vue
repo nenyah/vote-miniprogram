@@ -35,19 +35,14 @@
     </view>
 
     <!-- 返回 -->
-    <navigator
-        url="pages/index/index"
-        open-type="navigateBack"
-        hover-class="other-navigator-hover"
-    >
-      <view class="text-center">
-        <view
-            class="inline-block text-gray-100 text-xl my-2 p-2 border-r-0 border-l-0 border-t-0 border-b-2 border-solid border-orange-500"
-        >
-          返回
-        </view>
+    <view class="text-center">
+      <view
+          class="inline-block text-gray-100 text-xl my-2 p-2 border-r-0 border-l-0 border-t-0 border-b-2 border-solid border-orange-500"
+          @click="backToIndex"
+      >
+        返回
       </view>
-    </navigator>
+    </view>
     <!-- 脚注 -->
     <vote-footer :content="activity.name"></vote-footer>
     <modal :src="canvasUrl" v-show="showModal" @hide="hide" :itemid="id"></modal>
@@ -93,6 +88,7 @@ interface OnLoadParams {
 })
 export default class Detail extends Vue {
   [x: string]: any
+
   private id = 0
   private actId = 0
   private activity = {} as Iactivity
@@ -109,9 +105,24 @@ export default class Detail extends Vue {
     return this.$store.state.canvasUrl
   }
 
+  backToIndex() {
+    uni.redirectTo({
+      url: `/pages/index/index?actId=${this.actId}`,
+      success: res => {
+        console.log("res:::", res)
+      },
+      fail: err => {
+        console.error("err:::", err)
+      }
+    })
+  }
+
   async onLoad(query: OnLoadParams) {
     const scene =
         query.scene !== undefined ? decodeURIComponent(query.scene) : "undefined"
+    uni.showToast({
+      title: `scene:::,${scene}`
+    })
     console.log("scene:::", scene)
     const globalData = getApp().globalData as IglobalData
     if (scene == "undefined") {
