@@ -5,7 +5,7 @@
         <view class="border border-solid border-white rounded-full py-1">全国十强</view>
       </view>
       <view v-for="item in top10" :key="item.id" class="bg-gray-100 p-1 rounded">
-        <view class="p-2 my-2 rounded-lg shadow flex items-center" style="background-color:#eccb9f; width: 650rpx;">
+        <navigator :url="`/pages/detail/detail?id=${item.id}`" class="p-2 my-2 rounded-lg shadow flex items-center" style="background-color:#eccb9f; width: 650rpx;">
           <image :src="item.img" class="w-16 h-16 rounded-full border border-solid"
                  style="border-color: #2f855a"></image>
           <view class="ml-2 flex-grow">
@@ -15,7 +15,7 @@
               <view class="text-right text-gray-100">{{ item.stats[0].value }} 票</view>
             </view>
           </view>
-        </view>
+        </navigator>
       </view>
     </view>
     <view class="flex flex-col items-center">
@@ -27,7 +27,7 @@
           <view class="border border-solid border-white rounded-full py-1">{{ cateItem.categoryName }}</view>
         </view>
         <view v-for="item in cateItem.data" :key="item.id"  class="bg-gray-100 p-1 rounded">
-          <view class="p-2 my-2 rounded-lg shadow flex items-center" style="background-color:#eccb9f; width: 650rpx;">
+          <navigator :url="`/pages/detail/detail?id=${item.id}`" class="p-2 my-2 rounded-lg shadow flex items-center" style="background-color:#eccb9f; width: 650rpx;">
             <image :src="item.img" class="w-16 h-16 rounded-full border border-solid"
                    style="border-color: #2f855a"></image>
             <view class="ml-2 flex-grow">
@@ -37,7 +37,7 @@
                 <view class="text-right text-gray-100">{{ item.stats[0].value }} 票</view>
               </view>
             </view>
-          </view>
+          </navigator>
         </view>
       </view>
     </view>
