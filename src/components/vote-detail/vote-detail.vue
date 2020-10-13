@@ -1,7 +1,7 @@
 <template>
   <view class="p-4 text-gray-200">
     <main-title :title="title"></main-title>
-    <view class="mt-2 text-gray-600" v-for="msg in desc">{{ msg }}</view>
+    <view class="mt-2 text-gray-600" v-for="(msg,idx) in desc" :key="idx">{{ msg }}</view>
   </view>
 </template>
 
@@ -25,7 +25,7 @@ export default class VoteDetail extends Vue {
   private title = "活动详情"
 
   get desc() {
-    return this.activity.description.split("\n")
+    return this.activity?.description?.split("\n")
   }
 }
 </script>

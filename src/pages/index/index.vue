@@ -43,9 +43,15 @@
         </view>
       </view>
       <!-- 详情描述 -->
-      <view v-if="display" v-for="msg in desc" class="my-3 text-gray-600 px-4">
+      <view
+          v-if="display"
+          v-for="(msg,idx) in desc"
+          :key="idx"
+          class="my-3 text-gray-600 px-4"
+      >
         {{ msg }}
       </view>
+
     </view>
     <!-- 搜索区域 -->
     <search-bar @clear="handleClear" @updateItem="handleInput"></search-bar>
@@ -115,6 +121,7 @@ import {Iactivity} from "@/common/activity"
   }
 })
 export default class Index extends Vue {
+  [x: string]: any
   private activities = [] as Iactivity[]
   private activity = {} as Iactivity
   private items = [] as Iitem[]
@@ -145,9 +152,11 @@ export default class Index extends Vue {
   get canvasUrl() {
     return this.$store.state.canvasUrl
   }
+
   get desc() {
-    return this.activity.description.split("\n")
+    return this.activity?.description?.split("\n")
   }
+
   private dbouncedGetActivity = () => {
   }
 

@@ -1,10 +1,7 @@
 <template>
   <view class="bg-theme-p-1">
     <brand-show></brand-show>
-    <view v-if="actId < 0" class="text-gray-100 text-center">
-      还没有选择活动哦
-    </view>
-    <view v-else class="flex flex-col justify-center items-center">
+    <view class="flex flex-col justify-center items-center">
       <title :content="activity.name"></title>
       <view class="pt-4 my-2 bg-gray-100 w-11--12 rounded">
         <vote-rule :activity="activity"></vote-rule>
