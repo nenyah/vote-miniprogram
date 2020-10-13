@@ -32,13 +32,7 @@ import Vue from "vue"
 import Component from "vue-class-component"
 import * as _ from "lodash"
 
-@Component({
-  filters: {
-    formatTime(value: string) {
-      return value.substr(0, 16).replace("T", " ")
-    }
-  }
-})
+@Component({})
 export default class history extends Vue {
   records: Array<any> = []
 

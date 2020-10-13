@@ -40,13 +40,7 @@ import Component from "vue-class-component"
 import {login} from "@/servise/login"
 import {getActivities} from "@/servise/activates"
 
-@Component({
-  filters: {
-    formatTime: (value: string) => {
-      return value.substr(0, 16).replace("T", " ")
-    }
-  }
-})
+@Component({})
 export default class Home extends Vue {
   private activities = {}
   private autoplay = false
