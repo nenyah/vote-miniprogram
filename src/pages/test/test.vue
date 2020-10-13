@@ -103,12 +103,14 @@ import voteFooter from "@/components/footer/footer.vue"
 import uniCountdown from "@/components/uni-countdown/uni-countdown.vue"
 import uniSegmentedControl from "@/components/uni-segmented-control/uni-segmented-control.vue"
 import topShow from "@/components/top-show/top-show.vue"
-import {Iactivity, IglobalData, Iitem} from "@/common/interface"
+import {IglobalData} from "@/common/interface"
 import {getActivities, putVisits} from "@/servise/activates"
 import moment from "moment"
 import {getCate} from "@/servise/category"
 import {getItems} from "@/servise/items"
 import * as _ from "lodash"
+import {Iactivity} from "@/common/activity"
+import {Iitem} from "@/common/Item"
 
 @Component({
   components: {

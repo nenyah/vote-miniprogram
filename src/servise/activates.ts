@@ -5,26 +5,26 @@
  * @LastEditors: Steven
  * @LastEditTime: 2020-09-25 15:49:36
  */
-import { Iactivity } from "@/common/interface"
 import request from "@/utils/request"
 import config from "@/common/config"
+
 /**
  * 获取所有活动
  * @param page 当前页
  */
 export const getActivities = (pageNo: number = 1) => {
-  return <Promise<Iactivity> | Promise<any>>request({
-    url: `${config}weixin/activity`,
-    data: {
-      pageNo,
-      pageSize: 10,
-    },
-  })
+    return request({
+        url: `${config}weixin/activity`,
+        data: {
+            pageNo,
+            pageSize: 10,
+        },
+    })
 }
 export const putVisits = (activityId: number) => {
-  return request({
-    url: `${config}weixin/visit`,
-    method: "POST",
-    data: activityId,
-  })
+    return request({
+        url: `${config}weixin/visit`,
+        method: "POST",
+        data: activityId,
+    })
 }

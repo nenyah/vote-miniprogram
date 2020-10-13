@@ -40,9 +40,11 @@ import voteList from "@/components/vote-list/vote-list.vue"
 import voteFooter from "@/components/footer/footer.vue"
 import voteTabbar from "@/components/vote-tabbar/vote-tabbar.vue"
 import {getItems} from "@/servise/items"
-import {Iactivity, IglobalData, Iitem} from "@/common/interface"
+import {IglobalData} from "@/common/interface"
 import * as _ from "lodash"
 import {getCate} from "@/servise/category"
+import {Iitem} from "@/common/Item"
+import {Iactivity} from "@/common/activity"
 
 interface Query {
   id: number
@@ -135,7 +137,7 @@ export default Vue.extend({
     sortItems(): Array<Iitem> {
       return this.items.sort(
           (a: Iitem, b: Iitem) =>
-              <number>b?.stats[0].value - <number>a?.stats[0].value
+              Number(b?.stats[0].value) - Number(a?.stats[0].value)
       )
     },
   },

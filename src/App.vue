@@ -21,7 +21,6 @@ export default Vue.extend({
     openid: "",
     token: "",
     unionid: "",
-    selectedItems: [] as Array<any>,
   },
 })
 </script>

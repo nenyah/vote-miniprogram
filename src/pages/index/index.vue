@@ -90,13 +90,14 @@ import uniCountdown from "@/components/uni-countdown/uni-countdown.vue"
 import uniSegmentedControl from "@/components/uni-segmented-control/uni-segmented-control.vue"
 import topShow from "@/components/top-show/top-show.vue"
 import voteTabbar from "@/components/vote-tabbar/vote-tabbar.vue"
-import {Iactivity, IglobalData, Iitem} from "@/common/interface"
+import {IglobalData} from "@/common/interface"
 import {getActivities, putVisits} from "@/servise/activates"
 import moment from "moment"
 import {getCate} from "@/servise/category"
 import {getItems} from "@/servise/items"
 import * as _ from "lodash"
-import {Datum} from "@/common/Item"
+import {Iitem} from "@/common/Item"
+import {Iactivity} from "@/common/activity"
 
 @Component({
   components: {
@@ -347,7 +348,7 @@ export default class Index extends Vue {
       const res = await getItems({
         activityId: this.actId,
       })
-      this.top10 = res.data.data.filter((data: Datum) => +data.stats[0].value > 0)
+      this.top10 = res.data.data.filter((data: Iitem) => +data.stats[0].value > 0)
       console.log("top10:::", res.data)
     } catch (err) {
       console.error("10强下载错误:::", err)
@@ -364,10 +365,10 @@ export default class Index extends Vue {
         })
       }))
       this.top3 = res.map((el: any, index: number) => {
-        const res: Datum[] = el.data.data
+        const res: Iitem[] = el.data.data
         return {
           categoryName: this.categories[index].name,
-          data: res.filter((data: Datum) => +
+          data: res.filter((data: Iitem) => +
               data.stats[0].value > 0),
         }
       })

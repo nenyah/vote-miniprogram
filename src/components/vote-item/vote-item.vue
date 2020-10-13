@@ -49,14 +49,12 @@
 
 <script lang="ts">
 import Vue from "vue"
-import voteButton from "@/components/vote-button/vote-button.vue"
 import {handleVote} from "@/servise/vote"
 import {login} from "@/servise/login"
 import {isAuthorize, isFollower, isLogin, isValidTime} from "@/utils/check"
 
 export default Vue.extend({
   components: {
-    voteButton,
   },
   data() {
     return {

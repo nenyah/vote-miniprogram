@@ -7,7 +7,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         showModal: false,
-        canvasUrl: ""
+        canvasUrl: "",
+        shareTimeline: false,
     },
     mutations: {
         toggleModal(state) {
@@ -16,6 +17,9 @@ export default new Vuex.Store({
         },
         changeUrl(state, {canvasUrl}) {
             state.canvasUrl = canvasUrl
+        },
+        toggleShare(state) {
+            state.shareTimeline = !state.shareTimeline
         }
     },
     actions: {

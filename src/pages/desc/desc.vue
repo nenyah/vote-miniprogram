@@ -26,7 +26,7 @@ import voteDetail from "@/components/vote-detail/vote-detail.vue"
 import voteFooter from "@/components/footer/footer.vue"
 import brandShow from "@/components/brand-show/brand-show.vue"
 import voteTabbar from "@/components/vote-tabbar/vote-tabbar.vue"
-import {Iactivity} from "@/common/interface"
+import {Iactivity} from "@/common/activity"
 
 export default Vue.extend({
   data() {
