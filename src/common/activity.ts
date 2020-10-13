@@ -1,11 +1,11 @@
 export interface ActivityResponse {
     pageNo: number;
     pageSize: number;
-    data: Datum[];
+    data: Iactivity[];
     totalCount: number;
 }
 
-export interface Datum {
+export interface Iactivity {
     id: number;
     name: string;
     theme: string;

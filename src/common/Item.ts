@@ -1,11 +1,11 @@
 export interface ItemResponse {
     pageNo: number;
     pageSize: number;
-    data: Datum[];
+    data: Iitem[];
     totalCount: number;
 }
 
-export interface Datum {
+export interface Iitem {
     category: Category;
     id: number;
     code: string;

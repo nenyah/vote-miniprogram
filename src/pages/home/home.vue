@@ -39,22 +39,24 @@ import Vue from "vue"
 import Component from "vue-class-component"
 import {login} from "@/servise/login"
 import {getActivities} from "@/servise/activates"
+import {IglobalData} from "@/common/interface"
+import {ActivityResponse, Iactivity} from "@/common/activity"
 
 @Component({})
 export default class Home extends Vue {
-  private activities = {}
+  private activities = {} as Iactivity[]
   private autoplay = false
   private interval = 300
   private indicatorDots = false
+  private duration = 300
 
   async onLoad() {
-// 后端登录
+    // 后端登录
     await login()
-
     // 1. 服务器接口获取活动信息
-    this.activities = await this._getActivities()
+    this.activities = await this._getActivities() as Iactivity[]
     // 2. 活动信息存入globaldata
-    let globalData: any = getApp().globalData
+    let globalData = getApp().globalData as IglobalData
     globalData.activities = this.activities
   }
 
@@ -63,7 +65,7 @@ export default class Home extends Vue {
   async _getActivities() {
     try {
       let {data}: any = await getActivities()
-      return data.data
+      return (data as ActivityResponse).data
     } catch (error) {
       uni.showToast({
         title: "获取活动信息错误",
