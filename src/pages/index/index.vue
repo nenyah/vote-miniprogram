@@ -1,77 +1,80 @@
 <template>
-  <view class="bg-theme-p-1 flex flex-col items-center">
-    <!--      品牌介绍-->
-    <top-show :top10="top10" :top3="top3"></top-show>
-    <!-- 广告轮播图 -->
-    <banner :src="activity.bannerImg"></banner>
-    <!-- 主题名称 -->
-    <title :content="activity.name"></title>
-    <!-- 统计区域 -->
-    <stats :content="activity.stats">
-      <view
-          class="mt-2 p-2 text-gray-100 text-center diff-time-box flex justify-center"
-      >
-        <view v-if="!(activity.status === 'ENDED')">
+  <view class="bg-theme-p-1">
+    <view class="pb-10  flex flex-col items-center">
+      <!--      品牌介绍-->
+      <top-show :top10="top10" :top3="top3"></top-show>
+      <!-- 广告轮播图 -->
+      <banner :src="activity.bannerImg"></banner>
+      <!-- 主题名称 -->
+      <title :content="activity.name"></title>
+      <!-- 统计区域 -->
+      <stats :content="activity.stats">
+        <view
+            class="mt-2 p-2 text-gray-100 text-center diff-time-box flex justify-center"
+        >
+          <view v-if="!(activity.status === 'ENDED')">
+            {{ msg }}
+            <uni-countdown
+                :day="day"
+                :hour="hour"
+                :minute="min"
+                :second="sec"
+                :showDay="showDay"
+                background-color=""
+                color="#fff"
+                splitorColor="#fff"
+            ></uni-countdown>
+          </view>
+          <view v-else>{{ msg }}</view>
+        </view>
+      </stats>
+      <!-- 规则区域 -->
+      <view class="pt-4 my-2 bg-gray-100 w-11--12 rounded">
+        <!-- 活动规则 -->
+        <vote-rule :activity="activity"></vote-rule>
+        <!-- 活动详情 -->
+        <view class="text-red-300 flex px-4">
+          <view class="attr">
+            <view class="fa fa-clock-o text-red-300 mr-2"></view>
+            活动详情：
+          </view>
+          <view class="flex" @click="display = !display">
+            {{ display ? "收起" : "展开" }}
+            <view class="text-orange-500 ml-2">></view>
+          </view>
+        </view>
+        <!-- 详情描述 -->
+        <view
+            v-for="(msg,idx) in desc"
+            v-if="display"
+            :key="idx"
+            class="my-3 text-gray-600 px-4"
+        >
           {{ msg }}
-          <uni-countdown
-              :day="day"
-              :hour="hour"
-              :minute="min"
-              :second="sec"
-              :showDay="showDay"
-              background-color=""
-              color="#fff"
-              splitorColor="#fff"
-          ></uni-countdown>
         </view>
-        <view v-else>{{ msg }}</view>
+
       </view>
-    </stats>
-    <!-- 规则区域 -->
-    <view class="pt-4 my-2 bg-gray-100 w-11--12 rounded">
-      <!-- 活动规则 -->
-      <vote-rule :activity="activity"></vote-rule>
-      <!-- 活动详情 -->
-      <view class="text-red-300 flex px-4">
-        <view class="attr">
-          <view class="fa fa-clock-o text-red-300 mr-2"></view>
-          活动详情：
-        </view>
-        <view class="flex" @click="display = !display">
-          {{ display ? "收起" : "展开" }}
-          <view class="text-orange-500 ml-2">></view>
-        </view>
+      <!-- 搜索区域 -->
+      <search-bar @clear="handleClear" @updateItem="handleInput"></search-bar>
+      <view class="text-gray-100 w-full">
+        <uni-segmented-control
+            :current="current"
+            :values="cateItem"
+            active-color="#e271a6"
+            style-type="text"
+            @clickItem="onClickItem"
+        ></uni-segmented-control>
       </view>
-      <!-- 详情描述 -->
-      <view
-          v-if="display"
-          v-for="(msg,idx) in desc"
-          :key="idx"
-          class="my-3 text-gray-600 px-4"
-      >
-        {{ msg }}
+      <!-- 项目列表区域 -->
+      <vote-list
+          :itemType="itemType"
+          :items="items"
+          @tolower="tolower"
+      ></vote-list>
+      <vote-footer :content="activity.name"></vote-footer>
+      <view style="width:100%;position:relative;background:gray;margin-bottom: 40px;">
       </view>
 
-    </view>
-    <!-- 搜索区域 -->
-    <search-bar @clear="handleClear" @updateItem="handleInput"></search-bar>
-    <view class="text-gray-100 w-full">
-      <uni-segmented-control
-          :current="current"
-          :values="cateItem"
-          active-color="#e271a6"
-          style-type="text"
-          @clickItem="onClickItem"
-      ></uni-segmented-control>
-    </view>
-    <!-- 项目列表区域 -->
-    <vote-list
-        :itemType="itemType"
-        :items="items"
-        @tolower="tolower"
-    ></vote-list>
-    <vote-footer :content="activity.name"></vote-footer>
-    <view style="width:100%;position:relative;background:gray;margin-bottom: 40px;">
       <!-- uni-app未封装，但可直接使用微信原生的official-account组件-->
       <!-- #ifdef MP-WEIXIN -->
       <official-account></official-account>

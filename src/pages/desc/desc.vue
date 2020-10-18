@@ -1,7 +1,7 @@
 <template>
   <view class="bg-theme-p-1">
     <brand-show></brand-show>
-    <view class="flex flex-col justify-center items-center">
+    <view class="flex flex-col justify-center items-center pb-12">
       <title :content="activity.name"></title>
       <view class="pt-4 my-2 bg-gray-100 w-11--12 rounded">
         <vote-rule :activity="activity"></vote-rule>
@@ -10,8 +10,9 @@
         <vote-detail :activity="activity"></vote-detail>
       </view>
       <vote-footer :content="activity.name"></vote-footer>
-      <vote-tabbar :activeIndex="activeIndex"></vote-tabbar>
+
     </view>
+    <vote-tabbar :activeIndex="activeIndex"></vote-tabbar>
   </view>
 </template>
 

@@ -5,7 +5,7 @@ if (process.env.NODE_ENV === "prod") {
     url_config = "http://192.168.0.175:9003/"
 } else {
     // 生产环境
-    url_config = "https://tp.huadongbio.com:9004/"
+    url_config = "https://tp.huadongbio.com:8095/"
 }
 
 export default url_config
