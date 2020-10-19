@@ -37,12 +37,6 @@
       }
     },
     {
-      "path": "pages/test/test",
-      "style": {
-        "navigationBarTitleText": "婉美投票"
-      }
-    },
-    {
       "path": "pages/profile/profile",
       "style": {
         "navigationBarTitleText": "我的"

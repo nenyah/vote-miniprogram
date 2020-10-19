@@ -1,34 +1,35 @@
 <template>
-  <view class="flex flex-col items-center" data-agent="">
-    <view class="content">
-      <image
-          :src="brandSrc"
-          class="image"
-          mode="widthFix"
-          style="width: 750rpx;"
-      />
-      <image
-          :src="faceSrc"
-          class="image"
-          mode="widthFix"
-          style="width: 750rpx;"
-      />
-      <image
-          :src="productSrc"
-          class="image"
-          mode="widthFix"
-          style="width: 750rpx;"
-      />
+    <view class="flex flex-col items-center" data-agent="">
+        <view class="content">
+            <image
+                :src="brandSrc"
+                class="image"
+                mode="widthFix"
+                style="width: 750rpx;"
+            />
+            <image
+                :src="faceSrc"
+                class="image"
+                mode="widthFix"
+                style="width: 750rpx;"
+            />
+            <image
+                :src="productSrc"
+                class="image"
+                mode="widthFix"
+                style="width: 750rpx;"
+            />
+        </view>
     </view>
-  </view>
 </template>
 <script lang="ts">
-import {Component, Vue} from "vue-property-decorator"
+import { Component, Vue } from 'vue-property-decorator'
 
-@Component({})
+@Component
 export default class BrandShow extends Vue {
-  private brandSrc = "http://www2.huadongbio.com:9000/vote-app/brand.png"
-  private faceSrc = "http://www2.huadongbio.com:9000/vote-app/face.png"
-  private productSrc = "http://www2.huadongbio.com:9000/vote-app/product.png"
+    private brandSrc = 'https://tp.huadongbio.com:9000/weixinapp-vote/brand.png'
+    private faceSrc = 'https://tp.huadongbio.com:9000/weixinapp-vote/face.png'
+    private productSrc =
+        'https://tp.huadongbio.com:9000/weixinapp-vote/product.png'
 }
 </script>

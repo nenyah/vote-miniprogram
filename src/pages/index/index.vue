@@ -10,19 +10,19 @@
       <!-- 统计区域 -->
       <stats :content="activity.stats">
         <view
-            class="mt-2 p-2 text-gray-100 text-center diff-time-box flex justify-center"
+          class="mt-2 p-2 text-gray-100 text-center diff-time-box flex justify-center"
         >
           <view v-if="!(activity.status === 'ENDED')">
             {{ msg }}
             <uni-countdown
-                :day="day"
-                :hour="hour"
-                :minute="min"
-                :second="sec"
-                :showDay="showDay"
-                background-color=""
-                color="#fff"
-                splitorColor="#fff"
+              :day="day"
+              :hour="hour"
+              :minute="min"
+              :second="sec"
+              :showDay="showDay"
+              background-color=""
+              color="#fff"
+              splitorColor="#fff"
             ></uni-countdown>
           </view>
           <view v-else>{{ msg }}</view>
@@ -44,35 +44,37 @@
           </view>
         </view>
         <!-- 详情描述 -->
-        <view
-            v-for="(msg,idx) in desc"
-            v-if="display"
+        <view v-if="display">
+          <view
+            v-for="(msg, idx) in desc"
             :key="idx"
             class="my-3 text-gray-600 px-4"
-        >
-          {{ msg }}
+          >
+            {{ msg }}
+          </view>
         </view>
-
       </view>
       <!-- 搜索区域 -->
       <search-bar @clear="handleClear" @updateItem="handleInput"></search-bar>
       <view class="text-gray-100 w-full">
         <uni-segmented-control
-            :current="current"
-            :values="cateItem"
-            active-color="#e271a6"
-            style-type="text"
-            @clickItem="onClickItem"
+          :current="current"
+          :values="cateItem"
+          active-color="#e271a6"
+          style-type="text"
+          @clickItem="onClickItem"
         ></uni-segmented-control>
       </view>
       <!-- 项目列表区域 -->
       <vote-list
-          :itemType="itemType"
-          :items="items"
-          @tolower="tolower"
+        :itemType="itemType"
+        :items="items"
+        @tolower="tolower"
       ></vote-list>
       <vote-footer :content="activity.name"></vote-footer>
-      <view style="width:100%;position:relative;background:gray;margin-bottom: 40px;">
+      <view
+        style="width:100%;position:relative;background:gray;margin-bottom: 40px;"
+      >
       </view>
 
       <!-- uni-app未封装，但可直接使用微信原生的official-account组件-->
@@ -87,7 +89,7 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue} from "vue-property-decorator"
+import { Component, Vue } from "vue-property-decorator"
 import banner from "@/components/banner/banner.vue"
 import title from "@/components/title/title.vue"
 import stats from "@/components/stats/stats.vue"
@@ -99,14 +101,14 @@ import uniCountdown from "@/components/uni-countdown/uni-countdown.vue"
 import uniSegmentedControl from "@/components/uni-segmented-control/uni-segmented-control.vue"
 import topShow from "@/components/top-show/top-show.vue"
 import voteTabbar from "@/components/vote-tabbar/vote-tabbar.vue"
-import {IglobalData} from "@/common/interface"
-import {getActivities, putVisits} from "@/servise/activates"
+import { IglobalData } from "@/common/interface"
+import { getActivities, putVisits } from "@/servise/activates"
 import moment from "moment"
-import {getCate} from "@/servise/category"
-import {getItems} from "@/servise/items"
+import { getCate } from "@/servise/category"
+import { getItems } from "@/servise/items"
 import * as _ from "lodash"
-import {Iitem} from "@/common/Item"
-import {Iactivity} from "@/common/activity"
+import { Iitem } from "@/common/Item"
+import { Iactivity } from "@/common/activity"
 
 @Component({
   components: {
@@ -121,7 +123,7 @@ import {Iactivity} from "@/common/activity"
     uniSegmentedControl,
     topShow,
     voteTabbar,
-  }
+  },
 })
 export default class Index extends Vue {
   [x: string]: any
@@ -147,6 +149,7 @@ export default class Index extends Vue {
   private activeIndex = 0
   private top10 = []
   private top3 = [] as any
+  private hasMore = true
 
   get showModal() {
     return this.$store.state.showModal
@@ -160,8 +163,7 @@ export default class Index extends Vue {
     return this.activity?.description?.split("\n")
   }
 
-  private dbouncedGetActivity = () => {
-  }
+  private dbouncedGetActivity = () => {}
 
   async onLoad(query: { actId: number }) {
     // 添加防抖
@@ -192,7 +194,8 @@ export default class Index extends Vue {
         console.error("增加访客失败:::", err)
       }
     }
-    this.activities = globaldata.activities?.length > 0
+    this.activities =
+      globaldata.activities?.length > 0
         ? globaldata.activities
         : await this._getActivities()
     // 2. 下载活动信息
@@ -222,7 +225,6 @@ export default class Index extends Vue {
       this.dbouncedGetActivity()
       this.dbouncedGetItems()
     })
-
   }
 
   hide() {
@@ -231,8 +233,7 @@ export default class Index extends Vue {
   }
 
   // private showModal = false
-  private dbouncedGetItems = () => {
-  }
+  private dbouncedGetItems = () => {}
 
   handleClear() {
     this.pageNo = 0
@@ -257,13 +258,14 @@ export default class Index extends Vue {
     this.categoryId = this.categories[e.currentIndex].id
     this.pageNo = 0
     this.items = []
+    this.hasMore = true
     this.dbouncedGetItems()
   }
 
-// 获取活动信息
+  // 获取活动信息
   async _getActivities() {
     try {
-      let {data}: any = await getActivities()
+      let { data }: any = await getActivities()
       return data.data
     } catch (error) {
       uni.showToast({
@@ -277,12 +279,12 @@ export default class Index extends Vue {
   async _getActivity() {
     // 根据actId筛选
     this.activity = this.activities.filter(
-        (el: Iactivity) => el.id == this.actId
+      (el: Iactivity) => el.id == this.actId
     )[0]
   }
 
   setTime() {
-    let {startTime, endTime, status}: any = this.activity
+    let { startTime, endTime, status }: any = this.activity
     //  获取当前时间
     let now = moment()
     startTime = moment(startTime)
@@ -316,7 +318,7 @@ export default class Index extends Vue {
 
   async _getCate() {
     try {
-      let res = await getCate({activityId: this.actId})
+      let res = await getCate({ activityId: this.actId })
       this.categories = res.data
       this.cateItem = res.data.map((el: any) => el.name)
       this.categoryId = res.data[this.current].id
@@ -330,7 +332,7 @@ export default class Index extends Vue {
 
   async _getItems() {
     if (this.code.length > 0) {
-      let {data} = await getItems({
+      let { data } = await getItems({
         activityId: this.actId,
         code: this.code,
         categoryId: this.categoryId,
@@ -340,13 +342,12 @@ export default class Index extends Vue {
       return
     }
     // 判断是否还有新的内容
-    if (this.items.length % this.pageSize !== 0) {
+    if (this.hasMore === false) {
       return
     }
 
-
     this.pageNo = this.pageNo + 1
-    let {data} = await getItems({
+    let { data } = await getItems({
       pageNo: this.pageNo,
       activityId: this.actId,
       code: this.code,
@@ -354,15 +355,17 @@ export default class Index extends Vue {
     })
 
     this.items = [...this.items, ...data.data]
+    this.hasMore = data.data.length !== 0
   }
-
 
   async _TOP10() {
     try {
       const res = await getItems({
         activityId: this.actId,
       })
-      this.top10 = res.data.data.filter((data: Iitem) => +data.stats[0].value > 0)
+      this.top10 = res.data.data.filter(
+        (data: Iitem) => +data.stats[0].value > 0
+      )
       console.log("top10:::", res.data)
     } catch (err) {
       console.error("10强下载错误:::", err)
@@ -371,19 +374,20 @@ export default class Index extends Vue {
 
   async _TOP3() {
     try {
-      const res = await Promise.all(this.categories.map((el: any) => {
-        return getItems({
-          activityId: this.actId,
-          categoryId: el.id,
-          pageSize: 3,
+      const res = await Promise.all(
+        this.categories.map((el: any) => {
+          return getItems({
+            activityId: this.actId,
+            categoryId: el.id,
+            pageSize: 3,
+          })
         })
-      }))
+      )
       this.top3 = res.map((el: any, index: number) => {
         const res: Iitem[] = el.data.data
         return {
           categoryName: this.categories[index].name,
-          data: res.filter((data: Iitem) => +
-              data.stats[0].value > 0),
+          data: res.filter((data: Iitem) => +data.stats[0].value > 0),
         }
       })
       console.log("top3:::", res)
@@ -391,9 +395,7 @@ export default class Index extends Vue {
       console.error("获取各区域三强失败:::", e)
     }
   }
-};
+}
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
