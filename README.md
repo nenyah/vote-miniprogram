@@ -17,3 +17,6 @@ yarn build
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+### project document
+See [vote miniprogram](投票小程序 .md) 
