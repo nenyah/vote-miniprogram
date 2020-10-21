@@ -17,14 +17,14 @@
           </swiper-item>
         </swiper>
         <view class="p-2 text-left">
-          <view class="text-gray-900">{{ activity.name }}</view>
+          <view class="text-theme-red">{{ activity.name }}</view>
           <view class="flex items-center">
-            <view class="fa fa-group mr-1 text-red-300 text-center"></view>
+            <view class="fa fa-group mr-1 text-theme-red text-center"></view>
             <view>{{ activity.stats[1].value }}人参与，已投票：</view>
             <view>{{ activity.stats[2].value }}</view>
           </view>
           <view class="flex items-center">
-            <view class="fa fa-clock-o mr-1 text-red-300 text-center"></view>
+            <view class="fa fa-clock-o mr-1 text-theme-red text-center"></view>
             <view> {{ activity.endTime|formatTime }} 结束</view>
           </view>
         </view>

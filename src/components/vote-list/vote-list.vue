@@ -1,6 +1,13 @@
+<!--
+ * @Description: 
+ * @Author: Steven
+ * @Date: 2020-09-08 09:24:10
+ * @LastEditors: Steven
+ * @LastEditTime: 2020-10-21 16:30:17
+-->
 <template>
   <view class="text-gray-100 flex flex-col items-center w-full">
-    <view v-if="!isVoteItem" class="flex w-4-5 px-2 m-auto text-orange-500 text-center w-full">
+    <view v-if="!isVoteItem" class="flex w-4-5 px-2 m-auto text-theme-red-light text-center w-full">
       <view class="flex-1">排名</view>
       <view class="flex-1">编号</view>
       <view class="flex-1">参与选手</view>

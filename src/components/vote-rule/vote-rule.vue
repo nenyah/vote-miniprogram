@@ -1,9 +1,9 @@
 <template>
-  <view class="py-2 z-20 mb-2 px-4 text-red-300 -t-10">
+  <view class="py-2 z-20 mb-2 px-4 text-theme-red -t-10">
     <main-title :title="title"></main-title>
     <view class="flex">
       <view class="w-18">
-        <view class="fa fa-clock-o text-red-300 mr-2"></view>
+        <view class="fa fa-clock-o text-theme-red mr-2"></view>
         活动开始：
       </view>
       <view class="flex-none text-gray-600 text-left">
@@ -12,7 +12,7 @@
     </view>
     <view class="flex">
       <view class="w-18">
-        <view class="fa fa-clock-o text-red-300 mr-2"></view>
+        <view class="fa fa-clock-o text-theme-red mr-2"></view>
         活动结束：
       </view>
       <view class="flex-none text-gray-600 text-left">
@@ -21,7 +21,7 @@
     </view>
     <view class="flex">
       <view class="w-18">
-        <view class="fa fa-clock-o text-red-300 mr-2"></view>
+        <view class="fa fa-clock-o text-theme-red mr-2"></view>
         投票规则：
       </view>
       <view class="flex-1 text-gray-600 text-left flex flex-col">

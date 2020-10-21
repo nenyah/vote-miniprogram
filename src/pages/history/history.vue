@@ -1,6 +1,6 @@
 <template>
-  <view class="bg-gray-300">
-    <view class="p-2 text-gray-700 text-sm bg-gray-100">名称/时间</view>
+  <view class="bg-theme-p-1">
+    <view class="p-2 text-theme-red text-sm bg-gray-100">名称/时间</view>
     <view
         v-for="record in records"
         :key="record.id"
@@ -8,11 +8,11 @@
     >
       <image
           :src="record.img"
-          class="w-12 h-12 rounded-full border border-solid border-gray-500"
+          class="w-16 h-16 rounded-full border border-solid border-gray-500"
           mode="fitFill"
       ></image>
-      <view class="mx-2 text-gray-600">
-        <view class="text-lg text-gray-900"
+      <view class="mx-2 text-theme-gray">
+        <view class="text-lg text-theme-red"
         >评选“{{ record.activityName }}”活动
         </view
         >

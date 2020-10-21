@@ -1,6 +1,6 @@
 <template>
 <view class="text-lg flex py-auto items-center">
-  <view class="mr-1 text-red-300">{{ title }}</view>
+  <view class="mr-1 text-theme-red">{{ title }}</view>
   <image class="w-4 h-4" src="/static/rule-icon.png"/>
 </view>
 </template>

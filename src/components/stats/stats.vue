@@ -1,3 +1,10 @@
+<!--
+ * @Description: 
+ * @Author: Steven
+ * @Date: 2020-09-08 09:22:09
+ * @LastEditors: Steven
+ * @LastEditTime: 2020-10-21 16:54:57
+-->
 <template>
   <view class="px-4 pt-2 w-11--12">
     <view class="mt-2 p-2 stat-border flex flex-col items-center w-full">
@@ -6,7 +13,7 @@
           <view class="text-gray-100  text-xl">
             {{ item.value }} {{ isDetail && index === 2 ? " 票" : "" }}
           </view>
-          <view class="text-theme-1">
+          <view class="text-theme-red">
             {{ item.name }}
           </view>
         </view>
@@ -39,7 +46,7 @@ export default Vue.extend({
   border-left: 1px solid;
   border-right: 1px solid;
   border-bottom: none;
-  border-image: linear-gradient(to top, #a6e6eb, #74c8d2);
+  border-image: linear-gradient(to top, #f078a880, #f078a8);
   border-image-slice: 10;
 
   .stat-content {
@@ -49,9 +56,9 @@ export default Vue.extend({
     border-left: 1px solid;
     border-right: 1px solid;
     border-bottom: none;
-    border-image: linear-gradient(to top, #a6e6eb, #74c8d2);
+    border-image: linear-gradient(to top, #f078a880, #f078a8);
     border-image-slice: 10;
-    background: #9bd7dc;
+    background:#f078a8;
   }
 }
 </style>

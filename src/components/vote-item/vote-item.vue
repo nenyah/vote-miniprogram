@@ -1,9 +1,9 @@
 <template>
   <view
-      class="flex flex-col flex-1 text-center justify-center border border-solid border-gray-600 bg-theme-gradient m-1 p-2 border-img"
+      class="flex flex-col flex-1 text-center justify-center border border-solid border-gray-600 bg-theme-gradient m-1 p-2"
       :class="customWidth"
   >
-    <view class="text-theme-1 my-1">{{ item.code }} 号</view>
+    <view class="text-theme-red my-1">{{ item.code }} 号</view>
     <navigator v-if="index" :url="toUrl">
       <image
           :src="item.img"
@@ -11,8 +11,8 @@
           style="width: 100%; height:20vh; background-color: #eeeeee;"
       ></image>
       <view class="text-gray-100 text-lg font-bold mt-1">{{ item.name }}</view>
-      <view class="text-theme-1 my-1">{{ item.category.name }}</view>
-      <view class="text-theme-1 my-1">{{ item.company }}</view>
+      <view class="text-theme-red my-1">{{ item.category.name }}</view>
+      <view class="text-theme-red my-1">{{ item.company }}</view>
     </navigator>
     <view v-else>
       <image
@@ -22,24 +22,24 @@
       ></image>
 
       <view class="text-gray-100 text-lg font-bold mt-1">{{ item.name }}</view>
-      <view class="text-theme-1 my-1">{{ item.category.name }}</view>
-      <view class="text-theme-1 my-1">{{ item.company }}</view>
+      <view class="text-theme-red my-1">{{ item.category.name }}</view>
+      <view class="text-theme-red my-1">{{ item.company }}</view>
     </view>
     <view v-if="index">
       <view class="flex w-full">
         <view
-            class="flex-1 border border-solid border-gray-500 bg-theme-p-5 text-white p-2"
+            class="flex-1 bg-theme-p-2 text-white p-2"
         >{{ item.stats[0].value }}
         </view
         >
         <view
-            class="flex-1 border border-solid border-orange-500 bg-orange-500 text-white p-2"
+            class="flex-1 bg-theme-red text-white p-2"
             @click="vote"
         >
           投票
         </view>
       </view>
-      <view class="my-1 p-2 border border-solid"
+      <view class="my-1 p-2"
             @click="share"
       >帮我拉票
       </view>
@@ -208,6 +208,6 @@ export default Vue.extend({
 }
 
 .bg-theme-gradient {
-  background: linear-gradient(to bottom right, #aee5e8, #86c6cf);
+  background: linear-gradient(to bottom right, #ffcfe0, #ff78a9);
 }
 </style>

@@ -1,14 +1,15 @@
+
 <template>
   <view>
     <view class="flex flex-col items-center">
-      <view class="p-1 w-56 text-center text-gray-100 m-2 rounded-full" style="background-color:#eccb9f;">
+      <view class="p-1 w-56 text-center text-gray-100 m-2 rounded-full bg-theme-p-2">
         <view class="border border-solid border-white rounded-full py-1">全国十强</view>
       </view>
       <view class="flex flex-wrap items-center justify-center bg-gray-100 rounded ">
         <view v-for="(item,idx) in top10" :key="item.id" class="flex w-full m-1"
               style="width: 350rpx;">
-          <navigator :url="`/pages/detail/detail?id=${item.id}`" class="p-1 my-1 rounded-lg shadow "
-                     style="background-color:#eccb9f; width: 350rpx;">
+          <navigator :url="`/pages/detail/detail?id=${item.id}`" class="p-1 my-1 rounded-lg shadow bg-theme-p-1"
+                     style="width: 350rpx;">
             <view class="superscript">
               <view class="gradual">{{ idx + 1 }}</view>
             </view>
@@ -16,8 +17,8 @@
                    style="border-color: #2f855a"></image>
             <view class="ml-1 flex-grow text-xs">
               <view class="text-gray-100">{{ item.stats[0].value }} 票</view>
-              <view class=" font-bold" style="color: #d0a36a">{{ item.company }}</view>
-              <view class="" style="color: #d0a36a">{{ item.name }}</view>
+              <view class=" font-bold text-theme-red">{{ item.company }}</view>
+              <view class=" text-theme-red">{{ item.name }}</view>
             </view>
           </navigator>
         </view>
@@ -77,7 +78,7 @@ export default class TopShow extends Vue {
     width: 100%;
     height: 100%;
     border-top-left-radius: 5px;
-    background: linear-gradient(135deg, #fdbbdf 50%, transparent 50%);
+    background: linear-gradient(135deg, #cd005b 50%, transparent 50%);
   }
 }
 
