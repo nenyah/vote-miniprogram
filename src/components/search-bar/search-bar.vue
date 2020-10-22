@@ -1,5 +1,5 @@
 <template>
-  <view class="border-img my-2 bg-theme-p-3 py-4" style="width: 756rpx;">
+  <view class="border-img my-2 bg-theme-p-2 py-4" style="width: 756rpx;">
     <view class="w-full border border-r-0 border-l-0 border-t-0 border-solid border-white py-2" style="padding:0;">
       <view class="flex">
         <input

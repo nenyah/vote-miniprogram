@@ -1,10 +1,3 @@
-<!--
- * @Description: 
- * @Author: Steven
- * @Date: 2020-09-08 09:24:10
- * @LastEditors: Steven
- * @LastEditTime: 2020-10-21 16:30:17
--->
 <template>
   <view class="text-gray-100 flex flex-col items-center w-full">
     <view v-if="!isVoteItem" class="flex w-4-5 px-2 m-auto text-theme-red-light text-center w-full">
@@ -15,8 +8,8 @@
     </view>
 
     <scroll-view
-        class="flex flex-row flex-wrap justify-around box-border px-2 mt-2 bg-gray-100  rounded"
-        style="width: 720rpx; height:900rpx;"
+        class="flex flex-row flex-wrap justify-around box-border p-1 mt-2 bg-gray-100  rounded"
+        style="width: 730rpx; height:900rpx;"
         v-if="isVoteItem"
         scroll-y="true"
         @scrolltolower="lower"

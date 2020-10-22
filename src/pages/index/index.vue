@@ -5,7 +5,7 @@
             <top-show :top10="top10" :top3="top3"></top-show>
             <!-- 广告轮播图 -->
             <banner :src="activity.bannerImg"></banner>
-            <!-- 主题名称
+            <!-- 主题名称 -->
             <title :content="activity.name"></title>
             <!-- 统计区域 -->
             <stats :content="activity.stats">
@@ -59,11 +59,12 @@
                 @clear="handleClear"
                 @updateItem="handleInput"
             ></search-bar>
+            <!-- 分组 -->
             <view class="text-gray-100 w-full">
                 <uni-segmented-control
                     :current="current"
                     :values="cateItem"
-                    active-color="#e271a6"
+                    active-color="#cd005b"
                     style-type="text"
                     @clickItem="onClickItem"
                 ></uni-segmented-control>
