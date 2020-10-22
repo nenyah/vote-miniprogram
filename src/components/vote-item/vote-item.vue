@@ -1,37 +1,47 @@
 <template>
-    <view
-        class="flex flex-col flex-1 text-center justify-center border border-solid border-gray-600 bg-theme-gradient m-1 p-1"
-        :style="customWidth"
-    >
-        <view class="text-theme-red my-1">{{ item.code }} 号</view>
-        <view v-if="index">
-            <navigator :url="toUrl">
-                <image
-                    :src="item.img"
-                    mode="scaleToFill"
-                    class="w-40 h-40"
-                    style="background-color: #eeeeee;"
-                ></image>
-                <view class="text-gray-100 text-lg font-bold mt-1">{{
-                    item.name
-                }}</view>
-                <view class="text-theme-red my-1">{{
-                    item.category.name
-                }}</view>
-                <view class="text-theme-red my-1">{{ item.company }}</view>
-            </navigator>
-            <view class="flex w-full">
-                <view class="flex-1 bg-theme-p-2 text-white p-2"
-                    >{{ item.stats[0].value }}
+    <view>
+        <view
+            v-if="index"
+            class="flex flex-col flex-1 text-center justify-center border border-solid border-gray-600 bg-theme-gradient m-1 p-1"
+            :style="customWidth"
+        >
+            <view class="text-theme-red my-1">{{ item.code }} 号</view>
+            <view>
+                <navigator :url="toUrl">
+                    <image
+                        :src="item.img"
+                        mode="scaleToFill"
+                        class="w-32 h-32"
+                        style="background-color: #eeeeee;"
+                    ></image>
+                    <view class="text-gray-100 text-lg font-bold mt-1">{{
+                        item.name
+                    }}</view>
+                    <view class="text-theme-red my-1">{{
+                        item.category.name
+                    }}</view>
+                    <view class="text-theme-red my-1">{{ item.company }}</view>
+                </navigator>
+                <view class="flex w-full">
+                    <view class="flex-1 bg-theme-p-2 text-white p-2"
+                        >{{ item.stats[0].value }}
+                    </view>
+                    <view
+                        class="flex-1 bg-theme-red text-white p-2"
+                        @click="vote"
+                    >
+                        投票
+                    </view>
                 </view>
-                <view class="flex-1 bg-theme-red text-white p-2" @click="vote">
-                    投票
-                </view>
+                <view class="my-1 p-2" @click="share">帮我拉票 </view>
             </view>
-            <view class="my-1 p-2" @click="share">帮我拉票 </view>
         </view>
-
-        <view v-else>
+        <view
+            v-else
+            class="flex flex-col flex-1 text-center justify-center border border-solid border-gray-600 bg-theme-gradient m-1 p-1"
+            :style="customWidth"
+        >
+            <view class="text-theme-red my-1">{{ item.code }} 号</view>
             <image
                 :src="item.img"
                 mode="widthFix"

@@ -14,7 +14,7 @@
               <view class="gradual">{{ idx + 1 }}</view>
             </view>
             <image :src="item.img" class="w-40 h-40"
-                   style="border-color: #2f855a"></image>
+                   style="border-color: #2f855a；background:#fff;"></image>
             <view class="ml-1 flex-grow text-xs">
               <view class="text-gray-100">{{ item.stats[0].value }} 票</view>
               <view class=" font-bold text-theme-red">{{ item.company }}</view>
