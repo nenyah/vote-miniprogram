@@ -60,6 +60,7 @@ import Component from 'vue-class-component'
 import { getStorage } from '@/utils/utils'
 import { getVoteStat } from '@/servise/vote'
 import * as _ from 'lodash'
+import { StatResponse } from '@/common/interface'
 
 @Component({
     filters: {
@@ -102,14 +103,8 @@ export default class profile extends Vue {
         }
         try {
             let res = await getVoteStat()
-            this.totalVoteNum = res.data.reduce(
-                (acc: any, cur: any) => {
-                    return Number(acc.voteCount) + Number(cur.voteCount)
-                },
-                { voteCount: 0 }
-            )
-            this.actNum = res.data.length
-            console.log('获取统计数据', res)
+            this.totalVoteNum = _.sumBy(res,"voteCount")
+            this.actNum = res.length
         } catch (err) {
             console.error('获取统计数据失败', err)
         }

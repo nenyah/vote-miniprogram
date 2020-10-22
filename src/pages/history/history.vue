@@ -1,56 +1,54 @@
 <template>
-  <view class="bg-theme-p-1">
-    <view class="p-2 text-theme-red text-sm bg-gray-100">名称/时间</view>
-    <view
-        v-for="record in records"
-        :key="record.id"
-        class="flex bg-gray-100 mx-auto mt-1 mb-2 items-center p-2"
-    >
-      <image
-          :src="record.img"
-          class="w-16 h-16 rounded-full border border-solid border-gray-500"
-          mode="fitFill"
-      ></image>
-      <view class="mx-2 text-theme-gray">
-        <view class="text-lg text-theme-red"
-        >评选“{{ record.activityName }}”活动
-        </view
+    <view class="bg-theme-p-1">
+        <view class="p-2 text-theme-red text-sm bg-gray-100">名称/时间</view>
+        <view
+            v-for="record in records"
+            :key="record.id"
+            class="flex bg-gray-100 mx-auto mt-1 mb-2 items-center p-2"
         >
-        <view class="text-xs"
-        >投给{{ record.code }}号选手{{ record.name }}1票
-        </view
-        >
-        <view class="text-xs">{{ record.voteTime|formatTime }}</view>
-      </view>
+            <image
+                :src="record.img"
+                class="w-16 h-16 rounded-full border border-solid border-gray-500"
+                mode="fitFill"
+            ></image>
+            <view class="mx-2 text-theme-gray">
+                <view class="text-lg text-theme-red"
+                    >评选“{{ record.activityName }}”活动
+                </view>
+                <view class="text-xs"
+                    >投给{{ record.code }}号选手{{ record.name }}1票
+                </view>
+                <view class="text-xs">{{ record.voteTime | formatTime }}</view>
+            </view>
+        </view>
     </view>
-  </view>
 </template>
 
 <script lang="ts">
-import {getVoteHistory} from "@/servise/vote"
-import Vue from "vue"
-import Component from "vue-class-component"
-import * as _ from "lodash"
+import { getVoteHistory } from '@/servise/vote'
+import { Record } from '@/common/interface'
+import Vue from 'vue'
+import Component from 'vue-class-component'
+import * as _ from 'lodash'
 
 @Component({})
-export default class history extends Vue {
-  records: Array<any> = []
+export default class History extends Vue {
+    private records: Record[] = []
 
-  onLoad() {
-    this._getHistory()
-  }
+    onLoad() {
+        this._getHistory()
+    }
 
-  private async _getHistory() {
-    let res = await getVoteHistory({pageNo: 1})
-    let records = res.data.data.map((el: any) => {
-      return el.records
-    })
-    this.records = _.flatten(records)
-    console.log("获取历史信息", _.flatten(records))
-  }
+    private async _getHistory() {
+        let res = await getVoteHistory({ pageNo: 1 })
+        let records = res.data.map((el) => {
+            return el.records
+        })
+        this.records = _.flatten(records)
+        console.log('获取历史信息', _.flatten(records))
+    }
 
-
-  // todo 下拉刷新
+    // todo 下拉刷新
 }
 </script>
 

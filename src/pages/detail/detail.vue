@@ -268,7 +268,7 @@ export default class Detail extends Vue {
         try {
             let { data } = await getItems({ activityId, id })
 
-            this.item = data?.data[0]
+            this.item = data[0]
         } catch (error) {
             console.error('远程获取数据错误')
         }

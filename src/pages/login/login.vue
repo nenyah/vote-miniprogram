@@ -3,7 +3,7 @@
  * @Author: Steven
  * @Date: 2020-09-17 10:02:11
  * @LastEditors: Steven
- * @LastEditTime: 2020-10-21 16:13:07
+ * @LastEditTime: 2020-10-22 16:35:11
 -->
 <template>
   <view>
@@ -75,7 +75,7 @@ export default Vue.extend({
         encryptedData: postParams.encryptedData,
         iv: postParams.iv,
       })
-      await setStorage("userPhone", res.data)
+      await setStorage("userPhone", res)
       console.log("解密信息", res)
     },
     async getuserinfo(e: any) {
@@ -92,7 +92,7 @@ export default Vue.extend({
         encryptedData: postParams.encryptedData,
         iv: postParams.iv,
       })
-      await setStorage("userInfo", res.data)
+      await setStorage("userInfo", res)
       console.log("解密信息", res)
     },
   },

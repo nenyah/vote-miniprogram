@@ -1,22 +1,7 @@
-# uni-project
+# 投票小程序
+## 使用技术
+- uniapp
+- typescript
 
-## Project setup
-```
-yarn install
-```
-
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
-
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
-
-### project document
-See [vote miniprogram](投票小程序 .md) 
+### 项目需求文档
+详见 [投票小程序](投票小程序.md) 

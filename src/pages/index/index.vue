@@ -105,7 +105,7 @@ import uniCountdown from '@/components/uni-countdown/uni-countdown.vue'
 import uniSegmentedControl from '@/components/uni-segmented-control/uni-segmented-control.vue'
 import topShow from '@/components/top-show/top-show.vue'
 import voteTabbar from '@/components/vote-tabbar/vote-tabbar.vue'
-import { IglobalData } from '@/common/interface'
+import { CategoryResponse, IglobalData } from '@/common/interface'
 import { getActivities, putVisits } from '@/servise/activates'
 import moment from 'moment'
 import { getCate } from '@/servise/category'
@@ -145,15 +145,15 @@ export default class Index extends Vue {
     private msg = '活动已经结束'
     private showDay = false
     private display = false
-    private categories = [] as any
+    private categories = [] as CategoryResponse[]
     private cateItem = [] as Array<string>
     private current = 0
     private categoryId = -1
     private pageNo = 0
     private pageSize = 10
     private activeIndex = 0
-    private top10 = []
-    private top3 = [] as any
+    private top10 = [] as Iitem[]
+    private top3 = [] as (Iitem[] | { categoryName: string })[]
     private hasMore = true
 
     get showModal() {
@@ -181,7 +181,7 @@ export default class Index extends Vue {
             this.pageNo = 0
             this.activities = await this._getActivities()
             await this._TOP10()
-            await this._TOP3()
+            // await this._TOP3()
             this.dbouncedGetActivity()
             this.dbouncedGetItems()
         })
@@ -216,7 +216,7 @@ export default class Index extends Vue {
         // 5. 下载选手信息
         await this._getItems()
         await this._TOP10()
-        await this._TOP3()
+        // await this._TOP3()
     }
 
     onUnload() {
@@ -226,7 +226,7 @@ export default class Index extends Vue {
             this.pageNo = 0
             this.activities = await this._getActivities()
             await this._TOP10()
-            await this._TOP3()
+            // await this._TOP3()
             this.dbouncedGetActivity()
             this.dbouncedGetItems()
         })
@@ -324,9 +324,9 @@ export default class Index extends Vue {
     async _getCate() {
         try {
             let res = await getCate({ activityId: this.actId })
-            this.categories = res.data
-            this.cateItem = res.data.map((el: any) => el.name)
-            this.categoryId = res.data[this.current].id
+            this.categories = res
+            this.cateItem = res.map((el) => el.name)
+            this.categoryId = res[this.current].id
         } catch {
             uni.showToast({
                 title: '获取类目信息错误',
@@ -343,7 +343,7 @@ export default class Index extends Vue {
                 categoryId: this.categoryId,
             })
 
-            this.items = data.data
+            this.items = data
             return
         }
         // 判断是否还有新的内容
@@ -352,15 +352,15 @@ export default class Index extends Vue {
         }
 
         this.pageNo = this.pageNo + 1
-        let { data } = await getItems({
+        const { data } = await getItems({
             pageNo: this.pageNo,
             activityId: this.actId,
             code: this.code,
             categoryId: this.categoryId,
         })
 
-        this.items = [...this.items, ...data.data]
-        this.hasMore = data.data.length !== 0
+        this.items = [...this.items, ...data]
+        this.hasMore = data.length !== 0
     }
 
     async _TOP10() {
@@ -368,10 +368,7 @@ export default class Index extends Vue {
             const res = await getItems({
                 activityId: this.actId,
             })
-            this.top10 = res.data.data.filter(
-                (data: Iitem) => +data.stats[0].value > 0
-            )
-            console.log('top10:::', res.data)
+            this.top10 = res.data.filter((data) => +data.stats[0].value > 0)
         } catch (err) {
             console.error('10强下载错误:::', err)
         }
@@ -380,7 +377,7 @@ export default class Index extends Vue {
     async _TOP3() {
         try {
             const res = await Promise.all(
-                this.categories.map((el: any) => {
+                this.categories.map((el) => {
                     return getItems({
                         activityId: this.actId,
                         categoryId: el.id,
@@ -388,14 +385,13 @@ export default class Index extends Vue {
                     })
                 })
             )
-            this.top3 = res.map((el: any, index: number) => {
-                const res: Iitem[] = el.data.data
+            this.top3 = res.map((el, index) => {
+                const res = el.data
                 return {
                     categoryName: this.categories[index].name,
                     data: res.filter((data: Iitem) => +data.stats[0].value > 0),
                 }
             })
-            console.log('top3:::', res)
         } catch (e) {
             console.error('获取各区域三强失败:::', e)
         }

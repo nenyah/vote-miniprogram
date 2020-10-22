@@ -1,10 +1,3 @@
-<!--
- * @Description: 
- * @Author: Steven
- * @Date: 2020-09-07 16:59:44
- * @LastEditors: Steven
- * @LastEditTime: 2020-10-21 16:31:03
--->
 <template>
     <view class="bg-theme-p-1 min-h-full pt-2 px-2">
         <title :content="activity.name"></title>
@@ -57,7 +50,7 @@ export default Vue.extend({
             current: 0,
             categories: [] as any,
             cateItem: [] as any,
-            categoryId: undefined,
+            categoryId: -1,
             activeIndex: 2,
         }
     },
@@ -97,9 +90,9 @@ export default Vue.extend({
         async _getCate() {
             try {
                 let res = await getCate({ activityId: this.actId })
-                this.categories = res.data
-                this.cateItem = res.data.map((el: any) => el.name)
-                this.categoryId = res.data[this.current].id
+                this.categories = res
+                this.cateItem = res.map((el: any) => el.name)
+                this.categoryId = res[this.current].id
             } catch {
                 uni.showToast({
                     title: '获取类目信息错误',
@@ -123,7 +116,7 @@ export default Vue.extend({
                 categoryId: this.categoryId,
             })
 
-            this.items = [...this.items, ...data.data]
+            this.items = [...this.items, ...data]
         },
     },
     computed: {

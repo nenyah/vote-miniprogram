@@ -4,7 +4,7 @@
     <view class="flex">
       <view class="w-18">
         <view class="fa fa-clock-o text-theme-red mr-2"></view>
-        活动开始：
+        投票开始：
       </view>
       <view class="flex-none text-gray-600 text-left">
         {{ formatTime(activity.startTime) }}
@@ -13,7 +13,7 @@
     <view class="flex">
       <view class="w-18">
         <view class="fa fa-clock-o text-theme-red mr-2"></view>
-        活动结束：
+        投票结束：
       </view>
       <view class="flex-none text-gray-600 text-left">
         {{ formatTime(activity.endTime) }}

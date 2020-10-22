@@ -1,82 +1,94 @@
 <template>
-  <view>
-    <view
-        v-for="activity in activities"
-        :key="activity.id"
-        class="my-4 px-2 text-center text-gray-500 rounded-lg shadow-lg"
-    >
-      <navigator :data-id="activity.id" :url="`/pages/index/index?actId=${activity.id}`" open-type="navigate">
-        <swiper class="w-full h-56" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval"
-                :duration="duration" v-for="(img,index) in activity.bannerImg" :key="index">
-          <swiper-item>
-            <image
-                :src="img"
-                mode="widthFix"
-                class="rounded rounded-b-none w-full h-64"
-            ></image>
-          </swiper-item>
-        </swiper>
-        <view class="p-2 text-left">
-          <view class="text-theme-red">{{ activity.name }}</view>
-          <view class="flex items-center">
-            <view class="fa fa-group mr-1 text-theme-red text-center"></view>
-            <view>{{ activity.stats[1].value }}人参与，已投票：</view>
-            <view>{{ activity.stats[2].value }}</view>
-          </view>
-          <view class="flex items-center">
-            <view class="fa fa-clock-o mr-1 text-theme-red text-center"></view>
-            <view> {{ activity.endTime|formatTime }} 结束</view>
-          </view>
+    <view>
+        <view
+            v-for="activity in activities"
+            :key="activity.id"
+            class="my-4 px-2 text-center text-gray-500 rounded-lg shadow-lg"
+        >
+            <navigator
+                :data-id="activity.id"
+                :url="`/pages/index/index?actId=${activity.id}`"
+                open-type="navigate"
+            >
+                <swiper
+                    class="w-full h-56"
+                    :indicator-dots="indicatorDots"
+                    :autoplay="autoplay"
+                    :interval="interval"
+                    :duration="duration"
+                    v-for="(img, index) in activity.bannerImg"
+                    :key="index"
+                >
+                    <swiper-item>
+                        <image
+                            :src="img"
+                            mode="widthFix"
+                            class="rounded rounded-b-none w-full h-64"
+                        ></image>
+                    </swiper-item>
+                </swiper>
+                <view class="p-2 text-left">
+                    <view class="text-theme-red">{{ activity.name }}</view>
+                    <view class="flex items-center">
+                        <view
+                            class="fa fa-group mr-1 text-theme-red text-center"
+                        ></view>
+                        <view
+                            >{{ activity.stats[1].value }}人参与，已投票：</view
+                        >
+                        <view>{{ activity.stats[2].value }}</view>
+                    </view>
+                    <view class="flex items-center">
+                        <view
+                            class="fa fa-clock-o mr-1 text-theme-red text-center"
+                        ></view>
+                        <view> {{ activity.endTime | formatTime }} 结束</view>
+                    </view>
+                </view>
+            </navigator>
         </view>
-      </navigator>
     </view>
-  </view>
-
 </template>
 
 <script lang="ts">
-import Vue from "vue"
-import Component from "vue-class-component"
-import {login} from "@/servise/login"
-import {getActivities} from "@/servise/activates"
-import {IglobalData} from "@/common/interface"
-import {ActivityResponse, Iactivity} from "@/common/activity"
+import Vue from 'vue'
+import Component from 'vue-class-component'
+import { login } from '@/servise/login'
+import { getActivities } from '@/servise/activates'
+import { IglobalData } from '@/common/interface'
+import { ActivityResponse, Iactivity } from '@/common/activity'
 
 @Component({})
 export default class Home extends Vue {
-  private activities = {} as Iactivity[]
-  private autoplay = false
-  private interval = 300
-  private indicatorDots = false
-  private duration = 300
+    private activities = {} as Iactivity[]
+    private autoplay = false
+    private interval = 300
+    private indicatorDots = false
+    private duration = 300
 
-  async onLoad() {
-    // 后端登录
-    await login()
-    // 1. 服务器接口获取活动信息
-    this.activities = await this._getActivities() as Iactivity[]
-    // 2. 活动信息存入globaldata
-    let globalData = getApp().globalData as IglobalData
-    globalData.activities = this.activities
-  }
-
-
-  // 获取活动信息
-  async _getActivities() {
-    try {
-      let {data}: any = await getActivities()
-      return (data as ActivityResponse).data
-    } catch (error) {
-      uni.showToast({
-        title: "获取活动信息错误",
-        icon: "none",
-      })
+    async onLoad() {
+        // 后端登录
+        await login()
+        // 1. 服务器接口获取活动信息
+        this.activities = (await this._getActivities()) as Iactivity[]
+        // 2. 活动信息存入globaldata
+        let globalData = getApp().globalData as IglobalData
+        globalData.activities = this.activities
     }
-  }
 
-};
+    // 获取活动信息
+    async _getActivities() {
+        try {
+            let res = (await getActivities()) as ActivityResponse
+            return res.data
+        } catch (error) {
+            uni.showToast({
+                title: '获取活动信息错误',
+                icon: 'none',
+            })
+        }
+    }
+}
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
