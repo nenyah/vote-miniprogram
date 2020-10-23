@@ -10878,9 +10878,9 @@ typedarray@^0.0.6:
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
 typescript@3.0.0:
-  version "4.1.0-dev.20201022"
-  resolved "https://registry.npm.taobao.org/typescript/download/typescript-4.1.0-dev.20201022.tgz?cache=0&sync_timestamp=1603351328200&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftypescript%2Fdownload%2Ftypescript-4.1.0-dev.20201022.tgz#fdb3fc78aace3c1f1e7c9e2ab248df458b27d445"
-  integrity sha1-/bP8eKrOPB8efJ4qskjfRYsn1EU=
+  version "4.1.0-dev.20201023"
+  resolved "https://registry.npm.taobao.org/typescript/download/typescript-4.1.0-dev.20201023.tgz?cache=0&sync_timestamp=1603437724605&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftypescript%2Fdownload%2Ftypescript-4.1.0-dev.20201023.tgz#f08b7a847993ce7650e9057fdbf50614c30ad5d1"
+  integrity sha1-8It6hHmTznZQ6QV/2/UGFMMK1dE=
 
 uglify-js@3.4.x:
   version "3.4.10"
@@ -11208,11 +11208,6 @@ vue@2.6.11:
   version "2.6.11"
   resolved "https://registry.npm.taobao.org/vue/download/vue-2.6.11.tgz#76594d877d4b12234406e84e35275c6d514125c5"
   integrity sha1-dllNh31LEiNEBuhONSdcbVFBJcU=
-
-vuex-module-decorators@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.npm.taobao.org/vuex-module-decorators/download/vuex-module-decorators-1.0.1.tgz#d34dafb5428a3636f1c26d3d014c15fc9659ccd0"
-  integrity sha1-002vtUKKNjbxwm09AUwV/JZZzNA=
 
 vuex@3.2.0:
   version "3.2.0"
