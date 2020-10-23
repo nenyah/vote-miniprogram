@@ -1,3 +1,10 @@
+<!--
+ * @Description: 
+ * @Author: Steven
+ * @Date: 2020-09-08 09:23:10
+ * @LastEditors: Steven
+ * @LastEditTime: 2020-10-23 16:59:41
+-->
 <template>
   <view class="border-img my-2 bg-theme-p-2 py-4" style="width: 756rpx;">
     <view class="w-full border border-r-0 border-l-0 border-t-0 border-solid border-white py-2" style="padding:0;">

@@ -1,3 +1,10 @@
+<!--
+ * @Description: 
+ * @Author: Steven
+ * @Date: 2020-10-10 15:14:47
+ * @LastEditors: Steven
+ * @LastEditTime: 2020-10-23 16:08:54
+-->
 <template>
     <view>
         <view
@@ -67,8 +74,6 @@ export default class Home extends Vue {
     private duration = 300
 
     async onLoad() {
-        // 后端登录
-        await login()
         // 1. 服务器接口获取活动信息
         this.activities = (await this._getActivities()) as Iactivity[]
         // 2. 活动信息存入globaldata

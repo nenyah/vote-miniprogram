@@ -1,9 +1,16 @@
+/*
+ * @Description: 
+ * @Author: Steven
+ * @Date: 2020-10-23 09:00:21
+ * @LastEditors: Steven
+ * @LastEditTime: 2020-10-23 13:11:01
+ */
 import {Iinfo} from "@/common/interface"
 import {Category, Iitem} from "@/common/Item"
 
 
-export class Item implements Iitem {
-    category: Category
+export default class Item implements Iitem {
+    category?: Category
     id: number
     code: string
     name: string

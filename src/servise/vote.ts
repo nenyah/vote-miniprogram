@@ -1,6 +1,12 @@
+/*
+ * @Description: 
+ * @Author: Steven
+ * @Date: 2020-09-21 14:36:58
+ * @LastEditors: Steven
+ * @LastEditTime: 2020-10-23 15:30:02
+ */
 import { HistoryResponse, StatResponse } from './../common/interface'
 import request from '@/utils/request'
-import config from '@/common/config'
 
 type OpenId = string
 /**
@@ -9,7 +15,7 @@ type OpenId = string
  */
 export const handleVote = (itemId: number) => {
     return request({
-        url: `${config}weixin/vote`,
+        url: `weixin/vote`,
         method: 'POST',
         data: itemId,
     })
@@ -29,7 +35,7 @@ export const getVoteHistory = (
     params: StatParams
 ): Promise<HistoryResponse> => {
     return request({
-        url: `${config}weixin/vote/history`,
+        url: `weixin/vote/history`,
         data: {
             ...params,
         },
@@ -40,6 +46,6 @@ export const getVoteHistory = (
  */
 export const getVoteStat = (): Promise<StatResponse[]> => {
     return request({
-        url: `${config}weixin/vote/stat`,
+        url: `weixin/vote/stat`,
     })
 }

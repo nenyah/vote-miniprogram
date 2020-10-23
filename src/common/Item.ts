@@ -1,3 +1,10 @@
+/*
+ * @Description: 
+ * @Author: Steven
+ * @Date: 2020-10-12 08:42:45
+ * @LastEditors: Steven
+ * @LastEditTime: 2020-10-23 13:09:45
+ */
 import { Iinfo } from './interface'
 // 选手返回接口
 export interface ItemResponse {
@@ -8,7 +15,7 @@ export interface ItemResponse {
 }
 // 选手内容接口
 export interface Iitem {
-    category: Category
+    category?: Category
     id: number
     code: string
     name: string

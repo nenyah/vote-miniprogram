@@ -1,29 +1,50 @@
+/*
+ * @Description:
+ * @Author: Steven
+ * @Date: 2020-09-11 08:52:11
+ * @LastEditors: Steven
+ * @LastEditTime: 2020-10-23 15:33:02
+ */
+import { token } from './token'
 import { IglobalData } from '@/common/interface'
-
+import { appConfig } from '@/common/config'
 interface IParams {
     url: string
     method?: 'GET' | 'POST' | 'PUT'
-    setUpUrl?: boolean
+    base_url?: boolean
     data?: any
 }
-
+interface Config {
+    'Content-Type': string
+    [x:string]: string
+}
 export default (params: IParams): Promise<any> => {
     // 加载中
     uni.showLoading({
         title: '加载中',
     })
     return new Promise((resolve, reject) => {
-        console.log(`正在请求：${params.url}`)
+        
         let defaultParams = {
             timeout: 10000,
             ...params,
+            url:
+                (params.base_url ? params.base_url : appConfig.apiUrl) +
+                params.url,
         }
+        console.log(`正在请求：${defaultParams.url}`)
         uni.request({
             ...defaultParams,
-            header: {
-                Authorization:
-                    (getApp().globalData as IglobalData).token || undefined,
-            },
+            header: (() => {
+                const tokenValue = token.get()
+                let config: Config = {
+                    'Content-Type': 'application/json',
+                }
+                if (tokenValue) {
+                    config[appConfig.tokenKey] = tokenValue
+                }
+                return config
+            })(),
             success(res) {
                 resolve(res.data)
             },

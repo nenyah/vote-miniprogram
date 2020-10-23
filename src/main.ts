@@ -3,13 +3,13 @@
  * @Author: Steven
  * @Date: 2020-08-26 16:08:15
  * @LastEditors: Steven
- * @LastEditTime: 2020-09-09 09:51:32
+ * @LastEditTime: 2020-10-23 15:17:43
  */
-import Vue from "vue"
-import App from "./App.vue"
-import request from "./utils/request"
-import store from "@/store"
-import * as filters from "@/filters/filters"
+import Vue from 'vue'
+import App from './App.vue'
+import request from './utils/request'
+import store from '@/store'
+import * as filters from '@/filters/filters'
 
 Object.keys(filters).forEach((key: string) => {
     Vue.filter(key, (filters as any)[key])
@@ -18,9 +18,6 @@ Object.keys(filters).forEach((key: string) => {
 Vue.prototype.$request = request
 Vue.prototype.$store = store
 Vue.config.productionTip = false
-// new App().$mount()
-const app = new Vue({
+new App({
     store,
-    ...App
-})
-app.$mount()
+}).$mount()

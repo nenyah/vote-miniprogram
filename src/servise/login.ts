@@ -1,13 +1,12 @@
-import { LoginResponse, UserInfoResponse } from './../common/interface'
 /*
- * @Description: 登录相关业务
+ * @Description:
  * @Author: Steven
- * @Date: 2020-09-14 15:04:50
+ * @Date: 2020-09-21 16:40:29
  * @LastEditors: Steven
- * @LastEditTime: 2020-10-22 15:05:35
+ * @LastEditTime: 2020-10-23 15:29:19
  */
+import { LoginResponse, UserInfoResponse } from './../common/interface'
 import request from '@/utils/request'
-import config from '@/common/config'
 import { IglobalData } from '@/common/interface'
 
 type Code = string
@@ -20,49 +19,53 @@ export interface UserParams {
     iv: IV
 }
 
-export const getCode = () => new Promise((resolve, reject) => {
-  uni.login({
-    success: (res) => {
-      resolve(res.code)
-    },
-    fail: (err) => {
-      reject(err)
-    },
-  })
-})
+export const getCode = () =>
+    new Promise((resolve, reject) => {
+        uni.login({
+            success: (res) => {
+                resolve(res.code)
+            },
+            fail: (err) => {
+                reject(err)
+            },
+        })
+    })
 /**
  * 登录换取openid,uniondid,token
  * @param params LoginParams
  *
  */
-export const checkUser = (params: Code): Promise<LoginResponse> => request({
-  url: `${config}weixin/login`,
-  method: 'POST',
-  data: params,
-})
+export const wxLogin = (params: Code): Promise<LoginResponse> =>
+    request({
+        url: `weixin/login`,
+        method: 'POST',
+        data: params,
+    })
 
 export const login = async () => {
     let app = getApp()
     // 获取code
-    let code = (await getCode()) as string
-    console.log('获取到code', code)
+    const [err, res]: any = await uni.login({ provider: 'sinaweibo' })
+    console.log('res:::', res)
+    // let code = (await getCode()) as string
+    // console.log('获取到code', code)
 
     // 获取openid
-    let res = await checkUser(code)
-    // 存入全局
+    const userinfo = await wxLogin(res.code)
+    // // 存入全局
     let globaldata = app.globalData as IglobalData
-    globaldata.openid = res.openId
-    globaldata.token = res.token
-    globaldata.unionid = res.unionId
+    globaldata.openid = userinfo.openId
+    globaldata.token = userinfo.token
+    globaldata.unionid = userinfo.unionId
 }
 
 /**
  * 上传用户信息
  * @param params UserParams
  */
-export const userInfo = (params: UserParams):Promise<UserInfoResponse> => {
+export const userInfo = (params: UserParams): Promise<UserInfoResponse> => {
     return request({
-        url: `${config}weixin/user`,
+        url: `weixin/user`,
         data: {
             ...params,
         },

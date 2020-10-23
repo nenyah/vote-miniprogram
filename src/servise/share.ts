@@ -1,5 +1,11 @@
+/*
+ * @Description: 
+ * @Author: Steven
+ * @Date: 2020-10-09 09:31:05
+ * @LastEditors: Steven
+ * @LastEditTime: 2020-10-23 15:29:27
+ */
 import request from "@/utils/request"
-import config from "@/common/config"
 
 type PosterParams = {
     itemId: number
@@ -8,7 +14,7 @@ type PosterParams = {
 }
 export const getPoster = (params: PosterParams) => {
     return request({
-        url: `${config}weixin/share/url`,
+        url: `weixin/share/url`,
         method: "POST",
         data: {
             ...params

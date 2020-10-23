@@ -4,10 +4,9 @@ import { ItemResponse } from './../common/Item'
  * @Author: Steven
  * @Date: 2020-09-14 15:04:50
  * @LastEditors: Steven
- * @LastEditTime: 2020-10-22 16:03:06
+ * @LastEditTime: 2020-10-23 15:28:59
  */
 import request from '@/utils/request'
-import config from '@/common/config'
 
 type PageNo = number
 type PageSize = number
@@ -32,7 +31,7 @@ interface getItemsParams {
  */
 export const getItems = (params: getItemsParams): Promise<ItemResponse> =>
     request({
-        url: `${config}weixin/item`,
+        url: `weixin/item`,
         data: {
             ...params,
         },
