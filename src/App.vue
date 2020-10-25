@@ -6,29 +6,23 @@
  * @LastEditTime: 2020-10-23 14:59:31
 -->
 <script lang="ts">
-import Vue from 'vue'
-import { mapActions } from "vuex"
+import Vue from "vue"
+import {mapActions} from "vuex"
+
 export default Vue.extend({
-    mpType: 'app',
+    mpType: "app",
     onLaunch() {
-        console.log('App Launch')
+        console.log("App Launch")
     },
     onShow() {
-        console.log('App Show')
+        console.log("App Show")
         this.initApp()
     },
     onHide() {
         console.log('App Hide')
+
     },
     globalData: {
-        baseurl: 'huadongio.com',
-        activities: [],
-        currentActId: -1,
-        items: [],
-        currentItemId: -1,
-        openid: '',
-        token: '',
-        unionid: '',
     },
     methods:{
         ...mapActions(['initApp'])
@@ -49,20 +43,6 @@ export default Vue.extend({
 .bg-theme-red {
     background-color: #cd005b;
 }
-// .bg-theme-p-3 {
-//   background-color: #ec7db0;
-// }
-
-// .bg-theme-p-4 {
-//   background-color: #83c7d2;
-// }
-
-// .bg-theme-p-5 {
-//   background-color: #74c8d2;
-// }
-// .text-theme-1 {
-//   color: #269ba6;
-// }
 .text-theme-red {
     color: #cd005b;
 }

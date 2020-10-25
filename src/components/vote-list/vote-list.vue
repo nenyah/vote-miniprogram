@@ -1,66 +1,51 @@
 <template>
   <view class="text-gray-100 flex flex-col items-center w-full">
-    <view v-if="!isVoteItem" class="flex w-4-5 px-2 m-auto text-theme-red-light text-center w-full">
-      <view class="flex-1">排名</view>
-      <view class="flex-1">编号</view>
-      <view class="flex-1">参与选手</view>
-      <view class="flex-1">票数</view>
-    </view>
-
     <scroll-view
-        class="flex flex-row flex-wrap justify-around box-border p-1 mt-2 bg-gray-100  rounded"
-        style="width: 730rpx; height:900rpx;"
-        v-if="isVoteItem"
+        class="flex flex-wrap justify-around box-border p-1 mt-2 bg-gray-100  rounded"
+        style="width: 730rpx; height:100vh;"
         scroll-y="true"
         @scrolltolower="lower"
         enable-flex
     >
-      <block v-for="item in items" :key="item.id">
-        <vote-item
-            :item="item"
-            :index="true"
-            :col="2"
-            @plusVote="handlePlusVote"
-        ></vote-item>
-      </block>
+        <block v-for="item in items" :key="item.id">
+            <vote-item
+                :item="item"
+                :index="true"
+                :col="2"
+                @plusVote="handlePlusVote"
+            ></vote-item>
+        </block>
+        <!--      todo 修改文字在一行-->
+        <view v-if="hasMore" class="text-gray-900">下拉加载更多</view>
+        <view v-else class="text-gray-900">--- 我也是有底线的 ---</view>
     </scroll-view>
-    <scroll-view
-        v-else
-        scroll-y="true"
-        @scrolltolower="lower"
-        style="height:900rpx;"
-    >
-      <block v-for="(item, index) in items" :key="item.id">
-        <rank-item :item="item" :index="index"></rank-item>
-      </block>
-    </scroll-view>
+
   </view>
 </template>
 
 <script lang="ts">
-import Vue from "vue"
+import {Component, Vue} from "vue-property-decorator"
 import voteItem from "@/components/vote-item/vote-item.vue"
-import rankItem from "@/components/rank-item/rank-item.vue"
 
-export default Vue.extend({
-  props: {
-    items: Array,
-    itemType: String,
-  },
-  methods: {
-    lower() {
-      this.$emit("tolower")
-    },
-  },
-  components: {
-    voteItem,
-    rankItem,
-  },
-  computed: {
-    isVoteItem(): Boolean {
-      return this.itemType === "vote"
-    },
-  },
+
+@Component({
+    components: {
+        voteItem,
+    }
 })
+export default class VoteList extends Vue {
+
+    get hasMore() {
+        return this.$store.state.item.hasMore
+    }
+
+    get items() {
+        return this.$store.state.item.items
+    }
+
+    lower() {
+        this.$store.dispatch("item/itemsByCate")
+    }
+}
 </script>
 

@@ -5,135 +5,71 @@
             <uni-segmented-control
                 :current="current"
                 :values="cateItem"
-                @clickItem="onClickItem"
-                style-type="text"
                 active-color="#cd005b"
+                style-type="text"
+                @clickItem="onClickItem"
             ></uni-segmented-control>
         </view>
-        <vote-list
+        <rank-list
             :items="sortItems"
             :pageType="pageType"
             @tolower="tolower"
-        ></vote-list>
+        ></rank-list>
         <vote-footer :content="activity.name"></vote-footer>
         <vote-tabbar :activeIndex="activeIndex"></vote-tabbar>
     </view>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import title from '@/components/title/title.vue'
-import voteList from '@/components/vote-list/vote-list.vue'
-import voteFooter from '@/components/footer/footer.vue'
-import voteTabbar from '@/components/vote-tabbar/vote-tabbar.vue'
-import { getItems } from '@/servise/items'
-import { IglobalData } from '@/common/interface'
-import * as _ from 'lodash'
-import { getCate } from '@/servise/category'
-import { Iitem } from '@/common/Item'
-import { Iactivity } from '@/common/activity'
+import {Component, Vue} from "vue-property-decorator"
+import title from "@/components/title/title.vue"
+import voteFooter from "@/components/footer/footer.vue"
+import voteTabbar from "@/components/vote-tabbar/vote-tabbar.vue"
+import rankList from "@/components/rank-list/rank-list.vue"
+import {CategoryResponse} from "@/common/interface"
 
 interface Query {
     id: number
 }
 
-let app = getApp()
-export default Vue.extend({
-    data() {
-        return {
-            items: [] as Array<Iitem>,
-            actId: -1,
-            activity: {} as Iactivity,
-            pageType: 'rank',
-            dbouncedGetItems: () => {},
-            pageNo: 0,
-            current: 0,
-            categories: [] as any,
-            cateItem: [] as any,
-            categoryId: -1,
-            activeIndex: 2,
-        }
-    },
-    async onLoad() {
-        this.init()
-        this.dbouncedGetItems = _.debounce(this._getItems, 500)
-    },
-    async onShow() {
-        this.init()
-    },
-    methods: {
-        onClickItem(e: any) {
-            console.log('点击item', e)
-
-            if (this.current !== e.currentIndex) {
-                this.current = e.currentIndex
-            }
-            this.categoryId = this.categories[e.currentIndex].id
-            this.pageNo = 0
-            this.items = []
-            this.dbouncedGetItems()
-        },
-        tolower() {
-            this.dbouncedGetItems()
-        },
-        async init() {
-            const { activities, currentActId } = app.globalData as IglobalData
-
-            this.actId = currentActId
-            if (currentActId > -1) {
-                if (this.cateItem.length == 0) {
-                    await this._getCate()
-                }
-                this.dbouncedGetItems()
-            }
-        },
-        async _getCate() {
-            try {
-                let res = await getCate({ activityId: this.actId })
-                this.categories = res
-                this.cateItem = res.map((el: any) => el.name)
-                this.categoryId = res[this.current].id
-            } catch {
-                uni.showToast({
-                    title: '获取类目信息错误',
-                    icon: 'none',
-                })
-            }
-        },
-        async _getItems() {
-            // 获取全局数据
-            let { currentActId, activities } = app.globalData as IglobalData
-            // 获取活动
-            this.activity = activities.filter((el) => el.id == currentActId)[0]
-            // 判断是否还有新的内容
-            if (this.items.length % 10 !== 0) {
-                return
-            }
-            this.pageNo = this.pageNo + 1
-            let { data } = await getItems({
-                pageNo: this.pageNo,
-                activityId: this.actId,
-                categoryId: this.categoryId,
-            })
-
-            this.items = [...this.items, ...data]
-        },
-    },
-    computed: {
-        sortItems(): Array<Iitem> {
-            return this.items.sort(
-                (a: Iitem, b: Iitem) =>
-                    Number(b?.stats[0].value) - Number(a?.stats[0].value)
-            )
-        },
-    },
+@Component({
     components: {
         title,
-        voteList,
+        rankList,
         voteFooter,
         voteTabbar,
-    },
+    }
 })
+export default class Desc extends Vue {
+    private activeIndex = 2
+    private current = 0
+
+    get activity() {
+        return this.$store.state.activity.activity
+    }
+
+    get cateItem() {
+        return this.$store.state.category.categories.map((el: CategoryResponse) => el.name)
+    }
+
+    onLoad() {
+        this.$store.dispatch("item/itemsByCate")
+    }
+
+    onUnload() {
+        this.$store.commit("category/selectCateByIndex", 0)
+        this.$store.commit("item/initItems")
+    }
+
+    onClickItem(e: any) {
+        if (this.current === e.currentIndex) {
+            return
+        }
+        this.$store.commit("item/initItems")
+        this.$store.commit("category/selectCateByIndex", e.currentIndex)
+        this.$store.dispatch("item/itemsByCate")
+    }
+}
 </script>
 
 <style></style>

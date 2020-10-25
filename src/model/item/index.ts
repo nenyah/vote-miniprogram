@@ -18,12 +18,13 @@ export default class Item implements Iitem {
     company: string
     img: string
     feature: string
+    works: string
     play: string
     activityId: number
     stats: Iinfo[]
 
     constructor(item = {} as Iitem) {
-        const {category, id, code, name, description, company, img, feature, play, activityId, stats} = item
+        const {category, id, code, name, description, company, img, feature, works, play, activityId, stats} = item
         this.category = category
         this.id = id
         this.code = code
@@ -32,6 +33,7 @@ export default class Item implements Iitem {
         this.company = company
         this.img = img
         this.feature = feature
+        this.works = works
         this.play = play
         this.activityId = activityId
         this.stats = stats

@@ -6,96 +6,104 @@
  * @LastEditTime: 2020-10-22 16:35:11
 -->
 <template>
-  <view>
-    <view class=" h-full flex flex-col items-center">
-      <image
-        class="w-32 h-32 rounded-full bg-red-500 text-gray-100 flex justify-center items-center text-lg mt-20"
-        src="@/static/logo.jpg"
-      ></image
-      >
-      <view>婉美投票</view>
-      <button
-        v-if="!AuthorizedUserInfo"
-        class="text-gray-100 bg-theme-p-2 p-2 mt-5 w-10--12 rounded-full border-none border-0 border-gray-100 overflow-hidden"
-        open-type="getUserInfo"
-        @getuserinfo="getuserinfo"
-      >
-        授权使用微信头像、昵称
-      </button>
-      <button
-        v-if="AuthorizedUserInfo && !AuthorizedPhone"
-        class="text-gray-100 bg-theme-p-2 p-2 mt-5 w-10--12 rounded-full border-none border-0 border-gray-100 overflow-hidden"
-        open-type="getPhoneNumber"
-        @getphonenumber="getphonenumber"
-      >
-        微信一键登录
-      </button>
+    <view>
+        <view class=" h-full flex flex-col items-center">
+            <image
+                class="w-32 h-32 rounded-full bg-red-500 text-gray-100 flex justify-center items-center text-lg mt-20"
+                src="@/static/logo.jpg"
+            ></image
+            >
+            <view>婉美投票</view>
+            <button
+                v-if="!AuthorizedUserInfo"
+                class="text-gray-100 bg-theme-p-2 p-2 mt-5 w-10--12 rounded-full border-none border-0 border-gray-100 overflow-hidden"
+                open-type="getUserInfo"
+                @getuserinfo="getuserinfo"
+            >
+                授权使用微信头像、昵称
+            </button>
+            <button
+                v-if="AuthorizedUserInfo && !AuthorizedPhone"
+                class="text-gray-100 bg-theme-p-2 p-2 mt-5 w-10--12 rounded-full border-none border-0 border-gray-100 overflow-hidden"
+                open-type="getPhoneNumber"
+                @getphonenumber="getphonenumber"
+            >
+                微信一键登录
+            </button>
+        </view>
     </view>
-  </view>
 </template>
 
 <script lang="ts">
 import Vue from "vue"
-import {userInfo, UserParams} from "@/servise/login"
-import {setStorage} from "@/utils/utils"
+import api from "@/api"
+
+type Code = string
+type Signature = string
+type EncryptedData = string
+type IV = string
+
+interface UserParams {
+    signature: Signature
+    encryptedData: EncryptedData
+    iv: IV
+}
 
 export default Vue.extend({
-  data() {
-    return {
-      AuthorizedUserInfo: false as boolean,
-      AuthorizedPhone: false as boolean,
-    }
-  },
-  watch: {
-    AuthorizedPhone(newValue, oldValue) {
-      uni.navigateBack({})
+    data() {
+        return {
+            AuthorizedUserInfo: false as boolean,
+            AuthorizedPhone: false as boolean,
+        }
     },
-  },
-  methods: {
-    isFail(e: any) {
-      return e.detail.errMsg.includes("fail")
+    watch: {
+        AuthorizedPhone(newValue, oldValue) {
+            uni.navigateBack({})
+        },
     },
-    showFailMsg() {
-      uni.showToast({
-        title: "为了更好的为你服务，请同意授权",
-        icon: "none",
-      })
+    methods: {
+        isFail(e: any) {
+            return e.detail.errMsg.includes("fail")
+        },
+        showFailMsg() {
+            uni.showToast({
+                title: "为了更好的为你服务，请同意授权",
+                icon: "none",
+            })
+        },
+        async getphonenumber(e: any) {
+            console.log("获取手机触发", e.detail)
+            if (this.isFail(e)) {
+                console.log("获取授权失败")
+                this.showFailMsg()
+                return
+            }
+            this.AuthorizedPhone = true
+            let postParams = e.detail as UserParams
+            await api.user.info({
+                signature: postParams.signature,
+                encryptedData: postParams.encryptedData,
+                iv: postParams.iv,
+            })
+            this.$store.commit("SET_IS_LOGIN", true)
+        },
+        async getuserinfo(e: any) {
+            console.log("获取用户信息触发", e.detail)
+            if (this.isFail(e)) {
+                console.log("获取授权失败")
+                this.showFailMsg()
+                return
+            }
+            this.AuthorizedUserInfo = true
+            let postParams = e.detail as UserParams
+            await api.user.info({
+                signature: postParams.signature,
+                encryptedData: postParams.encryptedData,
+                iv: postParams.iv,
+            })
+        }
+        ,
     },
-    async getphonenumber(e: any) {
-      console.log("获取手机触发", e.detail)
-      if (this.isFail(e)) {
-        console.log("获取授权失败")
-        this.showFailMsg()
-        return
-      }
-      this.AuthorizedPhone = true
-      let postParams = e.detail as UserParams
-      let res = await userInfo({
-        signature: postParams.signature,
-        encryptedData: postParams.encryptedData,
-        iv: postParams.iv,
-      })
-      await setStorage("userPhone", res)
-      console.log("解密信息", res)
-    },
-    async getuserinfo(e: any) {
-      console.log("获取用户信息触发", e.detail)
-      if (this.isFail(e)) {
-        console.log("获取授权失败")
-        this.showFailMsg()
-        return
-      }
-      this.AuthorizedUserInfo = true
-      let postParams = e.detail as UserParams
-      let res = await userInfo({
-        signature: postParams.signature,
-        encryptedData: postParams.encryptedData,
-        iv: postParams.iv,
-      })
-      await setStorage("userInfo", res)
-      console.log("解密信息", res)
-    },
-  },
 })
 </script>
 

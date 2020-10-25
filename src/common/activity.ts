@@ -1,4 +1,5 @@
-import { Iinfo } from './interface'
+import {Iinfo} from "./interface"
+
 // 活动返回接口
 export interface ActivityResponse {
     pageNo: number
@@ -6,6 +7,7 @@ export interface ActivityResponse {
     data: Iactivity[]
     totalCount: number
 }
+
 // 活动内容
 export interface Iactivity {
     id: number
@@ -17,5 +19,5 @@ export interface Iactivity {
     status: string
     bannerImg: string[]
     rule: Iinfo[]
-    statistics: Iinfo[]
+    stats: Iinfo[]
 }

@@ -2,7 +2,7 @@
     <view class="bg-theme-p-1">
         <view class="pb-10  flex flex-col items-center">
             <!-- 品牌介绍-->
-            <top-show :top10="top10" :top3="top3"></top-show>
+            <top-show></top-show>
             <!-- 广告轮播图 -->
             <banner :src="activity.bannerImg"></banner>
             <!-- 主题名称 -->
@@ -15,11 +15,11 @@
                     <view v-if="!(activity.status === 'ENDED')">
                         {{ msg }}
                         <uni-countdown
-                            :day="day"
-                            :hour="hour"
-                            :minute="min"
-                            :second="sec"
-                            :showDay="showDay"
+                            :day="countdownTime.day"
+                            :hour="countdownTime.hour"
+                            :minute="countdownTime.min"
+                            :second="countdownTime.sec"
+                            :showDay="countdownTime.showDay"
                             background-color=""
                             color="#fff"
                             splitorColor="#fff"
@@ -39,7 +39,7 @@
                         活动详情：
                     </view>
                     <view class="flex" @click="display = !display">
-                        {{ display ? '收起' : '展开' }}
+                        {{ display ? "收起" : "展开" }}
                         <view class="text-theme-red ml-2">></view>
                     </view>
                 </view>
@@ -55,10 +55,7 @@
                 </view>
             </view>
             <!-- 搜索区域 -->
-            <search-bar
-                @clear="handleClear"
-                @updateItem="handleInput"
-            ></search-bar>
+            <search-bar></search-bar>
             <!-- 分组 -->
             <view class="text-gray-100 w-full">
                 <uni-segmented-control
@@ -70,49 +67,37 @@
                 ></uni-segmented-control>
             </view>
             <!-- 项目列表区域 -->
-            <vote-list
-                :itemType="itemType"
-                :items="items"
-                @tolower="tolower"
-            ></vote-list>
+            <vote-list></vote-list>
             <vote-footer :content="activity.name"></vote-footer>
-            <view
-                style="width:100%;position:relative;background:gray;margin-bottom: 40px;"
-            >
-            </view>
-
             <!-- uni-app未封装，但可直接使用微信原生的official-account组件-->
             <!-- #ifdef MP-WEIXIN -->
-            <official-account></official-account>
+            <view class="bg-gray-100 w-full">
+                <official-account></official-account>
+            </view>
             <!-- #endif -->
         </view>
         <!-- 脚注区域 -->
         <vote-tabbar :activeIndex="activeIndex"></vote-tabbar>
-        <!-- <modal v-show="showModal" :src="canvasUrl" @hide="hide"></modal> -->
+        <modal v-show="showModal" :src="canvasUrl" @hide="hide"></modal>
     </view>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import banner from '@/components/banner/banner.vue'
-import title from '@/components/title/title.vue'
-import stats from '@/components/stats/stats.vue'
-import voteRule from '@/components/vote-rule/vote-rule.vue'
-import searchBar from '@/components/search-bar/search-bar.vue'
-import voteList from '@/components/vote-list/vote-list.vue'
-import voteFooter from '@/components/footer/footer.vue'
-import uniCountdown from '@/components/uni-countdown/uni-countdown.vue'
-import uniSegmentedControl from '@/components/uni-segmented-control/uni-segmented-control.vue'
-import topShow from '@/components/top-show/top-show.vue'
-import voteTabbar from '@/components/vote-tabbar/vote-tabbar.vue'
-import { CategoryResponse, IglobalData } from '@/common/interface'
-import { getActivities, putVisits } from '@/servise/activates'
-import moment from 'moment'
-import { getCate } from '@/servise/category'
-import { getItems } from '@/servise/items'
-import * as _ from 'lodash'
-import { Iitem } from '@/common/Item'
-import { Iactivity } from '@/common/activity'
+import {Component, Vue} from "vue-property-decorator"
+import banner from "@/components/banner/banner.vue"
+import title from "@/components/title/title.vue"
+import stats from "@/components/stats/stats.vue"
+import voteRule from "@/components/vote-rule/vote-rule.vue"
+import searchBar from "@/components/search-bar/search-bar.vue"
+import voteList from "@/components/vote-list/vote-list.vue"
+import voteFooter from "@/components/footer/footer.vue"
+import uniCountdown from "@/components/uni-countdown/uni-countdown.vue"
+import uniSegmentedControl from "@/components/uni-segmented-control/uni-segmented-control.vue"
+import topShow from "@/components/top-show/top-show.vue"
+import voteTabbar from "@/components/vote-tabbar/vote-tabbar.vue"
+import modal from "@/components/modal/modal.vue"
+import {CategoryResponse} from "@/common/interface"
+import moment from "moment"
 
 @Component({
     components: {
@@ -127,169 +112,35 @@ import { Iactivity } from '@/common/activity'
         uniSegmentedControl,
         topShow,
         voteTabbar,
+        modal,
     },
 })
 export default class Index extends Vue {
     [x: string]: any
 
-    private activities = [] as Iactivity[]
-    private activity = {} as Iactivity
-    private items = [] as Iitem[]
-    private code = ''
-    private day = 0
-    private hour = 0
-    private min = 0
-    private sec = 0
-    private itemType = 'vote'
-    private actId = -1
-    private msg = '活动已经结束'
-    private showDay = false
+    private msg = "活动已经结束"
     private display = false
-    private categories = [] as CategoryResponse[]
-    private cateItem = [] as Array<string>
     private current = 0
-    private categoryId = -1
-    private pageNo = 0
-    private pageSize = 10
     private activeIndex = 0
-    private top10 = [] as Iitem[]
-    private top3 = [] as (Iitem[] | { categoryName: string })[]
-    private hasMore = true
 
     get showModal() {
-        return this.$store.state.showModal
+        return this.$store.state.item.showModal
     }
 
     get canvasUrl() {
-        return this.$store.state.canvasUrl
+        return this.$store.state.item.canvasUrl
     }
 
     get desc() {
-        return this.activity?.description?.split('\n')
+        return this.activity?.description?.split("\n")
     }
 
-    private dbouncedGetActivity = () => {}
-
-    async onLoad(query: { actId: number }) {
-        // 添加防抖
-        this.dbouncedGetItems = _.debounce(this._getItems, 500)
-        this.dbouncedGetActivity = _.debounce(this._getActivity, 500)
-        // 添加事件监听
-        uni.$on('update', async (data) => {
-            console.log('监听到事件来自 update ，携带参数 msg 为：' + data.msg)
-            this.items = []
-            this.pageNo = 0
-            this.activities = await this._getActivities()
-            await this._TOP10()
-            // await this._TOP3()
-            this.dbouncedGetActivity()
-            this.dbouncedGetItems()
-        })
-        let globaldata = getApp().globalData as IglobalData
-        if (!query.actId) {
-            console.log('query.actId:::', query.actId)
-            this.actId = globaldata.currentActId
-        } else {
-            this.actId = query.actId
-            globaldata.currentActId = query.actId
-            // 1. 增加访问量
-            try {
-                await putVisits(query.actId)
-            } catch (err) {
-                console.error('增加访客失败:::', err)
-            }
-        }
-        this.activities =
-            globaldata.activities?.length > 0
-                ? globaldata.activities
-                : await this._getActivities()
-        // 2. 下载活动信息
-        await this._getActivity()
-        // 设置标题
-        uni.setNavigationBarTitle({
-            title: this.activity?.name,
-        })
-        // 3. 判断活动状态
-        this.setTime()
-        // 4. 类目信息
-        await this._getCate()
-        // 5. 下载选手信息
-        await this._getItems()
-        await this._TOP10()
-        // await this._TOP3()
+    get activity() {
+        return this.$store.state.activity.activity
     }
 
-    onUnload() {
-        uni.$off('update', async (data) => {
-            console.log('监听到事件来自 update ，携带参数 msg 为：' + data.msg)
-            this.items = []
-            this.pageNo = 0
-            this.activities = await this._getActivities()
-            await this._TOP10()
-            // await this._TOP3()
-            this.dbouncedGetActivity()
-            this.dbouncedGetItems()
-        })
-    }
-
-    hide() {
-        console.log('parent receive:::')
-        this.$store.commit('toggleModal')
-    }
-
-    // private showModal = false
-    private dbouncedGetItems = () => {}
-
-    handleClear() {
-        this.pageNo = 0
-        this.items = []
-        this.code = ''
-        this.dbouncedGetItems()
-    }
-
-    handleInput(e: any) {
-        this.code = e
-        this.dbouncedGetItems()
-    }
-
-    tolower() {
-        this.dbouncedGetItems()
-    }
-
-    onClickItem(e: any) {
-        if (this.current !== e.currentIndex) {
-            this.current = e.currentIndex
-        }
-        this.categoryId = this.categories[e.currentIndex].id
-        this.pageNo = 0
-        this.items = []
-        this.hasMore = true
-        this.dbouncedGetItems()
-    }
-
-    // 获取活动信息
-    async _getActivities() {
-        try {
-            let { data }: any = await getActivities()
-            return data.data
-        } catch (error) {
-            uni.showToast({
-                title: '获取活动信息错误',
-                icon: 'none',
-            })
-        }
-    }
-
-    // 获取活动信息
-    async _getActivity() {
-        // 根据actId筛选
-        this.activity = this.activities.filter(
-            (el: Iactivity) => el.id == this.actId
-        )[0]
-    }
-
-    setTime() {
-        let { startTime, endTime, status }: any = this.activity
+    get countdownTime() {
+        let {startTime, endTime, status} = this.$store.state.activity.activity
         //  获取当前时间
         let now = moment()
         startTime = moment(startTime)
@@ -297,105 +148,95 @@ export default class Index extends Vue {
         let duration = moment.duration(startTime.diff(now))
 
         // 根据状态显示不同内容
-        if (status === 'ISCOMING') {
-            this.msg = '活动开始还有'
-            this.setCountDown(duration)
-        } else if (status === 'ONGOING') {
-            this.msg = '活动结束还有'
+        if (status === "ISCOMING") {
+            this.msg = "活动开始还有"
+        } else if (status === "ONGOING") {
+            this.msg = "活动结束还有"
             duration = moment.duration(endTime.diff(now))
-            this.setCountDown(duration)
         }
-    }
-
-    setCountDown(duration: moment.Duration) {
+        const time = {
+            showDay: false,
+            day: duration.days(),
+            hour: duration.hours(),
+            min: duration.minutes(),
+            sec: duration.seconds(),
+        }
         if (duration.days() > 0) {
-            this.showDay = true
-            this.day = duration.days()
-            this.hour = duration.hours()
-            this.min = duration.minutes()
-            this.sec = duration.seconds()
-        } else {
-            this.hour = duration.hours()
-            this.min = duration.minutes()
-            this.sec = duration.seconds()
+            time["showDay"] = true
         }
+        return time
     }
 
-    async _getCate() {
-        try {
-            let res = await getCate({ activityId: this.actId })
-            this.categories = res
-            this.cateItem = res.map((el) => el.name)
-            this.categoryId = res[this.current].id
-        } catch {
-            uni.showToast({
-                title: '获取类目信息错误',
-                icon: 'none',
-            })
-        }
+    get cateItem() {
+        return this.$store.state.category.categories.map((el: CategoryResponse) => el.name)
     }
 
-    async _getItems() {
-        if (this.code.length > 0) {
-            let { data } = await getItems({
-                activityId: this.actId,
-                code: this.code,
-                categoryId: this.categoryId,
-            })
+    get items() {
+        return this.$store.state.item.items
+    }
 
-            this.items = data
-            return
-        }
-        // 判断是否还有新的内容
-        if (this.hasMore === false) {
-            return
-        }
 
-        this.pageNo = this.pageNo + 1
-        const { data } = await getItems({
-            pageNo: this.pageNo,
-            activityId: this.actId,
-            code: this.code,
-            categoryId: this.categoryId,
+    async onLoad(query: { actId: number }) {
+        console.log("actId:::", query.actId)
+        await this.$store.dispatch("category/getCategories")
+        await this.$store.dispatch("item/itemsByCate")
+        // 设置标题
+        uni.setNavigationBarTitle({
+            title: this.$store.state.activity.activity.name,
         })
-
-        this.items = [...this.items, ...data]
-        this.hasMore = data.length !== 0
+        if (!query.actId) {
+            return
+        }
+        // 1. 增加访问量
+        this.increateVisit(query)
+        uni.hideShareMenu({
+            hideShareItems: ["qq", "qzone"]
+        })
     }
 
-    async _TOP10() {
-        try {
-            const res = await getItems({
-                activityId: this.actId,
-            })
-            this.top10 = res.data.filter((data) => +data.stats[0].value > 0)
-        } catch (err) {
-            console.error('10强下载错误:::', err)
+    onUnload() {
+        this.$store.commit("category/selectCateByIndex", 0)
+        this.$store.commit("item/initItems")
+    }
+
+    hide() {
+        console.log("parent receive:::")
+        this.$store.commit("item/toggleModal")
+    }
+
+    onClickItem(e: any) {
+        if (this.current === e.currentIndex) {
+            return
+        }
+        this.$store.commit("item/initItems")
+        this.$store.commit("category/selectCateByIndex", e.currentIndex)
+        this.$store.dispatch("item/itemsByCate")
+    }
+
+    onShareAppMessage(res: any) {
+        console.log("分享:::", res)
+        if (res.from === "button") {// 来自页面内分享按钮
+            console.log(res.target)
+        }
+        const id = this.$store.state.item.item.id
+        const actId = this.$store.state.activity.activity.id
+        return {
+            title: `我在参加伊婉明星脸活动，快来帮我投票吧！`,
+            path: `/pages/detail/detail?id=${id}&actId=${actId}`,
+            imageUrl: this.canvasUrl,
         }
     }
 
-    async _TOP3() {
-        try {
-            const res = await Promise.all(
-                this.categories.map((el) => {
-                    return getItems({
-                        activityId: this.actId,
-                        categoryId: el.id,
-                        pageSize: 3,
-                    })
-                })
-            )
-            this.top3 = res.map((el, index) => {
-                const res = el.data
-                return {
-                    categoryName: this.categories[index].name,
-                    data: res.filter((data: Iitem) => +data.stats[0].value > 0),
-                }
-            })
-        } catch (e) {
-            console.error('获取各区域三强失败:::', e)
-        }
+    /**
+     * 增加访客量
+     * @param {{actId: number}} query
+     * @returns {Promise<void>}
+     * @private
+     */
+    private increateVisit(query: { actId: number }) {
+        this.$store.dispatch("activity/recordVisit", query.actId)
     }
+
 }
 </script>
 

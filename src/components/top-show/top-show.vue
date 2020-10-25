@@ -5,11 +5,12 @@
                 class="p-1 w-56 text-center text-gray-100 m-2 rounded-full bg-theme-p-2"
             >
                 <view class="border border-solid border-white rounded-full py-1"
-                    >全国十强</view
+                >全国十强
+                </view
                 >
             </view>
             <view
-                class="flex flex-wrap items-center justify-center bg-gray-100 rounded "
+                class="flex flex-wrap items-center justify-center bg-gray-100 rounded mb-1"
             >
                 <view
                     v-for="(item, idx) in top10"
@@ -17,8 +18,8 @@
                     class="flex w-full m-1"
                     style="width: 350rpx;"
                 >
-                    <navigator
-                        :url="`/pages/detail/detail?id=${item.id}`"
+                    <view
+                        @click="toUrl(item)"
                         class="p-1 my-1 rounded-lg shadow bg-theme-p-1"
                         style="width: 350rpx;"
                     >
@@ -28,18 +29,20 @@
                         <image
                             :src="item.img"
                             class="w-40 h-40"
-                            style="border-color: #2f855a；background-color: #eeeeee;"
+                            style="border-color: #2f855a;background-color: #eeeeee;"
                         ></image>
                         <view class="ml-1 flex-grow text-xs">
                             <view class="text-gray-100"
-                                >{{ item.stats[0].value }} 票</view
+                            >{{ item.stats[0].value }} 票
+                            </view
                             >
                             <view class=" font-bold text-theme-red">{{
-                                item.company
-                            }}</view>
+                                    item.company
+                                }}
+                            </view>
                             <view class=" text-theme-red">{{ item.name }}</view>
                         </view>
-                    </navigator>
+                    </view>
                 </view>
             </view>
         </view>
@@ -71,12 +74,25 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import {Component, Vue} from "vue-property-decorator"
+import {Iitem} from "@/common/Item"
 
 @Component({})
 export default class TopShow extends Vue {
-    @Prop() private top10!: any[]
-    @Prop() private top3!: any[]
+    get top10() {
+        return this.$store.state.item.top10.filter((data: Iitem) => parseInt(data.stats[0].value) > 0)
+    }
+
+    mounted() {
+        this.$store.dispatch("item/getTop10")
+    }
+
+    toUrl(item: Iitem) {
+        this.$store.commit("item/setItem", item)
+        uni.navigateTo({
+            url: `/pages/detail/detail?id=${item.id}`
+        })
+    }
 }
 </script>
 

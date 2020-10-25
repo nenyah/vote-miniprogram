@@ -5,18 +5,20 @@
  * @LastEditors: Steven
  * @LastEditTime: 2020-10-23 15:33:02
  */
-import { token } from './token'
-import { IglobalData } from '@/common/interface'
-import { appConfig } from '@/common/config'
+import {token} from "./token"
+import {appConfig} from "@/common/config"
+
 interface IParams {
     url: string
-    method?: 'GET' | 'POST' | 'PUT'
+    method?: "GET" | "POST" | "PUT"
     base_url?: boolean
     data?: any
 }
+
 interface Config {
-    'Content-Type': string
-    [x:string]: string
+    "Content-Type": string
+
+    [x: string]: string
 }
 export default (params: IParams): Promise<any> => {
     // 加载中

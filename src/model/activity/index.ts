@@ -11,10 +11,10 @@ export class Activity implements Iactivity {
     status: string
     bannerImg: string[]
     rule: Iinfo[]
-    statistics: Iinfo[]
+    stats: Iinfo[]
 
     constructor(activity = {} as Iactivity) {
-        const {id, name, theme, description, startTime, endTime, status, bannerImg, rule, statistics} = activity
+        const {id, name, theme, description, startTime, endTime, status, bannerImg, rule, stats} = activity
         this.id = id
         this.name = name
         this.theme = theme
@@ -24,7 +24,7 @@ export class Activity implements Iactivity {
         this.status = status
         this.bannerImg = bannerImg
         this.rule = rule
-        this.statistics = statistics
+        this.stats = stats
 
     }
 }

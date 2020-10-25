@@ -22,19 +22,20 @@
             v-if="item.works !== undefined"
             :content="title4"
         ></sub-title>
-        <image :src="item.works" style="width:700rpx;" mode="widthFix"></image>
+        <image v-if="item.works !== undefined" :src="item.works" mode="widthFix" style="width:700rpx;"></image>
         <!-- 风采展示 -->
         <sub-title v-if="item.play !== undefined" :content="title2"></sub-title>
-        <detail-video :src="item.play"></detail-video>
+        <detail-video v-if="item.play !== undefined" :src="item.play"></detail-video>
 
         <!-- 选手简介 -->
         <sub-title
             v-if="item.description !== undefined"
             :content="title3"
         ></sub-title>
-        <view class="text-gray-100 p-4 text-center">{{
-            item.description
-        }}</view>
+        <view v-if="item.description" class="text-gray-100 p-4 text-center">{{
+                item.description
+            }}
+        </view>
         <!-- 帮我拉票 -->
         <view class="text-center">
             <view
@@ -66,23 +67,15 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import title from '@/components/title/title.vue'
-import stats from '@/components/stats/stats.vue'
-import voteItem from '@/components/vote-item/vote-item.vue'
-import voteFooter from '@/components/footer/footer.vue'
-import subTitle from '@/components/sub-title/sub-title.vue'
-import detailVideo from '@/components/detail-video/detail-video.vue'
-import { IglobalData } from '@/common/interface'
-import { getItems } from '@/servise/items'
-import { handleVote } from '@/servise/vote'
-import { login } from '@/servise/login'
-import * as _ from 'lodash'
-import { isAuthorize } from '@/utils/check'
-import { getActivities } from '@/servise/activates'
-import modal from '@/components/modal/modal.vue'
-import { Iactivity } from '@/common/activity'
-import { Iitem } from '@/common/Item'
+import {Component, Vue, Watch} from "vue-property-decorator"
+import title from "@/components/title/title.vue"
+import stats from "@/components/stats/stats.vue"
+import voteItem from "@/components/vote-item/vote-item.vue"
+import voteFooter from "@/components/footer/footer.vue"
+import subTitle from "@/components/sub-title/sub-title.vue"
+import detailVideo from "@/components/detail-video/detail-video.vue"
+import modal from "@/components/modal/modal.vue"
+import {token} from "@/utils/token"
 
 let app = getApp()
 
@@ -105,31 +98,46 @@ interface OnLoadParams {
 export default class Detail extends Vue {
     [x: string]: any
 
-    private id = 0
+    private id = -1
     private actId = 0
-    private activity = {} as Iactivity
-    private item = <Iitem>{}
-    private title1 = '选手详情'
-    private title2 = '选手风采'
-    private title3 = '选手简介'
-    private title4 = '选手作品'
+    private title1 = "选手详情"
+    private title2 = "选手风采"
+    private title3 = "选手简介"
+    private title4 = "选手作品"
 
     get showModal() {
-        return this.$store.state.showModal
+        return this.$store.state.item.showModal
     }
 
     get canvasUrl() {
-        return this.$store.state.canvasUrl
+        return this.$store.state.item.canvasUrl
+    }
+
+    get item() {
+        return this.$store.state.item.item
+    }
+
+    get activity() {
+        return this.$store.state.activity.activity
+    }
+
+    get token() {
+        return token.get()
+    }
+
+    @Watch("item")
+    itemChange(newVal: string, oldVal: string) {
+
     }
 
     backToIndex() {
         uni.redirectTo({
             url: `/pages/index/index?actId=${this.actId}`,
             success: (res) => {
-                console.log('res:::', res)
+                console.log("res:::", res)
             },
             fail: (err) => {
-                console.error('err:::', err)
+                console.error("err:::", err)
             },
         })
     }
@@ -138,152 +146,51 @@ export default class Detail extends Vue {
         const scene =
             query.scene !== undefined
                 ? decodeURIComponent(query.scene)
-                : 'undefined'
-        uni.showToast({
-            title: `scene:::,${scene}`,
-        })
-        console.log('scene:::', scene)
-        const globalData = getApp().globalData as IglobalData
-        if (scene == 'undefined') {
-            console.log('enter undefined:::')
-            this.id = query.id !== undefined ? query.id : -1
-            // 保存活动id
-            this.actId = globalData.currentActId
+                : "undefined"
+        console.log("scene:::", scene)
+        if (scene == "undefined") {
+            return
         } else {
-            console.log('enter scene:::')
+            console.log("enter scene:::")
             // 后端登录
-            await login()
-            this.id = Number(scene.split('&')[0].split('=')[1])
-            this.actId = Number(scene.split('&')[1].split('=')[1])
-        }
-        if (globalData.activities?.length > 0) {
-            this.activity = globalData.activities.filter(
-                (activity: Iactivity) => activity.id == this.actId
-            )[0]
-        } else {
-            const { data } = await getActivities()
-            this.activity = data.data.filter(
-                (activity: Iactivity) => activity.id == this.actId
-            )[0]
-        }
+            // await login()
+            this.id = Number(scene.split("&")[0].split("=")[1])
+            this.actId = Number(scene.split("&")[1].split("=")[1])
+            uni.$on("updateitem", () => {
+                this.$store.commit("activity/selectActivityByID", this.actId)
+                this.$store.dispatch("item/itemById", {id: this.id, activityId: this.actId})
+                // 设置标题
+                uni.setNavigationBarTitle({
+                    title: `我是${this.item.code}号，${this.item?.name} 正在参加${this.activity.name}`,
+                })
+            })
+// 设置标题
+            uni.setNavigationBarTitle({
+                title: `我是${this.item.code}号，${this.item?.name} 正在参加${this.activity.name}`,
+            })
 
-        // 筛选item
-        await this._getItem()
-        // 设置标题
-        uni.setNavigationBarTitle({
-            title: `我是${this.item.code}号，${this.item?.name} 正在参加${this.activity.name}`,
+        }
+    }
+
+    onHide() {
+        uni.$off("updateitem", () => {
+            this.$store.commit("activity/selectActivityByID", this.actId)
+            this.$store.dispatch("item/itemById", this.id)
+            // 设置标题
+            uni.setNavigationBarTitle({
+                title: `我是${this.item.code}号，${this.item?.name} 正在参加${this.activity.name}`,
+            })
         })
     }
 
     async vote() {
-        /**
-         * 1. 判断是否关注公众号
-         * 2. 判断是否在投票时间 本地判断
-         * 3. 判断是否超出限制 服务器判断
-         *
-         */
-        let { openid, unionid } = getApp().globalData as IglobalData
-        let { status } = this.activity
-        // 判断是否是进行中的活动，不是就直接返回
-        if (!(status == 'ONGOING')) {
-            uni.showToast({
-                title: '现在不是投票时间哦！',
-                icon: 'none',
-            })
-            return
-        }
-        uni.showModal({
-            content: `确认为${this.item.code}号投票吗？`,
-            success: async (res) => {
-                // 取消按钮
-                if (res.cancel) {
-                    return
-                }
-                // 判断是否授权
-                let isLogined = await isAuthorize()
-                if (!isLogined) {
-                    uni.showModal({
-                        content: '请先登录',
-                        showCancel: false,
-                        success: async (res) => {
-                            console.log('登录同意后信息', res)
-                            uni.navigateTo({
-                                url: `../login/login`,
-                            })
-                        },
-                    })
-
-                    return
-                }
-
-                // 判断是否关注了公众号
-                if (_.isEmpty(unionid)) {
-                    uni.showModal({
-                        content: '请先关注公众号《YVOIRE伊婉》再投票哦！',
-                        showCancel: false,
-                    })
-                    return
-                }
-
-                // 没有openid
-                if (_.isEmpty(openid)) {
-                    try {
-                        await login()
-                    } catch (err) {
-                        console.error('获取code失败', err)
-                    }
-                }
-                try {
-                    // 上传投票信息
-                    let { data } = await handleVote(this.item.id)
-                    console.log('上传之后', data)
-                    if (data.success !== true) {
-                        uni.showModal({
-                            content: data.errorMsg,
-                            showCancel: false,
-                        })
-                        return
-                    }
-                    uni.showModal({
-                        content: '投票成功！',
-                        showCancel: false,
-                        success: (res) => {
-                            // 上传成功后刷新页面
-                            uni.$emit('update', {
-                                msg: '页面更新',
-                            })
-                        },
-                    })
-                } catch (err) {
-                    console.error('上传投票信息失败', err)
-                }
-            },
-        })
-    }
-
-    // 获取选手信息
-    async _getItem() {
-        let activityId = this.actId,
-            id = this.id
-        try {
-            let { data } = await getItems({ activityId, id })
-
-            this.item = data[0]
-        } catch (error) {
-            console.error('远程获取数据错误')
-        }
-    }
-
-    hide() {
-        console.log('parent receive:::')
-        this.$store.commit('toggleModal')
+        this.$store.dispatch("item/vote")
     }
 
     // 生成分享海报
-    async share() {
-        await this.$store.dispatch('share', {
+    share() {
+        this.$store.dispatch("item/share", {
             itemId: this.item.id,
-            actId: this.actId,
         })
     }
 
@@ -291,7 +198,7 @@ export default class Detail extends Vue {
     // 这两个方法可以直接写在methods里面， 也可以写在和生命周期同级的地方
     // 分享到朋友圈
     onShareTimeline(res: any) {
-        console.log('res:::', res)
+        console.log("res:::", res)
         return {
             title: `我是${this.item.code}号，${this.item?.name} 正在参加${this.activity.name}`,
             query: `itemId=${this.item.id}&actId=${this.actId}`,
@@ -301,7 +208,7 @@ export default class Detail extends Vue {
 
     // 这两个方法都要写上，就算不分享给好友也要有这个方法，下面的showShareMenu配置要用到
     onShareAppMessage(res: any) {
-        if (res.from === 'button') {
+        if (res.from === "button") {
             // 来自页面内转发按钮
             console.log(res.target)
             return {

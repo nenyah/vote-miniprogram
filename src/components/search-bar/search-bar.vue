@@ -1,10 +1,3 @@
-<!--
- * @Description: 
- * @Author: Steven
- * @Date: 2020-09-08 09:23:10
- * @LastEditors: Steven
- * @LastEditTime: 2020-10-23 16:59:41
--->
 <template>
   <view class="border-img my-2 bg-theme-p-2 py-4" style="width: 756rpx;">
     <view class="w-full border border-r-0 border-l-0 border-t-0 border-solid border-white py-2" style="padding:0;">
@@ -17,7 +10,10 @@
             v-model="code"
         />
         <view class="flex-1 flex items-center justify-center">
-          <view class="fa fa-search text-gray-100 pr-2"></view>
+            <view v-if="code" class="fa fa-times text-gray-100 pr-2"
+                  @click="clearInput"
+            ></view>
+            <view v-else class="fa fa-search text-gray-100 pr-2"></view>
         </view>
       </view>
     </view>
@@ -25,28 +21,31 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
-import * as _ from "lodash"
+import {Component, Vue, Watch} from "vue-property-decorator"
+import debounce from "lodash/debounce"
 
-export default Vue.extend({
-  props: {
-    placeholder: {type: String, default: "搜索编号查询"},
-  },
-  data() {
-    return {
-      code: "",
+@Component
+export default class SearchBar extends Vue {
+    private placeholder = "搜索编号查询"
+    private code = ""
+    private searchItem = debounce((val) => {
+        this.$store.dispatch("item/itemByCode", val)
+    }, 2000)
+
+    @Watch("code")
+    search(newVal: string, oldVal: string) {
+        if (newVal == "") {
+            return
+        }
+        this.searchItem(newVal)
     }
-  },
-  watch: {
-    code(newCode, oldCode) {
-      if (_.isEmpty(newCode)) {
-        this.$emit("clear")
-      } else {
-        this.$emit("updateItem", newCode)
-      }
-    },
-  },
-})
+
+    private clearInput() {
+        this.code = ""
+        this.$store.commit("item/initItems")
+        this.$store.dispatch("item/itemsByCate")
+    }
+}
 </script>
 
 <style lang="scss" scoped>

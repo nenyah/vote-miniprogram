@@ -5,7 +5,8 @@
  * @LastEditors: Steven
  * @LastEditTime: 2020-10-23 13:09:45
  */
-import { Iinfo } from './interface'
+import {Iinfo} from "./interface"
+
 // 选手返回接口
 export interface ItemResponse {
     pageNo: number //页码
@@ -13,6 +14,7 @@ export interface ItemResponse {
     data: Iitem[] //选手内容
     totalCount: number //总数据量
 }
+
 // 选手内容接口
 export interface Iitem {
     category?: Category
@@ -23,6 +25,7 @@ export interface Iitem {
     company: string
     img: string
     feature: string
+    works: string
     play: string
     activityId: number
     stats: Iinfo[]
