@@ -15,7 +15,6 @@
                     @plusVote="handlePlusVote"
                 ></vote-item>
             </block>
-            <!--      todo 修改文字在一行-->
             <view v-if="!searching" class="self-center mx-auto my-2">
                 <view v-if="hasMore" class="text-gray-900">下拉加载更多</view>
                 <view v-else class="text-gray-900">--- 我也是有底线的 ---</view>
