@@ -1,7 +1,7 @@
 <template>
     <view class="text-gray-100 flex flex-col items-center w-full">
         <scroll-view
-            class="flex flex-wrap justify-around box-border p-1 mt-2 bg-gray-100  rounded"
+            class="flex flex-wrap justify-start box-border p-1 mt-2 bg-gray-100  rounded"
             style="width: 730rpx; height:100vh;"
             scroll-y="true"
             @scrolltolower="lower"
@@ -16,7 +16,7 @@
                 ></vote-item>
             </block>
             <!--      todo 修改文字在一行-->
-            <view v-if="!searching">
+            <view v-if="!searching" class="self-center mx-auto my-2">
                 <view v-if="hasMore" class="text-gray-900">下拉加载更多</view>
                 <view v-else class="text-gray-900">--- 我也是有底线的 ---</view>
             </view>

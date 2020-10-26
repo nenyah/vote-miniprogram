@@ -10,12 +10,12 @@
                 >
             </view>
             <view
-                class="flex flex-wrap items-center justify-center bg-gray-100 rounded mb-1"
+                class="flex flex-wrap justify-start bg-gray-100 rounded mb-1"
             >
                 <view
                     v-for="(item, idx) in top10"
                     :key="item.id"
-                    class="flex w-full m-1"
+                    class="flex w-full my-1 ml-2 box-border"
                     style="width: 350rpx;"
                 >
                     <view
@@ -79,6 +79,7 @@ import {Iitem} from "@/common/Item"
 
 @Component({})
 export default class TopShow extends Vue {
+    [x: string]: any
     get top10() {
         return this.$store.state.item.top10.filter((data: Iitem) => parseInt(data.stats[0].value) > 0)
     }
