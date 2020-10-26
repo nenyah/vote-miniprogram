@@ -75,7 +75,6 @@ import voteFooter from "@/components/footer/footer.vue"
 import subTitle from "@/components/sub-title/sub-title.vue"
 import detailVideo from "@/components/detail-video/detail-video.vue"
 import modal from "@/components/modal/modal.vue"
-import {token} from "@/utils/token"
 
 let app = getApp()
 
@@ -121,9 +120,6 @@ export default class Detail extends Vue {
         return this.$store.state.activity.activity
     }
 
-    get token() {
-        return token.get()
-    }
 
     @Watch("item")
     itemChange(newVal: string, oldVal: string) {
@@ -147,38 +143,30 @@ export default class Detail extends Vue {
             query.scene !== undefined
                 ? decodeURIComponent(query.scene)
                 : "undefined"
-        console.log("scene:::", scene)
+        // 根据参数判断是其他页面跳转还是扫码进入
         if (scene == "undefined") {
             return
-        } else {
-            console.log("enter scene:::")
-            // 后端登录
-            // await login()
-            this.id = Number(scene.split("&")[0].split("=")[1])
-            this.actId = Number(scene.split("&")[1].split("=")[1])
-            uni.$on("updateitem", () => {
-                this.$store.commit("activity/selectActivityByID", this.actId)
-                this.$store.dispatch("item/itemById", {id: this.id, activityId: this.actId})
-                // 设置标题
-                uni.setNavigationBarTitle({
-                    title: `我是${this.item.code}号，${this.item?.name} 正在参加${this.activity.name}`,
-                })
-            })
-// 设置标题
-            uni.setNavigationBarTitle({
-                title: `我是${this.item.code}号，${this.item?.name} 正在参加${this.activity.name}`,
-            })
-
         }
-    }
-
-    onHide() {
-        uni.$off("updateitem", () => {
+        this.id = Number(scene.split("&")[0].split("=")[1])
+        this.actId = Number(scene.split("&")[1].split("=")[1])
+        uni.$on("updateDetail", async () => {
             this.$store.commit("activity/selectActivityByID", this.actId)
-            this.$store.dispatch("item/itemById", this.id)
+            await this.$store.dispatch("item/itemById", {id: this.id, activityId: this.actId})
             // 设置标题
             uni.setNavigationBarTitle({
-                title: `我是${this.item.code}号，${this.item?.name} 正在参加${this.activity.name}`,
+                title: `我是${this.item.code}号，${this.item.name} 正在参加${this.activity.name}`,
+            })
+        })
+    }
+
+
+    onHide() {
+        uni.$off("updateDetail", async () => {
+            await this.$store.dispatch("activity/activityById", this.actId)
+            await this.$store.dispatch("item/itemById", {id: this.id, activityId: this.actId})
+            // 设置标题
+            uni.setNavigationBarTitle({
+                title: `我是${this.item.code}号，${this.item.name} 正在参加${this.activity.name}`,
             })
         })
     }
@@ -211,9 +199,10 @@ export default class Detail extends Vue {
         if (res.from === "button") {
             // 来自页面内转发按钮
             console.log(res.target)
+            const query = encodeURI(`id=${this.id}&actId=${this.actId}`)
             return {
                 title: `我是${this.item.code}号，${this.item?.name} 正在参加${this.activity.name}`,
-                path: `/pages/detail/detail?id=${this.id}`,
+                path: `/pages/detail/detail?scene=${query}`,
                 imageUrl: this.canvasUrl,
             }
         }

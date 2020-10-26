@@ -21,8 +21,8 @@ const init: Module<State, any> = {
         setActivities: (state, data) => {
             state.activities = data
         },
-        selectActivityByID: (state, id) => {
-            const activity = state.activities.filter(el => el.id === id)[0]
+        selectActivityByID: async (state, id) => {
+            const activity = state.activities.filter(el => el.id == id)[0]
             state.activity = new Activity(activity)
         }
     },
@@ -49,7 +49,7 @@ const init: Module<State, any> = {
             } catch (e) {
                 console.log("增加访客失败", e)
             }
-        }
+        },
     },
 }
 export default init

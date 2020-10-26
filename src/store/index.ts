@@ -35,7 +35,7 @@ export default new Vuex.Store({
             try {
                 await dispatch("user/login")
                 token.get() && await dispatch("activity/getActivities")
-                uni.$emit("updateitem")
+                uni.$emit("updateDetail")
             } catch (e) {
                 console.log("登录失败", e)
             }

@@ -19,5 +19,5 @@ export default {
             method: "POST",
             data: activityId,
         })
-    }
+    },
 }

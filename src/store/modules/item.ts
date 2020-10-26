@@ -14,6 +14,7 @@ interface State {
     showModal: boolean
     canvasUrl: string
     shareTimeline: boolean
+    searching: boolean
 }
 
 const init: Module<State, any> = {
@@ -27,12 +28,14 @@ const init: Module<State, any> = {
         showModal: false,
         canvasUrl: "",
         shareTimeline: false,
+        searching: false,
     },
     mutations: {
         initItems: state => {
             state.items = []
             state.pageNo = 1
             state.hasMore = true
+            state.searching = false
         },
         setItems: (state, data) => {
             state.items = data
@@ -61,6 +64,9 @@ const init: Module<State, any> = {
         toggleShare(state) {
             state.shareTimeline = !state.shareTimeline
         },
+        toggleSearch(state) {
+            state.searching = true
+        }
     },
     getters: {},
     actions: {
@@ -110,6 +116,7 @@ const init: Module<State, any> = {
                 const res = await api.item.itemByCode({code, activityId})
                 commit("initItems")
                 commit("changeHasMore")
+                commit("toggleSearch")
                 commit("setItems", res.data)
             } catch (e) {
                 console.log("获取选手信息失败", e)
@@ -120,8 +127,6 @@ const init: Module<State, any> = {
             }
         },
         itemById: async ({state, commit, rootState}, {id, activityId}) => {
-            // const activityId = rootState.activity.activity.id
-            console.log("activityId:::", activityId)
             try {
                 const res = await api.item.itemById({id, activityId})
                 if (res.data.length > 0) {
@@ -135,10 +140,16 @@ const init: Module<State, any> = {
                 })
             }
         },
-        share({commit, state, rootState}, {itemId}) {
+        async share({commit, state, rootState}, {itemId}) {
             const actId = rootState.activity.activity.id
-            const item = state.items.filter(el => el.id == itemId)[0]
-            commit("setItem", item)
+            try {
+                const res = await api.item.itemById({id: itemId, activityId: actId})
+                if (res.data.length > 0) {
+                    commit("setItem", res.data[0])
+                }
+            } catch (e) {
+                console.log("获取选手信息错误", e)
+            }
             api.item.getPoster({
                 itemId: itemId,
                 page: "pages/detail/detail",
