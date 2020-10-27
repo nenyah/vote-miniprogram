@@ -1,8 +1,14 @@
+<!--
+ * @Description: 
+ * @Author: Steven
+ * @Date: 2020-09-08 09:24:10
+ * @LastEditors: Steven
+ * @LastEditTime: 2020-10-27 14:29:44
+-->
 <template>
     <view class="text-gray-100 flex flex-col items-center w-full">
         <scroll-view
-            class="flex flex-wrap justify-start box-border p-1 mt-2 bg-gray-100  rounded"
-            style="width: 730rpx; height:100vh;"
+            class="flex flex-wrap justify-start box-border p-1 mt-2 bg-gray-100  rounded listsize"
             scroll-y="true"
             @scrolltolower="lower"
             enable-flex
@@ -20,19 +26,17 @@
                 <view v-else class="text-gray-900">--- 我也是有底线的 ---</view>
             </view>
         </scroll-view>
-
     </view>
 </template>
 
 <script lang="ts">
-import {Component, Vue} from "vue-property-decorator"
-import voteItem from "@/components/vote-item/vote-item.vue"
-
+import { Component, Vue } from 'vue-property-decorator'
+import voteItem from '@/components/vote-item/vote-item.vue'
 
 @Component({
     components: {
         voteItem,
-    }
+    },
 })
 export default class VoteList extends Vue {
     [x: string]: any
@@ -46,13 +50,19 @@ export default class VoteList extends Vue {
     }
 
     get searching() {
-        console.log("search:::", this.$store.state.item.searching)
+        console.log('search:::', this.$store.state.item.searching)
         return this.$store.state.item.searching
     }
 
     lower() {
-        this.$store.dispatch("item/itemsByCate")
+        this.$store.dispatch('item/itemsByCate')
     }
 }
 </script>
 
+<style lang="scss" scoped>
+.listsize {
+    width: 730rpx;
+    height: calc(100vh-50px);
+}
+</style>
