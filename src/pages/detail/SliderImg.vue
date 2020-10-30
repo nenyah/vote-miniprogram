@@ -1,5 +1,5 @@
 <template>
-    <swiper class="swiper"
+    <swiper class="swiper flex justify-center"
             :indicator-dots="indicatorDots"
             :autoplay="autoplay"
             :interval="interval"
@@ -10,7 +10,7 @@
             <image
                 :src="img"
                 mode="widthFix"
-                style="width:700rpx;"
+                style="width:750rpx;"
             ></image>
         </swiper-item>
 
@@ -29,3 +29,8 @@ export default {
     }
 }
 </script>
+<style lang="scss" scoped>
+.swiper {
+    width: 750rpx;
+}
+</style>

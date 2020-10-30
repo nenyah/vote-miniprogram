@@ -1,5 +1,5 @@
 <template>
-  <view class="text-center text-gray-500">@{{ content }}</view>
+  <view class="text-center text-gray-500 mb-3">@{{ content }}</view>
 </template>
 
 <script lang="ts">

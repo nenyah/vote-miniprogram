@@ -41,8 +41,8 @@ interface Query {
     }
 })
 export default class Desc extends Vue {
+    [x: string]: any
     private activeIndex = 2
-    private current = 0
 
     get activity() {
         return this.$store.state.activity.activity
@@ -62,9 +62,6 @@ export default class Desc extends Vue {
     }
 
     onClickItem(e: any) {
-        if (this.current === e.currentIndex) {
-            return
-        }
         this.$store.commit("item/initItems")
         this.$store.commit("category/selectCateByIndex", e.currentIndex)
         this.$store.dispatch("item/itemsByCate")

@@ -120,7 +120,6 @@ export default class Index extends Vue {
 
     private msg = '活动已经结束'
     private display = false
-    private current = 0
     private activeIndex = 0
 
     get showModal() {
@@ -178,7 +177,6 @@ export default class Index extends Vue {
     }
 
     async onLoad(query: { actId: number }) {
-        console.log('actId:::', query.actId)
         await this.$store.dispatch('category/getCategories')
         await this.$store.dispatch('item/itemsByCate')
         // 设置标题
@@ -206,9 +204,6 @@ export default class Index extends Vue {
     }
 
     onClickItem(e: any) {
-        if (this.current === e.currentIndex) {
-            return
-        }
         this.$store.commit('item/initItems')
         this.$store.commit('category/selectCateByIndex', e.currentIndex)
         this.$store.dispatch('item/itemsByCate')

@@ -67,6 +67,7 @@ import {Iitem} from "@/common/Item"
 
 @Component
 export default class VoteItem extends Vue {
+    [x: string]: any
     @Prop() item!: Iitem
     private mark = false
     @Prop() private index!: boolean

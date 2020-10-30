@@ -18,7 +18,7 @@ export default class Item implements Iitem {
     company: string
     img: string
     feature: string
-    works: string
+    works: string[]
     play: string
     activityId: number
     stats: Iinfo[]

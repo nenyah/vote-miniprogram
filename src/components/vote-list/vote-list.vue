@@ -6,26 +6,27 @@
  * @LastEditTime: 2020-10-27 14:29:44
 -->
 <template>
-    <view class="text-gray-100 flex flex-col items-center w-full">
+    <view class="text-gray-100 flex flex-col items-center w-full" v-if="items.length>0">
         <scroll-view
-            class="flex flex-wrap justify-start box-border p-1 mt-2 bg-gray-100 h-full rounded listsize"
+            class="flex flex-wrap justify-start box-border p-1 mt-2 bg-gray-100 rounded listsize"
             scroll-y="true"
             @scrolltolower="lower"
             enable-flex
         >
-            <block v-for="item in items" :key="item.id">
+            <view v-for="item in items" :key="item.id">
                 <vote-item
                     :item="item"
                     :index="true"
                     :col="2"
                     @plusVote="handlePlusVote"
                 ></vote-item>
-            </block>
-            <view v-if="!searching" class="self-center mx-auto my-2">
-                <view v-if="hasMore" class="text-gray-900">下拉加载更多</view>
-                <view v-else class="text-gray-900">--- 我也是有底线的 ---</view>
             </view>
+
         </scroll-view>
+        <view v-if="!searching&&items.length>10" class="self-center mx-auto my-2">
+            <view v-if="hasMore" class="text-gray-900">下拉加载更多</view>
+            <view v-else class="text-gray-900">--- 我也是有底线的 ---</view>
+        </view>
     </view>
 </template>
 
@@ -51,10 +52,7 @@ export default class VoteList extends Vue {
     }
 
     get searching() {
-        const isOnlyOne = this.$store.state.item.items.length == 1
-        const searching = this.$store.state.item.searching as boolean
-        console.log(`isOnlyOne:${isOnlyOne}, search:${searching}`, isOnlyOne ? isOnlyOne : searching)
-        return isOnlyOne ? isOnlyOne : searching
+        return this.$store.state.item.searching
     }
 
     lower() {

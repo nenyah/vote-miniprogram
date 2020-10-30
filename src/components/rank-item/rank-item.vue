@@ -1,69 +1,45 @@
 <template>
-  <view
-      :class="{ 'bg-theme-p-2': isActive }"
-      class="flex w-4-5 my-2 py-2 text-center rounded"
-  >
-    <view class="flex justify-center flex-1 text-center">
-      <view v-if="index<3">
-        <image :src="`/static/${index+1}.png`" class="w-6 h-6"></image>
-      </view>
-      <view v-else>{{ index + 1 }}</view>
+    <view
+        :class="{ 'bg-theme-p-2': isActive }"
+        class="flex w-4-5 my-2 py-2 text-center rounded items-center"
+    >
+        <view class="flex justify-center flex-1 text-center">
+            <view v-if="index<3">
+                <image :src="`/static/${index+1}.png`" class="w-6 h-6"></image>
+            </view>
+            <view v-else>{{ index + 1 }}</view>
+        </view>
+        <view class="flex-1 text-center">{{ item.code }}</view>
+        <view @click="toUrl">
+            <view class="flex-1 text-center">{{ item.name }}</view>
+        </view>
+        <view class="flex-1 text-center">{{ item.stats[0].value }}</view>
     </view>
-    <view class="flex-1 text-center">{{ item.code }}</view>
-    <navigator :url="toUrl">
-      <view class="flex-1 text-center">{{ item.name }}</view>
-    </navigator>
-    <view class="flex-1 text-center">{{ item.stats[0].value }}</view>
-  </view>
 </template>
 
 <script lang="ts">
-import Vue from "vue"
+import {Component, Prop, Vue} from "vue-property-decorator"
+import {Iitem} from "@/common/Item"
 
-export default Vue.extend({
-  data() {
-    return {}
-  },
-  props: {
-    item: Object,
-    index: Number,
-  },
-  onLoad() {
-  },
-  methods: {},
-  computed: {
-    top3(): String {
-      let cls: string =
-          "rounded-full h-6 w-6 flex items-center justify-center"
-      if (this.index === 0) {
-        cls = `${cls} bg-gold`
-      } else if (this.index === 1) {
-        cls = `${cls} bg-silver`
-      } else if (this.index === 2) {
-        cls = `${cls} bg-brone`
-      }
-      return cls
-    },
-    isActive(): boolean {
-      return this.index % 2 === 0
-    },
-    toUrl(): string {
-      return `/pages/detail/detail?id=${this.item.id}`
-    },
-  },
-})
+@Component
+export default class RankItem extends Vue {
+    [x: string]: any
+    @Prop() private item!: Iitem
+    @Prop() private index!: number
+
+
+    get isActive() {
+        return this.index % 2 === 0
+    }
+
+    toUrl() {
+        this.$store.commit("item/setItem", this.item)
+        uni.navigateTo({
+            url: `/pages/detail/detail?id=${this.item.id}`
+        })
+    }
+}
 </script>
 
 <style lang="scss" scoped>
-.bg-gold {
-  background: #f5d850;
-}
-
-.bg-silver {
-  background: #e2e5ea;
-}
-
-.bg-brone {
-  background: #fea569;
-}
 </style>

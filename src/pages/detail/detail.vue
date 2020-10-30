@@ -5,7 +5,7 @@
         <!-- 统计票数 -->
         <stats :content="item.stats" :isDetail="true">
             <view
-                class="text-2xl text-gray-100 font-bold text-center mt-4 border border-solid border-gray-200 p-2 inline-flex bg-orange-500"
+                class="text-2xl text-gray-100 font-bold text-center mt-4 border border-solid border-gray-200 p-2 inline-flex bg-theme-red"
                 @click="vote"
             >
                 投票
