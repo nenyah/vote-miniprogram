@@ -90,12 +90,13 @@ const init: Module<State, any> = {
                     icon: "none"
                 })
             }
-            if (res?.data?.length == 0) {
+            if (res?.data?.length < 10) {
                 commit("changeHasMore")
+                commit("updateItems", res.data)
                 return
             }
-            commit("addPageNo")
             commit("updateItems", res.data)
+            commit("addPageNo")
         }, 2000),
         getTop10: async ({state, commit, rootState}) => {
             const activityId = rootState.activity.activity.id

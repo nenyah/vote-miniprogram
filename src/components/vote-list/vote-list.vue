@@ -8,7 +8,7 @@
 <template>
     <view class="text-gray-100 flex flex-col items-center w-full">
         <scroll-view
-            class="flex flex-wrap justify-start box-border p-1 mt-2 bg-gray-100  rounded listsize"
+            class="flex flex-wrap justify-start box-border p-1 mt-2 bg-gray-100 h-full rounded listsize"
             scroll-y="true"
             @scrolltolower="lower"
             enable-flex
@@ -30,8 +30,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import voteItem from '@/components/vote-item/vote-item.vue'
+import {Component, Vue} from "vue-property-decorator"
+import voteItem from "@/components/vote-item/vote-item.vue"
 
 @Component({
     components: {
@@ -42,6 +42,7 @@ export default class VoteList extends Vue {
     [x: string]: any
 
     get hasMore() {
+        console.log("hasMore:::", this.$store.state.item.hasMore)
         return this.$store.state.item.hasMore
     }
 
@@ -50,19 +51,21 @@ export default class VoteList extends Vue {
     }
 
     get searching() {
-        console.log('search:::', this.$store.state.item.searching)
-        return this.$store.state.item.searching
+        const isOnlyOne = this.$store.state.item.items.length == 1
+        const searching = this.$store.state.item.searching as boolean
+        console.log(`isOnlyOne:${isOnlyOne}, search:${searching}`, isOnlyOne ? isOnlyOne : searching)
+        return isOnlyOne ? isOnlyOne : searching
     }
 
     lower() {
-        this.$store.dispatch('item/itemsByCate')
+        this.$store.dispatch("item/itemsByCate")
     }
 }
 </script>
 
 <style lang="scss" scoped>
 .listsize {
-    width: 730rpx;
-    height: calc(100vh-50px);
+    width: 730 rpx;
+    height: calc(100 vh-50px);
 }
 </style>

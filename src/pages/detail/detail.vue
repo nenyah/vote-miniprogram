@@ -14,27 +14,35 @@
         <!-- 选手详情 -->
         <sub-title :content="title1"></sub-title>
         <!-- 选手图片 -->
-        <view class="flex justify-center">
-            <vote-item :item="item"></vote-item>
-        </view>
+        <DetailItem :item="item"/>
         <!-- 作品展示 -->
         <sub-title
-            v-if="item.works !== undefined"
+            v-if="item.works.length>0"
             :content="title4"
         ></sub-title>
-        <image v-if="item.works !== undefined" :src="item.works" mode="widthFix" style="width:700rpx;"></image>
+
+        <SliderImg :autoplay="autoplay" :duration="duration" :indicator-dots="indicatorDots" :interval="interval"
+                   :item="item" :swiper="swiper"/>
         <!-- 风采展示 -->
-        <sub-title v-if="item.play !== undefined" :content="title2"></sub-title>
-        <detail-video v-if="item.play !== undefined" :src="item.play"></detail-video>
+        <sub-title
+            v-if="item.play !== undefined"
+            :content="title2"
+        ></sub-title>
+        <detail-video
+            v-if="item.play !== undefined"
+            :src="item.play"
+        ></detail-video>
 
         <!-- 选手简介 -->
         <sub-title
             v-if="item.description !== undefined"
             :content="title3"
         ></sub-title>
-        <view v-if="item.description" class="text-gray-100 p-4 text-center">{{
-                item.description
-            }}
+        <view
+            v-if="item.description"
+            class="text-gray-100 p-4 text-center"
+        >
+            {{ item.description }}
         </view>
         <!-- 帮我拉票 -->
         <view class="text-center">
@@ -75,16 +83,21 @@ import voteFooter from "@/components/footer/footer.vue"
 import subTitle from "@/components/sub-title/sub-title.vue"
 import detailVideo from "@/components/detail-video/detail-video.vue"
 import modal from "@/components/modal/modal.vue"
+import DetailItem from "@/pages/detail/DetailItem.vue"
+import SliderImg from "@/pages/detail/SliderImg.vue"
 
 let app = getApp()
 
 interface OnLoadParams {
     id?: number
+    actId?: number
     scene?: string
 }
 
 @Component({
     components: {
+        SliderImg,
+        DetailItem,
         title,
         stats,
         voteItem,
@@ -103,6 +116,10 @@ export default class Detail extends Vue {
     private title2 = "选手风采"
     private title3 = "选手简介"
     private title4 = "选手作品"
+    private indicatorDots = true
+    private autoplay = true
+    private interval = 2000
+    private duration = 500
 
     get showModal() {
         return this.$store.state.item.showModal
@@ -120,10 +137,8 @@ export default class Detail extends Vue {
         return this.$store.state.activity.activity
     }
 
-
     @Watch("item")
     itemChange(newVal: string, oldVal: string) {
-
     }
 
     backToIndex() {
@@ -139,19 +154,26 @@ export default class Detail extends Vue {
     }
 
     async onLoad(query: OnLoadParams) {
+        console.log("query:::", query)
+
         const scene =
             query.scene !== undefined
                 ? decodeURIComponent(query.scene)
                 : "undefined"
         // 根据参数判断是其他页面跳转还是扫码进入
         if (scene == "undefined") {
-            return
+            this.id = query.id as number
+            this.actId = query.actId as number
+        } else {
+            this.id = Number(scene.split("&")[0].split("=")[1])
+            this.actId = Number(scene.split("&")[1].split("=")[1])
         }
-        this.id = Number(scene.split("&")[0].split("=")[1])
-        this.actId = Number(scene.split("&")[1].split("=")[1])
         uni.$on("updateDetail", async () => {
             this.$store.commit("activity/selectActivityByID", this.actId)
-            await this.$store.dispatch("item/itemById", {id: this.id, activityId: this.actId})
+            await this.$store.dispatch("item/itemById", {
+                id: this.id,
+                activityId: this.actId,
+            })
             // 设置标题
             uni.setNavigationBarTitle({
                 title: `我是${this.item.code}号，${this.item.name} 正在参加${this.activity.name}`,
@@ -159,11 +181,13 @@ export default class Detail extends Vue {
         })
     }
 
-
     onHide() {
         uni.$off("updateDetail", async () => {
             await this.$store.dispatch("activity/activityById", this.actId)
-            await this.$store.dispatch("item/itemById", {id: this.id, activityId: this.actId})
+            await this.$store.dispatch("item/itemById", {
+                id: this.id,
+                activityId: this.actId,
+            })
             // 设置标题
             uni.setNavigationBarTitle({
                 title: `我是${this.item.code}号，${this.item.name} 正在参加${this.activity.name}`,
@@ -182,32 +206,35 @@ export default class Detail extends Vue {
         })
     }
 
-    // An highlighted block
-    // 这两个方法可以直接写在methods里面， 也可以写在和生命周期同级的地方
-    // 分享到朋友圈
-    onShareTimeline(res: any) {
-        console.log("res:::", res)
-        return {
-            title: `我是${this.item.code}号，${this.item?.name} 正在参加${this.activity.name}`,
-            query: `itemId=${this.item.id}&actId=${this.actId}`,
-            imageUrl: this.canvasUrl,
-        }
-    }
+    // // An highlighted block
+    // // 这两个方法可以直接写在methods里面， 也可以写在和生命周期同级的地方
+    // // 分享到朋友圈
+    // onShareTimeline(res: any) {
+    //     console.log('res:::', res)
+    //     const query = encodeURI(`id=${this.item.id}&actId=${this.activity.id}`)
+    //     console.log('query onShareTimeline:::', query)
+    //     return {
+    //         title: `我是${this.item.code}号朋友圈，${this.item?.name} 正在参加${this.activity.name}`,
+    //         query: {
+    //             query,
+    //         },
+    //         imageUrl: this.canvasUrl,
+    //     }
+    // }
 
     // 这两个方法都要写上，就算不分享给好友也要有这个方法，下面的showShareMenu配置要用到
     onShareAppMessage(res: any) {
-        if (res.from === "button") {
-            // 来自页面内转发按钮
-            console.log(res.target)
-            const query = encodeURI(`id=${this.id}&actId=${this.actId}`)
-            return {
-                title: `我是${this.item.code}号，${this.item?.name} 正在参加${this.activity.name}`,
-                path: `/pages/detail/detail?scene=${query}`,
-                imageUrl: this.canvasUrl,
-            }
+        wx.showShareMenu({
+            withShareTicket: true,
+            menus: ["shareAppMessage", "shareTimeline"],
+        })
+        // 来自页面内转发按钮
+        return {
+            title: `我是${this.item.code}号朋友，${this.item?.name} 正在参加${this.activity.name}`,
+            path: `/pages/detail/detail?id=${this.item.id}&actId=${this.activity.id}`,
+            imageUrl: this.canvasUrl,
         }
     }
 }
 </script>
 
-<style></style>

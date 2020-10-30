@@ -39,7 +39,7 @@
                         活动详情：
                     </view>
                     <view class="flex" @click="display = !display">
-                        {{ display ? "收起" : "展开" }}
+                        {{ display ? '收起' : '展开' }}
                         <view class="text-theme-red ml-2">></view>
                     </view>
                 </view>
@@ -83,21 +83,21 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue} from "vue-property-decorator"
-import banner from "@/components/banner/banner.vue"
-import title from "@/components/title/title.vue"
-import stats from "@/components/stats/stats.vue"
-import voteRule from "@/components/vote-rule/vote-rule.vue"
-import searchBar from "@/components/search-bar/search-bar.vue"
-import voteList from "@/components/vote-list/vote-list.vue"
-import voteFooter from "@/components/footer/footer.vue"
-import uniCountdown from "@/components/uni-countdown/uni-countdown.vue"
-import uniSegmentedControl from "@/components/uni-segmented-control/uni-segmented-control.vue"
-import topShow from "@/components/top-show/top-show.vue"
-import voteTabbar from "@/components/vote-tabbar/vote-tabbar.vue"
-import modal from "@/components/modal/modal.vue"
-import {CategoryResponse} from "@/common/interface"
-import moment from "moment"
+import { Component, Vue } from 'vue-property-decorator'
+import banner from '@/components/banner/banner.vue'
+import title from '@/components/title/title.vue'
+import stats from '@/components/stats/stats.vue'
+import voteRule from '@/components/vote-rule/vote-rule.vue'
+import searchBar from '@/components/search-bar/search-bar.vue'
+import voteList from '@/components/vote-list/vote-list.vue'
+import voteFooter from '@/components/footer/footer.vue'
+import uniCountdown from '@/components/uni-countdown/uni-countdown.vue'
+import uniSegmentedControl from '@/components/uni-segmented-control/uni-segmented-control.vue'
+import topShow from '@/components/top-show/top-show.vue'
+import voteTabbar from '@/components/vote-tabbar/vote-tabbar.vue'
+import modal from '@/components/modal/modal.vue'
+import { CategoryResponse } from '@/common/interface'
+import moment from 'moment'
 
 @Component({
     components: {
@@ -118,7 +118,7 @@ import moment from "moment"
 export default class Index extends Vue {
     [x: string]: any
 
-    private msg = "活动已经结束"
+    private msg = '活动已经结束'
     private display = false
     private current = 0
     private activeIndex = 0
@@ -132,7 +132,7 @@ export default class Index extends Vue {
     }
 
     get desc() {
-        return this.activity?.description?.split("\n")
+        return this.activity?.description?.split('\n')
     }
 
     get activity() {
@@ -140,7 +140,7 @@ export default class Index extends Vue {
     }
 
     get countdownTime() {
-        let {startTime, endTime, status} = this.$store.state.activity.activity
+        let { startTime, endTime, status } = this.$store.state.activity.activity
         //  获取当前时间
         let now = moment()
         startTime = moment(startTime)
@@ -148,10 +148,10 @@ export default class Index extends Vue {
         let duration = moment.duration(startTime.diff(now))
 
         // 根据状态显示不同内容
-        if (status === "ISCOMING") {
-            this.msg = "活动开始还有"
-        } else if (status === "ONGOING") {
-            this.msg = "活动结束还有"
+        if (status === 'ISCOMING') {
+            this.msg = '活动开始还有'
+        } else if (status === 'ONGOING') {
+            this.msg = '活动结束还有'
             duration = moment.duration(endTime.diff(now))
         }
         const time = {
@@ -162,24 +162,25 @@ export default class Index extends Vue {
             sec: duration.seconds(),
         }
         if (duration.days() > 0) {
-            time["showDay"] = true
+            time['showDay'] = true
         }
         return time
     }
 
     get cateItem() {
-        return this.$store.state.category.categories.map((el: CategoryResponse) => el.name)
+        return this.$store.state.category.categories.map(
+            (el: CategoryResponse) => el.name
+        )
     }
 
     get items() {
         return this.$store.state.item.items
     }
 
-
     async onLoad(query: { actId: number }) {
-        console.log("actId:::", query.actId)
-        await this.$store.dispatch("category/getCategories")
-        await this.$store.dispatch("item/itemsByCate")
+        console.log('actId:::', query.actId)
+        await this.$store.dispatch('category/getCategories')
+        await this.$store.dispatch('item/itemsByCate')
         // 设置标题
         uni.setNavigationBarTitle({
             title: this.$store.state.activity.activity.name,
@@ -190,38 +191,38 @@ export default class Index extends Vue {
         // 1. 增加访问量
         this.increateVisit(query)
         uni.hideShareMenu({
-            hideShareItems: ["qq", "qzone"]
+            hideShareItems: ['qq', 'qzone'],
         })
     }
 
     onUnload() {
-        this.$store.commit("category/selectCateByIndex", 0)
-        this.$store.commit("item/initItems")
+        this.$store.commit('category/selectCateByIndex', 0)
+        this.$store.commit('item/initItems')
     }
 
     hide() {
-        console.log("parent receive:::")
-        this.$store.commit("item/toggleModal")
+        console.log('parent receive:::')
+        this.$store.commit('item/toggleModal')
     }
 
     onClickItem(e: any) {
         if (this.current === e.currentIndex) {
             return
         }
-        this.$store.commit("item/initItems")
-        this.$store.commit("category/selectCateByIndex", e.currentIndex)
-        this.$store.dispatch("item/itemsByCate")
+        this.$store.commit('item/initItems')
+        this.$store.commit('category/selectCateByIndex', e.currentIndex)
+        this.$store.dispatch('item/itemsByCate')
     }
-
     onShareAppMessage(res: any) {
-        console.log("分享:::", res)
-        if (res.from === "button") {// 来自页面内分享按钮
-            console.log(res.target)
-        }
-        const id = this.$store.state.item.item.id
-        const actId = this.$store.state.activity.activity.id
+        wx.showShareMenu({
+            withShareTicket: true,
+            menus: ['shareAppMessage', 'shareTimeline'],
+        })
+        const {id,code,name} = this.$store.state.item.item
+        const {id:actId,name:actName} = this.$store.state.activity.activity
+        console.log(`query onShareAppMessage::: id=${id}, actId=${actId}`,)
         return {
-            title: `我在参加伊婉明星脸活动，快来帮我投票吧！`,
+            title: `我是${code}号朋友，${name} 正在参加${actName}`,
             path: `/pages/detail/detail?id=${id}&actId=${actId}`,
             imageUrl: this.canvasUrl,
         }
@@ -234,9 +235,8 @@ export default class Index extends Vue {
      * @private
      */
     private increateVisit(query: { actId: number }) {
-        this.$store.dispatch("activity/recordVisit", query.actId)
+        this.$store.dispatch('activity/recordVisit', query.actId)
     }
-
 }
 </script>
 
