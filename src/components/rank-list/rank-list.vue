@@ -32,7 +32,6 @@ import rankItem from "@/components/rank-item/rank-item.vue"
 
 @Component({
     components: {
-        voteItem,
         rankItem,
     }
 })
