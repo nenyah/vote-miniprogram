@@ -30,7 +30,7 @@
                     </view>
                     <view
                         class="flex-1 bg-theme-red text-white p-2"
-                        @click="vote"
+                        @click="vote(item.id)"
                     >
                         投票
                     </view>
@@ -68,6 +68,7 @@ import {Iitem} from "@/common/Item"
 @Component
 export default class VoteItem extends Vue {
     [x: string]: any
+
     @Prop() item!: Iitem
     private mark = false
     @Prop() private index!: boolean
@@ -91,8 +92,8 @@ export default class VoteItem extends Vue {
         })
     }
 
-    vote() {
-        this.$store.dispatch("item/vote")
+    vote(itemId: number) {
+        this.$store.dispatch("item/vote", {itemId})
     }
 }
 </script>

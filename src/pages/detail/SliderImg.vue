@@ -6,10 +6,13 @@
             :duration="duration"
             v-if="item.works.length>0"
     >
-        <swiper-item v-for="(img,index) in item.works" :key="index">
+        <swiper-item
+            v-for="(img,index) in item.works"
+            :key="index"
+        >
             <image
                 :src="img"
-                mode="widthFix"
+                mode="aspectFit"
                 style="width:750rpx;"
             ></image>
         </swiper-item>
@@ -32,5 +35,6 @@ export default {
 <style lang="scss" scoped>
 .swiper {
     width: 750rpx;
+    height: 500rpx;
 }
 </style>

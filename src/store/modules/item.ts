@@ -71,6 +71,7 @@ const init: Module<State, any> = {
     getters: {},
     actions: {
         itemsByCate: throttle(async ({state, commit, rootState}) => {
+            console.log("itemsByCate:::")
             const activityId = rootState.activity.activity.id
             const categoryId = rootState.category.category.id
             let res = {} as ItemResponse
@@ -168,10 +169,24 @@ const init: Module<State, any> = {
                     })
                 })
         },
-        async vote({commit, state, rootState}) {
+        async vote({commit, state, rootState,dispatch}, {itemId, index}) {
             const {status} = rootState.activity.activity
             const {isFollower} = rootState.user
             const isLogin = rootState.isLogin
+            const actId = rootState.activity.activity.id
+
+            async function updateItem() {
+                try {
+                    const res = await api.item.itemById({id: itemId, activityId: actId})
+                    if (res.data.length > 0) {
+                        commit("setItem", res.data[0])
+                    }
+                } catch (e) {
+                    console.log("获取选手信息错误", e)
+                }
+            }
+
+            await updateItem()
             if (status !== "ONGOING") {
                 uni.showToast({
                     title: "现在不是投票时间哦！",
@@ -217,9 +232,12 @@ const init: Module<State, any> = {
                 uni.showModal({
                     content: "投票成功！",
                     showCancel: false,
-                    success: (res) => {
+                    success: async (res) => {
                         // 上传成功后刷新页面
                         uni.$emit("update", {msg: "页面更新"})
+                        commit('initItems')
+                        await updateItem()
+                        await dispatch("itemsByCate")
                     },
                 })
             } catch (err) {

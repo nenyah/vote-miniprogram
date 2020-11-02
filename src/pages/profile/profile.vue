@@ -56,8 +56,7 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
-import Component from "vue-class-component"
+import {Component, Vue, Watch} from "vue-property-decorator"
 import {getVoteStat} from "@/servise/vote"
 import sumBy from "lodash/sumBy"
 
@@ -69,6 +68,7 @@ import sumBy from "lodash/sumBy"
     },
 })
 export default class Profile extends Vue {
+    [x: string]: any
     actNum: number = 0
     totalVoteNum: number = 0
 

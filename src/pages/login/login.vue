@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
+import {Component, Vue, Watch} from "vue-property-decorator"
 import api from "@/api"
 
 type Code = string
@@ -49,62 +49,119 @@ interface UserParams {
     iv: IV
 }
 
-export default Vue.extend({
-    data() {
-        return {
-            AuthorizedUserInfo: false as boolean,
-            AuthorizedPhone: false as boolean,
+@Component({})
+export default class Login extends Vue {
+    [x: string]: any
+
+    private AuthorizedUserInfo = false
+    private AuthorizedPhone = false
+
+    @Watch("AuthorizedPhone")
+    finishPhone(newValue: string, oldValue: string) {
+        uni.navigateBack({})
+    }
+
+    isFail(e: any) {
+        return e.detail.errMsg.includes("fail")
+    }
+
+    showFailMsg() {
+        uni.showToast({
+            title: "为了更好的为你服务，请同意授权",
+            icon: "none",
+        })
+    }
+
+    async getphonenumber(e: any) {
+        console.log("获取手机触发", e.detail)
+        if (this.isFail(e)) {
+            console.log("获取授权失败")
+            this.showFailMsg()
+            return
         }
-    },
-    watch: {
-        AuthorizedPhone(newValue, oldValue) {
-            uni.navigateBack({})
-        },
-    },
-    methods: {
-        isFail(e: any) {
-            return e.detail.errMsg.includes("fail")
-        },
-        showFailMsg() {
-            uni.showToast({
-                title: "为了更好的为你服务，请同意授权",
-                icon: "none",
-            })
-        },
-        async getphonenumber(e: any) {
-            console.log("获取手机触发", e.detail)
-            if (this.isFail(e)) {
-                console.log("获取授权失败")
-                this.showFailMsg()
-                return
-            }
-            this.AuthorizedPhone = true
-            let postParams = e.detail as UserParams
-            await api.user.info({
-                signature: postParams.signature,
-                encryptedData: postParams.encryptedData,
-                iv: postParams.iv,
-            })
-            this.$store.commit("SET_IS_LOGIN", true)
-        },
-        async getuserinfo(e: any) {
-            console.log("获取用户信息触发", e.detail)
-            if (this.isFail(e)) {
-                console.log("获取授权失败")
-                this.showFailMsg()
-                return
-            }
-            this.AuthorizedUserInfo = true
-            let postParams = e.detail as UserParams
-            await api.user.info({
-                signature: postParams.signature,
-                encryptedData: postParams.encryptedData,
-                iv: postParams.iv,
-            })
+        this.AuthorizedPhone = true
+        let postParams = e.detail as UserParams
+        await api.user.info({
+            signature: postParams.signature,
+            encryptedData: postParams.encryptedData,
+            iv: postParams.iv,
+        })
+        this.$store.commit("SET_IS_LOGIN", true)
+        await this.$store.dispatch("user/login")
+    }
+
+    async getuserinfo(e: any) {
+        console.log("获取用户信息触发", e.detail)
+        if (this.isFail(e)) {
+            console.log("获取授权失败")
+            this.showFailMsg()
+            return
         }
-        ,
-    },
-})
+        this.AuthorizedUserInfo = true
+        let postParams = e.detail as UserParams
+        await api.user.info({
+            signature: postParams.signature,
+            encryptedData: postParams.encryptedData,
+            iv: postParams.iv,
+        })
+    }
+}
+// export default Vue.extend({
+//     data() {
+//         return {
+//             AuthorizedUserInfo: false as boolean,
+//             AuthorizedPhone: false as boolean,
+//         }
+//     }
+//     watch: {
+//         AuthorizedPhone(newValue, oldValue) {
+//             uni.navigateBack({})
+//         },
+//     },
+//     methods: {
+//         isFail(e: any) {
+//             return e.detail.errMsg.includes("fail")
+//         },
+//         showFailMsg() {
+//             uni.showToast({
+//                 title: "为了更好的为你服务，请同意授权",
+//                 icon: "none",
+//             })
+//         },
+//         async getphonenumber(e: any) {
+//             console.log("获取手机触发", e.detail)
+//             if (this.isFail(e)) {
+//                 console.log("获取授权失败")
+//                 this.showFailMsg()
+//                 return
+//             }
+//             this.AuthorizedPhone = true
+//             let postParams = e.detail as UserParams
+//             await api.user.info({
+//                 signature: postParams.signature,
+//                 encryptedData: postParams.encryptedData,
+//                 iv: postParams.iv,
+//             })
+//             this.$store.commit("SET_IS_LOGIN", true)
+//         },
+//         async getuserinfo(e: any) {
+//             console.log("获取用户信息触发", e.detail)
+//             if (this.isFail(e)) {
+//                 console.log("获取授权失败")
+//                 this.showFailMsg()
+//                 return
+//             }
+//             this.AuthorizedUserInfo = true
+//             let postParams = e.detail as UserParams
+//             await api.user.info({
+//                 signature: postParams.signature,
+//                 encryptedData: postParams.encryptedData,
+//                 iv: postParams.iv,
+//             })
+//         }
+//         ,
+//     },
+// })
 </script>
 
 <style scoped></style>

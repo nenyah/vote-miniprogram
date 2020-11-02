@@ -6,7 +6,7 @@
         <stats :content="item.stats" :isDetail="true">
             <view
                 class="text-2xl text-gray-100 font-bold text-center mt-4 border border-solid border-gray-200 p-2 inline-flex bg-theme-red"
-                @click="vote"
+                @click="vote(item.id)"
             >
                 投票
             </view>
@@ -86,7 +86,6 @@ import modal from "@/components/modal/modal.vue"
 import DetailItem from "@/pages/detail/DetailItem.vue"
 import SliderImg from "@/pages/detail/SliderImg.vue"
 
-let app = getApp()
 
 interface OnLoadParams {
     id?: number
@@ -195,8 +194,8 @@ export default class Detail extends Vue {
         })
     }
 
-    async vote() {
-        this.$store.dispatch("item/vote")
+    async vote(itemId: number) {
+        this.$store.dispatch("item/vote",{itemId})
     }
 
     // 生成分享海报
