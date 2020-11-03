@@ -13,14 +13,14 @@
             @scrolltolower="lower"
             enable-flex
         >
-            <view v-for="item in items" :key="item.id">
-                <vote-item
-                    :item="item"
-                    :index="true"
-                    :col="2"
-                    @plusVote="handlePlusVote"
-                ></vote-item>
-            </view>
+            <vote-item
+                :item="item"
+                :index="true"
+                :col="2"
+                @plusVote="handlePlusVote"
+                v-for="item in items"
+                :key="item.id"
+            ></vote-item>
 
         </scroll-view>
         <view v-if="!searching&&items.length>10" class="self-center mx-auto my-2">
@@ -43,7 +43,6 @@ export default class VoteList extends Vue {
     [x: string]: any
 
     get hasMore() {
-        console.log("hasMore:::", this.$store.state.item.hasMore)
         return this.$store.state.item.hasMore
     }
 
@@ -64,6 +63,6 @@ export default class VoteList extends Vue {
 <style lang="scss" scoped>
 .listsize {
     width: 730 rpx;
-    height: calc(100 vh-50px);
+    height: 90vh;
 }
 </style>

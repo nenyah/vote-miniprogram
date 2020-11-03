@@ -10,9 +10,7 @@
             <view v-else>{{ index + 1 }}</view>
         </view>
         <view class="flex-1 text-center">{{ item.code }}</view>
-        <view @click="toUrl">
-            <view class="flex-1 text-center">{{ item.name }}</view>
-        </view>
+        <view class="flex-1 text-center" @click="toUrl">{{ item.name }}</view>
         <view class="flex-1 text-center">{{ item.stats[0].value }}</view>
     </view>
 </template>
