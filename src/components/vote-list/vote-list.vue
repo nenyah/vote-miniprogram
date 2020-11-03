@@ -17,7 +17,6 @@
                 :item="item"
                 :index="true"
                 :col="2"
-                @plusVote="handlePlusVote"
                 v-for="item in items"
                 :key="item.id"
             ></vote-item>
