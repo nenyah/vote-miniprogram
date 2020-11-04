@@ -18,8 +18,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     modules: {user, activity, category, item},
     state: {
-        currentActId: -1,
-        currentItemId: -1,
+        // currentActId: -1,
+        // currentItemId: -1,
         openid: "",
         token: "",
         unionid: "",

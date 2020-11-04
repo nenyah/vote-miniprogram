@@ -19,13 +19,11 @@ export default Vue.extend({
         this.initApp()
     },
     onHide() {
-        console.log('App Hide')
-
+        console.log("App Hide")
     },
-    globalData: {
-    },
-    methods:{
-        ...mapActions(['initApp'])
+    globalData: {},
+    methods: {
+        ...mapActions(["initApp"])
     }
 })
 </script>
@@ -40,15 +38,19 @@ export default Vue.extend({
 .bg-theme-p-2 {
     background-color: #f078a8;
 }
+
 .bg-theme-red {
     background-color: #cd005b;
 }
+
 .text-theme-red {
     color: #cd005b;
 }
+
 .text-theme-red-light {
     color: #f078a8;
 }
+
 .text-theme-gray {
     color: #595757;
 }

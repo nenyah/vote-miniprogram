@@ -70,18 +70,22 @@ export default class VoteItem extends Vue {
     [x: string]: any
 
     @Prop() item!: Iitem
-    private mark = false
     @Prop() private index!: boolean
     @Prop() private col = 1
+    private mark = false
 
     get customWidth() {
         return `width:320rpx;`
     }
 
+    get activity() {
+        return this.$store.state.activity.activity
+    }
+
     toUrl() {
         this.$store.commit("item/setItem", this.item)
         uni.navigateTo({
-            url: `/pages/detail/detail?id=${this.item.id}`
+            url: `/pages/detail/detail?id=${this.item.id}&actId=${this.activity.id}`
         })
     }
 

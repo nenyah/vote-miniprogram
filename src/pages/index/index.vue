@@ -181,7 +181,7 @@ export default class Index extends Vue {
         await this.$store.dispatch("item/itemsByCate")
         // 设置标题
         uni.setNavigationBarTitle({
-            title: this.$store.state.activity.activity.name,
+            title: this.activity.name,
         })
         if (!query.actId) {
             return

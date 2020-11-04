@@ -61,6 +61,8 @@ import {Component, Vue} from "vue-property-decorator"
 
 @Component({})
 export default class Home extends Vue {
+    [x: string]: any
+
     private autoplay = false
     private interval = 300
     private indicatorDots = false
@@ -71,7 +73,9 @@ export default class Home extends Vue {
     }
 
     goIndex(id: number) {
+        console.log("id:::", id)
         this.$store.commit("activity/selectActivityByID", id)
+        this.$store.commit("activity/setCurrentActIdx", id)
         uni.navigateTo({
             url: `/pages/index/index?actId=${id}`
         })

@@ -142,13 +142,7 @@ export default class Detail extends Vue {
 
     backToIndex() {
         uni.redirectTo({
-            url: `/pages/index/index?actId=${this.actId}`,
-            success: (res) => {
-                console.log("res:::", res)
-            },
-            fail: (err) => {
-                console.error("err:::", err)
-            },
+            url: `/pages/index/index?actId=${this.actId}`
         })
     }
 
@@ -178,24 +172,23 @@ export default class Detail extends Vue {
                 title: `我是${this.item.code}号，${this.item.name} 正在参加${this.activity.name}`,
             })
         })
-    }
-
-    onHide() {
-        uni.$off("updateDetail", async () => {
-            await this.$store.dispatch("activity/activityById", this.actId)
-            await this.$store.dispatch("item/itemById", {
-                id: this.id,
-                activityId: this.actId,
-            })
-            // 设置标题
-            uni.setNavigationBarTitle({
-                title: `我是${this.item.code}号，${this.item.name} 正在参加${this.activity.name}`,
-            })
+        // 设置标题
+        uni.setNavigationBarTitle({
+            title: `我是${this.item.code}号，${this.item.name} 正在参加${this.activity.name}`,
         })
     }
 
+    onHide() {
+        uni.$off()
+
+    }
+
+    onUnload() {
+        uni.$off()
+    }
+
     async vote(itemId: number) {
-        this.$store.dispatch("item/vote",{itemId})
+        this.$store.dispatch("item/vote", {itemId})
     }
 
     // 生成分享海报

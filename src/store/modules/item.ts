@@ -129,6 +129,7 @@ const init: Module<State, any> = {
             }
         },
         itemById: async ({state, commit, rootState}, {id, activityId}) => {
+            console.log("get itemByID::: id",id,"activityId",activityId)
             try {
                 const res = await api.item.itemById({id, activityId})
                 if (res.data.length > 0) {
@@ -169,7 +170,7 @@ const init: Module<State, any> = {
                     })
                 })
         },
-        async vote({commit, state, rootState,dispatch}, {itemId, index}) {
+        async vote({commit, state, rootState, dispatch}, {itemId, index}) {
             const {status} = rootState.activity.activity
             const {isFollower} = rootState.user
             const isLogin = rootState.isLogin
@@ -235,7 +236,7 @@ const init: Module<State, any> = {
                     success: async (res) => {
                         // 上传成功后刷新页面
                         uni.$emit("update", {msg: "页面更新"})
-                        commit('initItems')
+                        commit("initItems")
                         await updateItem()
                         await dispatch("itemsByCate")
                     },

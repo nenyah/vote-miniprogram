@@ -7,6 +7,7 @@ interface State {
     activities: Iactivity[]
     activity: Iactivity
     isValidTime: boolean
+    currentActIdx: number
 }
 
 
@@ -15,18 +16,26 @@ const init: Module<State, any> = {
     state: {
         activities: [],
         activity: new Activity(),
-        isValidTime: false
+        isValidTime: false,
+        currentActIdx: 0
     },
     mutations: {
         setActivities: (state, data) => {
             state.activities = data
         },
         selectActivityByID: async (state, id) => {
-            const activity = state.activities.filter(el => el.id == id)[0]
+            const activity = state.activities.find(el => el.id == id)
             state.activity = new Activity(activity)
+        },
+        setCurrentActIdx: (state, idx) => {
+            state.currentActIdx = idx
         }
     },
-    getters: {},
+    getters: {
+        getActivityByIdx: (state) => {
+            return state.activities.find(el => el.id == state.currentActIdx)
+        }
+    },
     actions: {
         getActivities: async ({commit}) => {
             try {
