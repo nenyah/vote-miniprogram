@@ -6,7 +6,7 @@
  * @LastEditTime: 2020-10-21 16:54:57
 -->
 <template>
-  <view class="px-4 pt-2 w-11--12">
+  <view class="px-4 pt-2">
     <view class="mt-2 p-2 stat-border flex flex-col items-center w-full">
       <view class="flex stat-content" style="width: 600rpx;">
         <view class="flex-1 text-center" v-for="(item, index) in content" :key="index">

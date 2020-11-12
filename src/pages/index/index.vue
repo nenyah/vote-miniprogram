@@ -1,6 +1,6 @@
 <template>
     <view class="bg-theme-p-1">
-        <view class="pb-10  flex flex-col items-center">
+        <view class="pb-10">
             <!-- 品牌介绍-->
             <top-show></top-show>
             <!-- 广告轮播图 -->
@@ -29,7 +29,7 @@
                 </view>
             </stats>
             <!-- 规则区域 -->
-            <view class="pt-4 my-2 bg-gray-100 w-11--12 rounded">
+            <view class="pt-4 my-2 bg-gray-100 w-11--12 rounded mx-auto">
                 <!-- 活动规则 -->
                 <vote-rule :activity="activity"></vote-rule>
                 <!-- 活动详情 -->

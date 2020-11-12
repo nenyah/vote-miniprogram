@@ -6,9 +6,9 @@
  * @LastEditTime: 2020-10-27 14:29:44
 -->
 <template>
-    <view class="text-gray-100 flex flex-col items-center w-full" v-if="items.length>0">
+    <view class="text-gray-100 bg-gray-100 flex-none flex flex-col items-center w-full" v-if="items.length>0">
         <scroll-view
-            class="flex flex-wrap justify-start box-border p-1 mt-2 bg-gray-100 rounded listsize"
+            class="flex flex-wrap justify-start box-border p-1 mt-2 rounded listsize"
             scroll-y="true"
             @scrolltolower="lower"
             enable-flex
