@@ -1,16 +1,15 @@
-import {Module} from "vuex"
-import api from "@/api"
-import {Iitem, ItemResponse} from "@/common/Item"
-import Item from "@/model/item"
-import throttle from "lodash/throttle"
-import {handleVote} from "@/servise/vote"
-
+import { Module } from 'vuex'
+import api from '@/api'
+import { Iitem, ItemResponse } from '@/common/Item'
+import Item from '@/model/item'
+import throttle from 'lodash/throttle'
+import { handleVote } from '@/servise/vote'
 interface State {
-    items: Iitem[];
-    item: Iitem;
-    top10: Iitem[];
-    hasMore: boolean;
-    pageNo: number;
+    items: Iitem[]
+    item: Iitem
+    top10: Iitem[]
+    hasMore: boolean
+    pageNo: number
     showModal: boolean
     canvasUrl: string
     shareTimeline: boolean
@@ -26,12 +25,12 @@ const init: Module<State, any> = {
         hasMore: true,
         pageNo: 1,
         showModal: false,
-        canvasUrl: "",
+        canvasUrl: '',
         shareTimeline: false,
         searching: false,
     },
     mutations: {
-        initItems: state => {
+        initItems: (state) => {
             state.items = []
             state.pageNo = 1
             state.hasMore = true
@@ -46,10 +45,10 @@ const init: Module<State, any> = {
         setItem: (state, o) => {
             state.item = new Item(o)
         },
-        addPageNo: state => {
+        addPageNo: (state) => {
             state.pageNo += 1
         },
-        changeHasMore: state => {
+        changeHasMore: (state) => {
             state.hasMore = false
         },
         setTop10: (state, data) => {
@@ -58,7 +57,7 @@ const init: Module<State, any> = {
         toggleModal(state) {
             state.showModal = !state.showModal
         },
-        changeUrl(state, {canvasUrl}) {
+        changeUrl(state, { canvasUrl }) {
             state.canvasUrl = canvasUrl
         },
         toggleShare(state) {
@@ -66,14 +65,16 @@ const init: Module<State, any> = {
         },
         toggleSearch(state) {
             state.searching = true
-        }
+        },
     },
     getters: {},
     actions: {
-        itemsByCate: throttle(async ({state, commit, rootState}) => {
-            console.log("itemsByCate:::")
+        itemsByCate: throttle(async ({ state, commit, rootState }) => {
+            console.log('excute itemsByCate:::', rootState)
             const activityId = rootState.activity.activity.id
-            const categoryId = rootState.category.category.id
+            const categoryId = rootState.category.category.id || ''
+            console.log(`activityId:${activityId}, categoryId:${categoryId}`)
+
             let res = {} as ItemResponse
             if (!state.hasMore) {
                 return
@@ -82,133 +83,142 @@ const init: Module<State, any> = {
                 res = await api.item.itemsByCate({
                     pageNo: state.pageNo,
                     activityId,
-                    categoryId
+                    categoryId,
                 })
             } catch (e) {
-                console.log("获取数据错误", e)
+                console.log('获取数据错误', e)
                 uni.showToast({
-                    title: "获取选手数据错误" + e,
-                    icon: "none"
+                    title: '获取选手数据错误' + e,
+                    icon: 'none',
                 })
             }
             if (res?.data?.length < 10) {
-                commit("changeHasMore")
-                commit("updateItems", res.data)
+                commit('changeHasMore')
+                commit('updateItems', res.data)
                 return
             }
-            commit("updateItems", res.data)
-            commit("addPageNo")
+            if (res?.data?.length > 0) {
+                commit('updateItems', res.data)
+                commit('addPageNo')
+            }
         }, 2000),
-        getTop10: async ({state, commit, rootState}) => {
+        getTop10: async ({ state, commit, rootState }) => {
             const activityId = rootState.activity.activity.id
             try {
-                const res = await api.item.itemsAll({activityId})
-                commit("setTop10", res.data)
+                const res = await api.item.itemsAll({ activityId })
+                commit('setTop10', res.data)
             } catch (e) {
-                console.log("获取前10选手信息失败", e)
+                console.log('获取前10选手信息失败', e)
                 uni.showToast({
                     title: `获取前10选手信息失败`,
-                    icon: "none"
+                    icon: 'none',
                 })
             }
         },
-        itemByCode: async ({state, commit, rootState}, code) => {
+        itemByCode: async ({ state, commit, rootState }, code) => {
             const activityId = rootState.activity.activity.id
             try {
-                const res = await api.item.itemByCode({code, activityId})
-                commit("initItems")
-                commit("changeHasMore")
-                commit("toggleSearch")
-                commit("setItems", res.data)
+                const res = await api.item.itemByCode({ code, activityId })
+                commit('initItems')
+                commit('changeHasMore')
+                commit('toggleSearch')
+                commit('setItems', res.data)
             } catch (e) {
-                console.log("获取选手信息失败", e)
+                console.log('获取选手信息失败', e)
                 uni.showToast({
                     title: `获取选手信息失败`,
-                    icon: "none"
+                    icon: 'none',
                 })
             }
         },
-        itemById: async ({state, commit, rootState}, {id, activityId}) => {
-            console.log("get itemByID::: id",id,"activityId",activityId)
+        itemById: async ({ state, commit, rootState }, { id, activityId }) => {
+            console.log('get itemByID::: id', id, 'activityId', activityId)
             try {
-                const res = await api.item.itemById({id, activityId})
+                const res = await api.item.itemById({ id, activityId })
                 if (res.data.length > 0) {
-                    commit("setItem", res.data[0])
+                    commit('setItem', res.data[0])
                 }
             } catch (e) {
-                console.log("获取选手信息失败", e)
+                console.log('获取选手信息失败', e)
                 uni.showToast({
                     title: `获取选手信息失败`,
-                    icon: "none"
+                    icon: 'none',
                 })
             }
         },
-        async share({commit, state, rootState}, {itemId}) {
+        async share({ commit, state, rootState }, { itemId }) {
             const actId = rootState.activity.activity.id
             try {
-                const res = await api.item.itemById({id: itemId, activityId: actId})
+                const res = await api.item.itemById({
+                    id: itemId,
+                    activityId: actId,
+                })
                 if (res.data.length > 0) {
-                    commit("setItem", res.data[0])
+                    commit('setItem', res.data[0])
                 }
             } catch (e) {
-                console.log("获取选手信息错误", e)
+                console.log('获取选手信息错误', e)
             }
-            api.item.getPoster({
-                itemId: itemId,
-                page: "pages/detail/detail",
-                scene: `id=${itemId}&actId=${actId}`,
-            })
+            api.item
+                .getPoster({
+                    itemId: itemId,
+                    page: 'pages/detail/detail',
+                    scene: `id=${itemId}&actId=${actId}`,
+                })
                 .then((res) => {
-                    commit("changeUrl", {canvasUrl: res})
-                    commit("toggleModal")
+                    commit('changeUrl', { canvasUrl: res })
+                    commit('toggleModal')
                 })
                 .catch((err) => {
-                    console.log("err:::", err)
+                    console.log('err:::', err)
                     uni.showToast({
-                        title: "生成海报错误",
-                        icon: "none",
+                        title: '生成海报错误',
+                        icon: 'none',
                     })
                 })
         },
-        async vote({commit, state, rootState, dispatch}, {itemId, index}) {
-            const {status} = rootState.activity.activity
-            const {isFollower} = rootState.user
+        async vote({ commit, state, rootState, dispatch }, { itemId, index }) {
+            const { status } = rootState.activity.activity
+            const { isFollower } = rootState.user
             const isLogin = rootState.isLogin
             const actId = rootState.activity.activity.id
 
             async function updateItem() {
                 try {
-                    const res = await api.item.itemById({id: itemId, activityId: actId})
+                    const res = await api.item.itemById({
+                        id: itemId,
+                        activityId: actId,
+                    })
                     if (res.data.length > 0) {
-                        commit("setItem", res.data[0])
+                        commit('setItem', res.data[0])
                     }
                 } catch (e) {
-                    console.log("获取选手信息错误", e)
+                    console.log('获取选手信息错误', e)
                 }
             }
 
             await updateItem()
-            if (status !== "ONGOING") {
+            if (status !== 'ONGOING') {
                 uni.showToast({
-                    title: "现在不是投票时间哦！",
-                    icon: "none",
+                    title: '现在不是投票时间哦！',
+                    icon: 'none',
                 })
                 return
             }
             if (!isFollower) {
                 uni.showModal({
-                    content: "请先关注公众号《YVOIRE伊婉》再投票哦！",
+                    content: '请先关注公众号《YVOIRE伊婉》再投票哦！',
                     showCancel: false,
                 })
                 return
             }
             if (!isLogin) {
                 uni.showModal({
-                    content: "你还没有登录",
-                    cancelText: "暂不登录",
-                    confirmText: "马上登录",
+                    content: '你还没有登录',
+                    cancelText: '暂不登录',
+                    confirmText: '马上登录',
                     success: async (res) => {
-                        console.log("登录同意后信息", res)
+                        console.log('登录同意后信息', res)
                         if (res.cancel) {
                             return
                         }
@@ -221,8 +231,8 @@ const init: Module<State, any> = {
             }
             try {
                 // 上传投票信息
-                let {success, errorMsg} = await handleVote(state.item.id)
-                console.log("上传之后", success, errorMsg)
+                let { success, errorMsg } = await handleVote(state.item.id)
+                console.log('上传之后', success, errorMsg)
                 if (success !== true) {
                     uni.showModal({
                         content: errorMsg,
@@ -231,21 +241,20 @@ const init: Module<State, any> = {
                     return
                 }
                 uni.showModal({
-                    content: "投票成功！",
+                    content: '投票成功！',
                     showCancel: false,
                     success: async (res) => {
                         // 上传成功后刷新页面
-                        uni.$emit("update", {msg: "页面更新"})
-                        commit("initItems")
+                        uni.$emit('update', { msg: '页面更新' })
+                        commit('initItems')
                         await updateItem()
-                        await dispatch("itemsByCate")
+                        await dispatch('itemsByCate')
                     },
                 })
             } catch (err) {
-                console.error("上传投票信息失败", err)
+                console.error('上传投票信息失败', err)
             }
-
         },
-    }
+    },
 }
 export default init

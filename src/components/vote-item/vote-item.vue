@@ -7,7 +7,7 @@
         >
             <view class="text-theme-red my-1">{{ item.code }} 号</view>
             <view>
-                <view @click="toUrl">
+                <view @tap="toUrl">
                     <image
                         :src="item.img"
                         mode="scaleToFill"
@@ -30,12 +30,12 @@
                     </view>
                     <view
                         class="flex-1 bg-theme-red text-white p-2"
-                        @click="vote(item.id)"
+                        @tap="vote(item.id)"
                     >
                         投票
                     </view>
                 </view>
-                <view class="my-1 p-2" @click="share">帮我拉票</view>
+                <view class="my-1 p-2" @tap="share">帮我拉票</view>
             </view>
         </view>
         <view

@@ -42,7 +42,7 @@
             </view>
         </view>
         <view class=" w-10--12 mx-auto my-3 bg-gray-100 shadow p-2 box-border">
-            <view class="flex justify-between items-center" @click="toHistory">
+            <view class="flex justify-between items-center" @tap="toHistory">
                 <view class="flex items-center">
                     <view class="fa fa-bookmark text-gray-500"></view>
                     <view class="mx-2">查看历史投票记录</view>

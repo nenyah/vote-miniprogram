@@ -6,7 +6,7 @@
         <view class="fa fa-clock-o text-orange-500 mr-2"></view>
         活动详情：
       </view>
-      <view class="flex" @click="display = !display">
+      <view class="flex" @tap="display = !display">
         {{ display ? "收起" : "展开" }}
         <view class="text-orange-500 ml-2">></view>
       </view>

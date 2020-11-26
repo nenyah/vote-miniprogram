@@ -3,18 +3,16 @@
  * @Author: Steven
  * @Date: 2020-10-10 15:14:47
  * @LastEditors: Steven
- * @LastEditTime: 2020-10-23 16:08:54
+ * @LastEditTime: 2020-11-26 12:42:00
 -->
 <template>
     <view>
         <view
-            v-for="activity in activities"
-            :key="activity.id"
+            v-for="(activity, index) in activities"
+            :key="index"
             class="my-4 px-2 text-center text-gray-500 rounded-lg shadow-lg"
         >
-            <view
-                @click="goIndex(activity.id)"
-            >
+            <view @tap="goIndex(activity.id)">
                 <swiper
                     v-for="(img, index) in activity.bannerImg"
                     :key="index"
@@ -39,9 +37,8 @@
                             class="fa fa-group mr-1 text-theme-red text-center"
                         ></view>
                         <view
-                        >{{ activity.stats[1].value }}人参与，已投票：
-                        </view
-                        >
+                            >{{ activity.stats[1].value }}人参与，已投票：
+                        </view>
                         <view>{{ activity.stats[2].value }}</view>
                     </view>
                     <view class="flex items-center">
@@ -53,11 +50,17 @@
                 </view>
             </view>
         </view>
+        <!-- uni-app未封装，但可直接使用微信原生的official-account组件-->
+        <!-- #ifdef MP-WEIXIN -->
+        <view class="bg-gray-100 w-full">
+            <official-account></official-account>
+        </view>
+        <!-- #endif -->
     </view>
 </template>
 
 <script lang="ts">
-import {Component, Vue} from "vue-property-decorator"
+import { Component, Vue } from 'vue-property-decorator'
 
 @Component({})
 export default class Home extends Vue {
@@ -73,14 +76,13 @@ export default class Home extends Vue {
     }
 
     goIndex(id: number) {
-        console.log("id:::", id)
-        this.$store.commit("activity/selectActivityByID", id)
-        this.$store.commit("activity/setCurrentActIdx", id)
+        console.log('id:::', id)
+        this.$store.commit('activity/selectActivityByID', id)
+        this.$store.commit('activity/setCurrentActIdx', id)
         uni.navigateTo({
-            url: `/pages/index/index?actId=${id}`
+            url: `/pages/index/index?actId=${id}`,
         })
     }
-
 }
 </script>
 
