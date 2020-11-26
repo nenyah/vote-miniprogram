@@ -1,7 +1,7 @@
 <template>
     <view
         class="fixed top-0 left-0 right-0 bottom-0 modal-backdrop flex justify-center items-center z-30"
-        @click="hide"
+        @tap="hide"
     >
         <view class="w-11--12 h-full flex flex-col justify-center items-center">
             <image
@@ -12,7 +12,7 @@
             <view class="flex text-gray-100 w-full mt-2 text-center">
                 <view
                     class="flex-1 border border-gray-100 border-solid bg-gray-500 p-1"
-                    @click.stop="save"
+                    @tap.stop="save"
                 >
                     保存
                 </view>

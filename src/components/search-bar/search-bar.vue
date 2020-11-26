@@ -11,7 +11,7 @@
                 />
                 <view class="flex-1 flex items-center justify-center">
                     <view v-if="code" class="fa fa-times text-gray-100 pr-2"
-                          @click="clearInput"
+                          @tap="clearInput"
                     ></view>
                     <view v-else class="fa fa-search text-gray-100 pr-2"></view>
                 </view>

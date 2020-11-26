@@ -6,7 +6,7 @@
         <stats :content="item.stats" :isDetail="true">
             <view
                 class="text-2xl text-gray-100 font-bold text-center mt-4 border border-solid border-gray-200 p-2 inline-flex bg-theme-red"
-                @click="vote(item.id)"
+                @tap="vote(item.id)"
             >
                 投票
             </view>
@@ -14,20 +14,20 @@
         <!-- 选手详情 -->
         <sub-title :content="title1"></sub-title>
         <!-- 选手图片 -->
-        <DetailItem :item="item"/>
+        <DetailItem :item="item" />
         <!-- 作品展示 -->
-        <sub-title
-            v-if="item.works.length>0"
-            :content="title4"
-        ></sub-title>
+        <sub-title v-if="item.works.length > 0" :content="title4"></sub-title>
 
-        <SliderImg :autoplay="autoplay" :duration="duration" :indicator-dots="indicatorDots" :interval="interval"
-                   :item="item" :swiper="swiper"/>
+        <SliderImg
+            :autoplay="autoplay"
+            :duration="duration"
+            :indicator-dots="indicatorDots"
+            :interval="interval"
+            :item="item"
+            :swiper="swiper"
+        />
         <!-- 风采展示 -->
-        <sub-title
-            v-if="item.play !== undefined"
-            :content="title2"
-        ></sub-title>
+        <sub-title v-if="item.play !== undefined" :content="title2"></sub-title>
         <detail-video
             v-if="item.play !== undefined"
             :src="item.play"
@@ -38,17 +38,14 @@
             v-if="item.description !== undefined"
             :content="title3"
         ></sub-title>
-        <view
-            v-if="item.description"
-            class="text-gray-100 p-4 text-center"
-        >
+        <view v-if="item.description" class="text-gray-100 p-4 text-center">
             {{ item.description }}
         </view>
         <!-- 帮我拉票 -->
         <view class="text-center">
             <view
                 class="inline-block text-gray-100 text-xl my-2 p-2 border-r-0 border-l-0 border-t-0 border-b-2 border-solid border-orange-500"
-                @click="share"
+                @tap="share"
             >
                 帮我拉票
             </view>
@@ -58,7 +55,7 @@
         <view class="text-center">
             <view
                 class="inline-block text-gray-100 text-xl my-2 p-2 border-r-0 border-l-0 border-t-0 border-b-2 border-solid border-orange-500"
-                @click="backToIndex"
+                @tap="backToIndex"
             >
                 返回
             </view>
@@ -71,21 +68,29 @@
             @hide="hide"
             :itemid="id"
         ></modal>
+        <!-- uni-app未封装，但可直接使用微信原生的official-account组件-->
+        <!-- #ifdef MP-WEIXIN -->
+        <view class="bg-gray-100 w-full">
+            <official-account
+                @bindload="bindload"
+                @binderror="binderror"
+            ></official-account>
+        </view>
+        <!-- #endif -->
     </view>
 </template>
 
 <script lang="ts">
-import {Component, Vue, Watch} from "vue-property-decorator"
-import title from "@/components/title/title.vue"
-import stats from "@/components/stats/stats.vue"
-import voteItem from "@/components/vote-item/vote-item.vue"
-import voteFooter from "@/components/footer/footer.vue"
-import subTitle from "@/components/sub-title/sub-title.vue"
-import detailVideo from "@/components/detail-video/detail-video.vue"
-import modal from "@/components/modal/modal.vue"
-import DetailItem from "@/pages/detail/DetailItem.vue"
-import SliderImg from "@/pages/detail/SliderImg.vue"
-
+import { Component, Vue, Watch } from 'vue-property-decorator'
+import title from '@/components/title/title.vue'
+import stats from '@/components/stats/stats.vue'
+import voteItem from '@/components/vote-item/vote-item.vue'
+import voteFooter from '@/components/footer/footer.vue'
+import subTitle from '@/components/sub-title/sub-title.vue'
+import detailVideo from '@/components/detail-video/detail-video.vue'
+import modal from '@/components/modal/modal.vue'
+import DetailItem from '@/pages/detail/DetailItem.vue'
+import SliderImg from '@/pages/detail/SliderImg.vue'
 
 interface OnLoadParams {
     id?: number
@@ -111,10 +116,10 @@ export default class Detail extends Vue {
 
     private id = -1
     private actId = 0
-    private title1 = "选手详情"
-    private title2 = "选手风采"
-    private title3 = "选手简介"
-    private title4 = "选手作品"
+    private title1 = '选手详情'
+    private title2 = '选手风采'
+    private title3 = '选手简介'
+    private title4 = '选手作品'
     private indicatorDots = true
     private autoplay = true
     private interval = 2000
@@ -136,34 +141,33 @@ export default class Detail extends Vue {
         return this.$store.state.activity.activity
     }
 
-    @Watch("item")
-    itemChange(newVal: string, oldVal: string) {
-    }
+    @Watch('item')
+    itemChange(newVal: string, oldVal: string) {}
 
     backToIndex() {
         uni.redirectTo({
-            url: `/pages/index/index?actId=${this.actId}`
+            url: `/pages/index/index?actId=${this.actId}`,
         })
     }
 
     async onLoad(query: OnLoadParams) {
-        console.log("query:::", query)
+        console.log('query:::', query)
 
         const scene =
             query.scene !== undefined
                 ? decodeURIComponent(query.scene)
-                : "undefined"
+                : 'undefined'
         // 根据参数判断是其他页面跳转还是扫码进入
-        if (scene == "undefined") {
+        if (scene == 'undefined') {
             this.id = query.id as number
             this.actId = query.actId as number
         } else {
-            this.id = Number(scene.split("&")[0].split("=")[1])
-            this.actId = Number(scene.split("&")[1].split("=")[1])
+            this.id = Number(scene.split('&')[0].split('=')[1])
+            this.actId = Number(scene.split('&')[1].split('=')[1])
         }
-        uni.$on("updateDetail", async () => {
-            this.$store.commit("activity/selectActivityByID", this.actId)
-            await this.$store.dispatch("item/itemById", {
+        uni.$on('updateDetail', async () => {
+            this.$store.commit('activity/selectActivityByID', this.actId)
+            await this.$store.dispatch('item/itemById', {
                 id: this.id,
                 activityId: this.actId,
             })
@@ -180,7 +184,6 @@ export default class Detail extends Vue {
 
     onHide() {
         uni.$off()
-
     }
 
     onUnload() {
@@ -188,12 +191,12 @@ export default class Detail extends Vue {
     }
 
     async vote(itemId: number) {
-        this.$store.dispatch("item/vote", {itemId})
+        this.$store.dispatch('item/vote', { itemId })
     }
 
     // 生成分享海报
     share() {
-        this.$store.dispatch("item/share", {
+        this.$store.dispatch('item/share', {
             itemId: this.item.id,
         })
     }
@@ -218,7 +221,7 @@ export default class Detail extends Vue {
     onShareAppMessage(res: any) {
         wx.showShareMenu({
             withShareTicket: true,
-            menus: ["shareAppMessage", "shareTimeline"],
+            menus: ['shareAppMessage', 'shareTimeline'],
         })
         // 来自页面内转发按钮
         return {
@@ -227,6 +230,11 @@ export default class Detail extends Vue {
             imageUrl: this.canvasUrl,
         }
     }
+    private bindload(msg: any) {
+        console.log('account success:::', msg)
+    }
+    private binderror(err: any) {
+        console.log('account err:::', err)
+    }
 }
 </script>
-

@@ -19,7 +19,7 @@
                     style="width: 350rpx;"
                 >
                     <view
-                        @click="toUrl(item)"
+                        @tap="toUrl(item)"
                         class="p-1 my-1 rounded-lg shadow bg-theme-p-1"
                         style="width: 350rpx;"
                     >
